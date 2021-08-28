@@ -3,9 +3,8 @@ const INITIAL_DATA_URL = "https://raw.githubusercontent.com/ayazsayyed/vue-kanba
 import axios from "axios"
 import { db } from './../utils/db'
 
-
 export default {
- 
+
   async fetchData({ commit }, payload) {
     // console.log('projects ', projects )
     commit("SET_LOADING_STATE", true)
@@ -15,7 +14,7 @@ export default {
     })
   },
   async saveTaskBoard({ commit }, payload) {
-    console.log('payload saveTaskBoard', payload);
+    // console.log('payload saveTaskBoard', payload);
     commit("SAVE_TASKBOARD", payload)
   },
   async archiveTaskBoard({ commit }, payload) {
@@ -29,7 +28,7 @@ export default {
   },
 
   async saveTaskList({ commit }, payload) {
-    console.log('payload saveTaskList', payload);
+    // console.log('payload saveTaskList', payload);
     commit("SAVE_TASKLIST", payload)
   },
   async archiveTaskList({ commit }, payload) {

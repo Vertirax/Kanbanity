@@ -40,13 +40,13 @@
                   <a
                     class="dropdown-item"
                     href="#"
-                    v-if="buttonType == 'dashboard'"
+                    v-if="buttonType === 'dashboard'"
                     @click="addNewBoard"
                   >New Board</a>
                   <a
                     class="dropdown-item"
                     href="#"
-                    v-if="buttonType == 'taskboard'"
+                    v-if="buttonType === 'taskboard'"
                     @click="addNewList"
                   >New List</a>
                   <a class="dropdown-item" href="#" @click="openTeamPopoup">Team</a>
@@ -74,7 +74,7 @@ export default {
   },
   props: ["buttonType", "currentBoard"],
   mounted() {
-    console.log("buttonType ", this.buttonType);
+    // console.log("buttonType ", this.buttonType);
   },
   data() {
     return {

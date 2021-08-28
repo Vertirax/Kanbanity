@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import Dashboard from './components/Dashboard.vue'
+import Dashboard from './components/KanbanDashboard.vue'
 import { mapGetters } from "vuex"
 import { db } from './utils/db'
 import {  mapActions } from "vuex";
 
 export default {
-  name: 'app',components: {
+  name: 'app', components: {
     Dashboard,
   },
   methods: {
@@ -20,12 +20,32 @@ export default {
     }),
   },
   created() {
-    this.fetchData(this.projects)
+    this.fetchData(this.asd);
   },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
-      projects:[]
+      projects:[],
+      asd: [
+        {
+          id: 112,
+          name: 'Name',
+          description: 'description',
+          lists: [
+            {
+              id: 2213,
+              name: 'Todo',
+              headerColor: 'red',
+              items: [{}, {}],
+            },
+            {
+              id: 4412,
+              name: 'Done',
+              headerColor: 'red',
+              items: [{}, {}],
+            },
+          ],
+        },
+      ],
     }
   },
   firebase: {
@@ -33,8 +53,7 @@ export default {
   },
   mounted(){
     console.log('projects ', this.projects);
-    
-  }
+  },
 }
 </script>
 

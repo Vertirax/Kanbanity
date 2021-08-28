@@ -41,7 +41,7 @@ import draggable from "vuedraggable";
 import { mapActions, mapGetters } from "vuex";
 
 export default {
-  name: "Taskitem",
+  name: "TaskItem",
   props: ["index"],
   components: {
     draggable

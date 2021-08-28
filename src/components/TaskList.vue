@@ -4,14 +4,13 @@
       <input type="text" class="form-control" :value="this.list.name"  v-if="isEditing"  @blur="saveTaskListName">
       <div class="board-header">
         <p class="board-name" v-if="!isEditing">{{ list.name }}</p>
-        
         <div class="dropdown" v-if="!isEditing">
-          <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v options" aria-hidden="true"></i>
           </a>
           <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#" @click.prevent="isEditing = !isEditing">Rename</a>
-            <a class="dropdown-item" href="#"  @click.prevent="deleteWholeTaskList">Delete</a>
+            <a class="dropdown-item" href="" @click.prevent="isEditing = !isEditing">Rename</a>
+            <a class="dropdown-item" href="" @click.prevent="deleteWholeTaskList">Delete</a>
           </div>
         </div>
       </div>
@@ -19,7 +18,7 @@
         <ul class="task-list">
           <draggable v-model="items" v-bind="dragOptions" class="list-group">
             <transition-group type="transition" :name="!drag ? 'flip-list' : null">
-              <Taskitem
+              <TaskItem
                 v-for="item in items"
                 :item="item"
                 :list="list"
@@ -43,15 +42,15 @@
 
 <script>
 import draggable from "vuedraggable";
-import Taskitem from "./Taskitem";
+import TaskItem from "./TaskItem";
 import taskItemTemplate from "./TaskItemTemplate";
 import { Bus } from "./../utils/bus";
 import { mapActions } from "vuex";
 export default {
   components: {
-    Taskitem,
+    TaskItem,
     draggable,
-    taskItemTemplate
+    taskItemTemplate,
   },
   props: ["board", "list"],
   data() {
@@ -59,7 +58,7 @@ export default {
       drag: false,
       showTemplate: false,
       isEditing: false,
-      taskListName:this.list.name
+      taskListName: this.list.name,
     };
   },
   created() {
@@ -104,12 +103,12 @@ export default {
       deleteTaskList:"deleteTaskList"
     }),
     saveTaskListName(e){
-     this.list.name = e.target.value  
-      console.log('this.list.name', this.list.name);
+      this.list.name = e.target.value
+      // console.log('this.list.name', this.list.name);
       this.isEditing = !this.isEditing
     },
     deleteWholeTaskList(){
-      console.log(this.list);
+      // console.log(this.list);
       const payload = {
           boardId: this.board.id,
           listId: this.list.id
@@ -117,7 +116,7 @@ export default {
       this.deleteTaskList(payload)
     },
     removeTemplate(data) {
-      console.log("remove template ", data);
+      // console.log("remove template ", data);
       this.showTemplate = false;
     },
     createNewTask() {

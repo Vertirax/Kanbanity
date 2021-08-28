@@ -1,5 +1,5 @@
-import Dashboard from "./../components/Dashboard.vue"
-import Taskboard from "./../components/Taskboard.vue"
+import Dashboard from "../components/KanbanDashboard.vue"
+import TaskBoard from "../components/TaskBoard.vue"
 
 export default [
   {
@@ -15,6 +15,6 @@ export default [
   {
     path: "/boards/:id",
     name: "task-board",
-    component: Taskboard
+    component: TaskBoard
   }
 ]

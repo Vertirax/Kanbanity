@@ -11,7 +11,7 @@
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-zoom" role="document">
         <div class="modal-content">
-          
+
             <div class="modal-header">
               <h5
                 class="modal-title"
@@ -57,12 +57,12 @@ export default {
     Bus.$on("closePopup", this.closePopup);
   },
   methods: {
-   
+
     showTeamPopup() {
-      console.log("type ");
+      // console.log("type ");
       $("#teamPopup").modal("show");
     },
-    
+
     closePopup() {
       $("#teamPopup").modal("hide");
     }

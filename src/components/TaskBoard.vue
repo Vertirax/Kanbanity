@@ -30,19 +30,19 @@
 </template>
 
 <script>
-import Taskitem from "./Taskitem";
+import TaskItem from "./TaskItem";
 import Navbar from "./Navbar";
-import TaskList from "./Tasklist";
+import TaskList from "./TaskList";
 import store from "./../store/index";
 import draggable from "vuedraggable";
 import { mapActions, mapGetters } from "vuex";
 import TaskDetailPopup from './popups/TaskDetailPopup'
 
 export default {
-  name: "Taskboard",
+  name: "TaskBoard",
   props: ["board"],
   components: {
-    Taskitem,
+    TaskItem,
     TaskList,
     draggable,
     Navbar,
@@ -66,7 +66,7 @@ export default {
     getBoardName() {
       let that = this;
       this.boards.find(function(b) {
-        if (b.id == that.param) {
+        if (b.id === that.param) {
           that.currentBoard = b
           that.projectName = b.name;
           that.projectDescription = b.description;
@@ -90,18 +90,19 @@ export default {
       return this.isDesktop || this.isTablet;
     },
     getBoard() {
-      return this.boards.find(b => b.id == this.param);
+      return this.boards.find(b => b.id === this.param);
     },
     lists: {
       get() {
-        return this.getBoard ? ( this.getBoard.lists ? this.getBoard.lists.filter(l => !l.archived ) : []): [];
+        console.log(this.getBoard.lists);
+        return this.getBoard.lists;
       },
-      async set(value) {
+      /*async set(value) {
         await this.reorderTaskLists({
           boardId: this.param,
           lists: value
         });
-      }
+      }*/
     }
   },
   methods: {
@@ -124,7 +125,7 @@ export default {
         title: "",
         priority: "Low",
         comments: [],
-        attachmets: [],
+        attachments: [],
         assignedUsers: []
       };
       this.addTaskToBoard({ key, newTask });
@@ -139,7 +140,7 @@ export default {
     display: flex;
     // justify-content: center;
     align-items: center;
-    
+
     &:hover {
       .name-edit-icon {
         display: block;
@@ -153,13 +154,12 @@ export default {
     cursor: pointer;
   }
   .project-name-input, .project-desc-input{
-    padding: 0;
     font-size: 24px;
     color: #525f7f;
     border: 1px solid transparent;
     background: transparent;
     width: 50%;
-    padding-left: 10px;
+    padding: 0 0 0 10px;
     &:hover{
       border: 1px solid #cad1d7;
     }
