@@ -1,62 +1,32 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view />
   </div>
 </template>
 
-<script>
-import Dashboard from './components/KanbanDashboard.vue'
-import { mapGetters } from "vuex"
-import { db } from './utils/db'
-import {  mapActions } from "vuex";
-
-export default {
-  name: 'app', components: {
-    Dashboard,
-  },
-  methods: {
-    ...mapActions({
-      fetchData: "fetchData",
-    }),
-  },
-  created() {
-    this.fetchData(this.asd);
-  },
-  data () {
-    return {
-      projects:[],
-      asd: [
-        {
-          id: 112,
-          name: 'Name',
-          description: 'description',
-          lists: [
-            {
-              id: 2213,
-              name: 'Todo',
-              headerColor: 'red',
-              items: [{}, {}],
-            },
-            {
-              id: 4412,
-              name: 'Done',
-              headerColor: 'red',
-              items: [{}, {}],
-            },
-          ],
-        },
-      ],
-    }
-  },
-  firebase: {
-    projects: db.ref('projetcs'),
-  },
-  mounted(){
-    console.log('projects ', this.projects);
-  },
-}
-</script>
-
 <style lang="scss">
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
 
+#nav {
+  padding: 30px;
+
+  a {
+    font-weight: bold;
+    color: #2c3e50;
+
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+  }
+}
 </style>
