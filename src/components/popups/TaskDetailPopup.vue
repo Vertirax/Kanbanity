@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { Bus } from "./../../utils/bus";
+// import { Bus } from "./../../utils/bus";
 import { mapActions } from "vuex";
 export default {
   name: "TaskDetailPopup",
@@ -108,20 +108,20 @@ export default {
     };
   },
   created() {
-    Bus.$on("open-task-detail-popup", this.showTaskDetailPopupPopup);
-    Bus.$on("closePopup", this.closePopup);
+    // Bus.$on("open-task-detail-popup", this.showTaskDetailPopupPopup);
+    // Bus.$on("closePopup", this.closePopup);
   },
   methods: {
     showTaskDetailPopupPopup(item) {
       this.item = item;
       this.isLoading = false;
-      $("#TaskDetailPopup").modal("show");
+      // $("#TaskDetailPopup").modal("show");
     },
 
     closePopup() {
       this.item = null;
       this.isLoading = true;
-      $("#taskDetailPopup").modal("hide");
+      // $("#taskDetailPopup").modal("hide");
     }
   }
 };

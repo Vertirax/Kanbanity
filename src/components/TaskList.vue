@@ -1,7 +1,13 @@
 <template>
   <div>
     <div class="task-board" :data-board-name="list.name">
-      <input type="text" class="form-control" :value="this.list.name"  v-if="isEditing"  @blur="saveTaskListName">
+      <input
+        type="text"
+        class="form-control"
+        :value="this.list.name"
+        v-if="isEditing"
+        @blur="saveTaskListName"
+      />
       <div class="board-header">
         <p class="board-name" v-if="!isEditing">{{ list.name }}</p>
         <div class="dropdown" v-if="!isEditing">
@@ -17,7 +23,10 @@
       <div class="board-content">
         <ul class="task-list">
           <draggable v-model="items" v-bind="dragOptions" class="list-group">
-            <transition-group type="transition" :name="!drag ? 'flip-list' : null">
+            <transition-group
+              type="transition"
+              :name="!drag ? 'flip-list' : null"
+            >
               <TaskItem
                 v-for="item in items"
                 :item="item"
@@ -27,7 +36,7 @@
               />
             </transition-group>
           </draggable>
-          <taskItemTemplate v-if="showTemplate" :list="list" />
+          <TaskItemTemplate v-if="showTemplate" :list="list" />
         </ul>
       </div>
       <div class="board-footer">
@@ -40,17 +49,18 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import draggable from "vuedraggable";
-import TaskItem from "./TaskItem";
-import taskItemTemplate from "./TaskItemTemplate";
-import { Bus } from "./../utils/bus";
-import { mapActions } from "vuex";
+import TaskItem from "@/components/TaskItem.vue";
+import KanbanItem from "@/classes/KanbanItem";
+import { Priority } from "@/enums/Priorities";
+import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
+
 export default {
   components: {
     TaskItem,
     draggable,
-    taskItemTemplate,
+    TaskItemTemplate,
   },
   props: ["board", "list"],
   data() {
@@ -58,28 +68,42 @@ export default {
       drag: false,
       showTemplate: false,
       isEditing: false,
-      taskListName: this.list.name,
+      items: [
+        new KanbanItem(
+          "534",
+          "[KB-001][B420]Creating Kanban app",
+          "desc",
+          Priority.HIGH_PRIORITY
+        ),
+        new KanbanItem(
+          "726",
+          "[KB-002][B4]Making Kanban app work",
+          "desc2",
+          Priority.MEDIUM_PRIORITY
+        ),
+      ],
+      // taskListName: this.list.name,
     };
   },
   created() {
-    Bus.$on("remove-template", this.removeTemplate);
+    // Bus.$on("remove-template", this.removeTemplate);
   },
   computed: {
     defaultItem() {
       return {
         id: "",
-        text: ""
+        text: "",
       };
     },
     dragOptions() {
       return {
         animation: "200",
         ghostClass: "ghost",
-        group: "kanban-board-list-items"
+        group: "kanban-board-list-items",
         // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder
       };
     },
-    items: {
+    /*items: {
       get() {
         return this.list.items;
       },
@@ -94,14 +118,17 @@ export default {
     },
     shouldAllowTaskItemsReorder() {
       return this.isDesktop || this.isTablet;
-    }
+    },*/
   },
-  methods: {
+  /*methods: {
     ...mapActions({
       reorderTaskListItems: "reorderTaskListItems",
       saveTaskListItem: "saveTaskListItem",
       deleteTaskList:"deleteTaskList"
     }),
+    addTodoMethod(newTodoItem){
+      this.todo_items = [...this.todo_items, newTodoItem]
+    },
     saveTaskListName(e){
       this.list.name = e.target.value
       // console.log('this.list.name', this.list.name);
@@ -139,10 +166,9 @@ export default {
     itemCancelled() {
       this.isEditing = false;
     }
-  }
+  }*/
 };
 </script>
-
 <style lang="scss">
 .sortable-chosen.ghost .task-item {
   background: repeating-linear-gradient(

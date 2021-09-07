@@ -17,12 +17,10 @@ ul, li {
 }
 
 .main-container {
-    padding: 100px 30px 30px 30px;
-    padding-bottom: 0;
+    padding: 100px 30px 0;
     background: #eef2f9;
     min-height: 100%;
 }
-
 
 .search-task{
     width: 30%;
@@ -50,9 +48,9 @@ ul, li {
     width: 335px;
     position: relative;
     border-radius: 5px;
-    -webkit-box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
-    -moz-box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
-    box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
+    -webkit-box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
+    -moz-box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
+    box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
 }
 
 .task-board:before {
@@ -62,10 +60,8 @@ ul, li {
     background: linear-gradient(89deg, #c875e8 0, #dd6883 100%);
     position: absolute;
     margin-left: -15px;
-    border-radius: 5px;
     top: 0;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+    border-radius: 5px 5px 0 0;
 }
 
 .task-board.todo-board:before {
@@ -117,9 +113,9 @@ ul, li {
     padding: 12px;
     border-radius: 5px;
     margin-bottom: 18px;
-    -webkit-box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
-    -moz-box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
-    box-shadow: 0px 0px 4px 0px rgba(134, 134, 162, 0.21);
+    -webkit-box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
+    -moz-box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
+    box-shadow: 0 0 4px 0 rgba(134, 134, 162, 0.21);
 }
 
 .task-item-header {
@@ -133,9 +129,9 @@ ul, li {
     padding: 3px 18px;
     border-radius: 3px;
     font-weight: 600;
-    -webkit-box-shadow: 0px 0px 5px -2px rgba(134, 134, 162, 1);
-    -moz-box-shadow: 0px 0px 5px -2px rgba(134, 134, 162, 1);
-    box-shadow: 0px 0px 5px -2px rgba(134, 134, 162, 1);
+    -webkit-box-shadow: 0 0 5px -2px rgba(134, 134, 162, 1);
+    -moz-box-shadow: 0 0 5px -2px rgba(134, 134, 162, 1);
+    box-shadow: 0 0 5px -2px rgba(134, 134, 162, 1);
 }
 
 .task-priority.Low {

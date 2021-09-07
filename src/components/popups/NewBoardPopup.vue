@@ -11,7 +11,7 @@
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form @submit.prevent="formType == 'board' ? createNewBoard() : createNewList()">
+          <form @submit.prevent="formType === 'board' ? createNewBoard() : createNewList()">
             <div class="modal-header">
               <h5
                 class="modal-title"
@@ -29,11 +29,11 @@
                       type="text"
                       v-model="newBoard.name"
                       class="form-control"
-                      :placeholder="formType == 'board' ? 'Board Name' : 'List Name' "
+                      :placeholder="formType === 'board' ? 'Board Name' : 'List Name' "
                     />
                   </div>
                 </div>
-                <div class="col-md-12" v-if="formType == 'board'">
+                <div class="col-md-12" v-if="formType === 'board'">
                   <div class="form-group">
                     <textarea
                       v-model="newBoard.description"
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { Bus } from "./../../utils/bus";
+// import { Bus } from "./../../utils/bus";
 import { mapActions } from "vuex";
 export default {
   name: "NewBoardPopup",
@@ -66,14 +66,14 @@ export default {
       newBoard: {
         name: "",
         description: "",
-        id: ""
+        id: "",
       },
-      formType: ""
+      formType: "",
     };
   },
   created() {
-    Bus.$on("open-new-popup", this.showCreateNewBoardPopup);
-    Bus.$on("closePopup", this.closePopup);
+    // Bus.$on("open-new-popup", this.showCreateNewBoardPopup);
+    // Bus.$on("closePopup", this.closePopup);
   },
   methods: {
     ...mapActions({
@@ -87,7 +87,7 @@ export default {
       this.newBoard.description = "";
       this.newBoard.id = "";
       this.newBoard.createdAt = "";
-      $("#genericPopup").modal("show");
+      // $("#genericPopup").modal("show");
     },
     createNewBoard() {
       this.newBoard.id = this.saveTaskBoard({
@@ -103,7 +103,7 @@ export default {
       });
     },
     closePopup() {
-      $("#genericPopup").modal("hide");
+      // $("#genericPopup").modal("hide");
     }
   }
 };

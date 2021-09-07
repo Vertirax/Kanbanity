@@ -5,10 +5,13 @@
       <div class="row equal">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
-          v-for="board in unarchivedBoards"
+          v-for="board in this.$store.state.boards"
           :key="board.id"
         >
-          <router-link class="project-card" :to="{ name: 'task-board', params: { id: board.id } }">
+          <router-link
+            class="project-card"
+            :to="{ name: 'task-board', params: { id: board.id } }"
+          >
             <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
               <div class="card-body">
                 <div class="d-flex justify-content-between">
@@ -19,12 +22,10 @@
               <div class="card-footer bg-transparent">
                 <div class="details-wrapper">
                   <div class="board-info">
-                    <p
-                      class="card-text"
-                    >Lists : 0 | Items : 0</p>
+                    <!--<p class="card-text">Lists : 0 | Items : 0</p>-->
                   </div>
                   <div class="date">
-                    <p class="text-muted">22 July 2019</p>
+                    <!--<p class="text-muted">22 July 2019</p>-->
                   </div>
                 </div>
               </div>
@@ -46,50 +47,48 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapGetters, mapActions } from "vuex";
-import { Bus } from "./../utils/bus";
-import Navbar from "./Navbar";
-
-
-
-
-
+// import { Bus } from "./../utils/bus";
+import Navbar from "@/components/Navbar.vue";
+import Board from "@/classes/Board";
+import KanbanColumn from "@/classes/KanbanColumn";
 
 export default {
   components: {
-    Navbar
+    Navbar,
   },
-  data(){
-    return{
+  data() {
+    return {
       documents: [],
-    }
-  },
-  
-  mounted(){
-    
-    
+      // boards: {},
+      xboards: [
+        new Board(
+          "02213",
+          "name",
+          "desc",
+          new KanbanColumn("1231231", "asd", "desc")
+        ),
+      ],
+    };
   },
   computed: {
     ...mapGetters({
       unarchivedBoards: "unarchivedBoards",
-      archivedBoards: "archivedBoards"
-    })
+      archivedBoards: "archivedBoards",
+    }),
   },
   methods: {
     ...mapActions({
       setActiveTaskBoard: "setActiveTaskBoard",
       archiveTaskBoard: "archiveTaskBoard",
-      restoreTaskBoard: "restoreTaskBoard"
+      restoreTaskBoard: "restoreTaskBoard",
     }),
-    totalItems(lists) {
-      
-      
+    /*totalItems(lists) {
       let count = 0;
-      lists.forEach(element => {
+      lists.forEach((element) => {
         console.log(element);
-        if(element.items)
-          count += element.items.length;
+        if (element.items) count += element.items.length;
       });
       return count;
     },
@@ -98,14 +97,16 @@ export default {
     },
     handleRestoreTaskBoard(board) {
       this.restoreTaskBoard({ boardId: board.id });
-    }
+    },
   },
-  async created() {
+  /*async created() {
     await this.setActiveTaskBoard({
-      board: null
-    });
-    
-  }
+      board: null,
+    });*/
+  },
+  mounted() {
+    //console.log(this.$store.state.boards.columns);
+  },
 };
 </script>
 
@@ -123,5 +124,3 @@ export default {
   }
 }
 </style>
-
-

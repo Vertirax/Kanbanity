@@ -2,7 +2,11 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary-custom">
       <div class="container-fluid">
-        <input type="text" class="form-control search-task" placeholder="Search for tasks.." />
+        <input
+          type="text"
+          class="form-control search-task"
+          placeholder="Search for tasks.."
+        />
         <button
           class="navbar-toggler"
           type="button"
@@ -57,20 +61,20 @@
         </div>
       </div>
     </nav>
-    <NewBoardPopup />
-    <TeamPopup />
+    <!--<NewBoardPopup />
+    <TeamPopup />-->
   </div>
 </template>
 
-<script>
-import { Bus } from "./../utils/bus";
-import NewBoardPopup from "./popups/NewBoardPopup";
-import TeamPopup from "./popups/TeamPopup";
+<script lang="ts">
+// import { Bus } from "../utils/bus";
+// import NewBoardPopup from "@/components/"
+// import TeamPopup from "./popups/TeamPopup";
 export default {
   name: "Navbar",
   components: {
-    NewBoardPopup,
-    TeamPopup
+    /*NewBoardPopup,
+    TeamPopup,*/
   },
   props: ["buttonType", "currentBoard"],
   mounted() {
@@ -78,12 +82,12 @@ export default {
   },
   data() {
     return {
-      navBtnType: this.buttonType
+      // navBtnType: this.buttonType,
     };
   },
   computed: {},
   methods: {
-    addNewBoard(e) {
+    /*addNewBoard(e) {
       e.preventDefault();
       Bus.$emit("open-new-popup", "board");
     },
@@ -94,11 +98,10 @@ export default {
     openTeamPopoup(e) {
       e.preventDefault();
       Bus.$emit("open-team-popup", "list");
-    }
-  }
+    },*/
+  },
 };
 </script>
-
 <style lang="scss" scoped>
 .add-board-link {
   display: flex;
@@ -108,6 +111,9 @@ export default {
   position: fixed;
   width: 100%;
   height: 70px;
-  z-index: 10000;
+  z-index: 100;
+}
+.search-task::placeholder {
+  color: #e8e8e8;
 }
 </style>

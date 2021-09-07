@@ -20,7 +20,7 @@
         ></v-select>
       </div>
       <div class="task-item-body">
-        <p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.text }}</p>
+        <p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
         <!-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
       </div>
       <!--<div class="task-item-footer">
@@ -58,31 +58,31 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import store from "./../store/index";
 import { mapActions, mapGetters } from "vuex";
 import vSelect from "vue-select";
-import { Bus } from "../utils/bus";
 import "vue-select/dist/vue-select.css";
-import TaskDetailPopup from "./popups/TaskDetailPopup";
+import TaskDetailPopup from "@/components/popups/TaskDetailPopup.vue";
 
 export default {
   name: "TaskItem",
   props: ["item", "list", "board"],
   components: {
     "v-select": vSelect,
-    TaskDetailPopup
+    // eslint-disable-next-line vue/no-unused-components
+    TaskDetailPopup,
   },
   data() {
     return {
       showTaskPriorityDropdown: false,
-      showTaskPriority: true
+      showTaskPriority: true,
     };
   },
   watch: {},
-  methods: {
+  /*methods: {
     assignUser(user){
-      this.item.assignedUsers.push(user)
+      this.item.assignedUsers.push(user),
       // console.log(this.item);
     },
     changePriority() {
@@ -100,11 +100,9 @@ export default {
     openTaskDetailPopoup(item) {
       console.log("clicked");
 
-      Bus.$emit("open-task-detail-popup", item);
+      //Bus.$emit("open-task-detail-popup", item);
     },
-  },
-  created() {},
-  computed: {},
+  },*/
 };
 </script>
 

@@ -6,7 +6,7 @@
       </div>
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
-        <label for="">Task name:</label>
+        <label>Task name:</label>
         <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="saveItem" />
       </div>
       <div class="task-item-footer">
@@ -28,8 +28,8 @@
     </li>
   </div>
 </template>
-<script>
-import { Bus } from "./../utils/bus";
+<script lang="ts">
+// import { Bus } from "./../utils/bus";
 import { mapActions } from "vuex";
 
 export default {
@@ -39,18 +39,18 @@ export default {
   data() {
     return {
       priority: "Low",
-      taskName: ""
+      taskName: "",
     };
   },
   mounted() {
-    this.$refs.taskTitle.focus();
-    console.log("list ", this.list);
+    // this.$refs.taskTitle.focus();
+    // console.log("list ", this.list);
   },
   methods: {
     ...mapActions({
       saveTaskListItem: "saveTaskListItem"
     }),
-    saveItem() {
+    /*saveItem() {
       Bus.$emit("remove-template", this.list.id);
       console.log("this.taskTitle.trim().length ", this.taskName.trim().length);
       if (this.taskName.trim().length <= 0) {
@@ -68,10 +68,8 @@ export default {
         });
         Bus.$emit("remove-template", this.list.id);
       }
-    }
-  }
+    }*/
+  },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
