@@ -29,7 +29,6 @@
   </div>
 </template>
 <script lang="ts">
-// import { Bus } from "./../utils/bus";
 import { mapActions } from "vuex";
 
 export default {
@@ -48,13 +47,13 @@ export default {
   },
   methods: {
     ...mapActions({
-      saveTaskListItem: "saveTaskListItem"
+      saveTaskListItem: "saveTaskListItem",
     }),
-    /*saveItem() {
-      Bus.$emit("remove-template", this.list.id);
+    saveItem() {
+      // Bus.$emit("remove-template", this.list.id);
       console.log("this.taskTitle.trim().length ", this.taskName.trim().length);
       if (this.taskName.trim().length <= 0) {
-        Bus.$emit("remove-template", this.list.id);
+        // Bus.$emit("remove-template", this.list.id);
       } else {
         this.saveTaskListItem({
           boardId: this.$route.params.id,
@@ -62,13 +61,13 @@ export default {
           item: {
             id: 5,
             text: this.taskName,
-            priority:"Low",
-            assignedUsers:[]
-          }
+            priority: "Low",
+            assignedUsers: [],
+          },
         });
-        Bus.$emit("remove-template", this.list.id);
+        // Bus.$emit("remove-template", this.list.id);
       }
-    }*/
+    },
   },
 };
 </script>

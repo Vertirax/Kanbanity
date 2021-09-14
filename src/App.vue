@@ -5,7 +5,6 @@
 </template>
 
 <script lang="ts">
-// import Dashboard from "./components/KanbanDashboard.vue";
 // import { db } from './utils/db'
 import { mapActions } from "vuex";
 import Board from "@/classes/Board";
@@ -13,9 +12,6 @@ import KanbanColumn from "@/classes/KanbanColumn";
 
 export default {
   name: "app",
-  /*components: {
-    Dashboard,
-  },*/
   methods: {
     ...mapActions({
       fetchData: "fetchData",
@@ -28,7 +24,7 @@ export default {
     return {
       projects: [],
       cols: new KanbanColumn("1212", "name", "desc"),
-      boards: new Board("02213", "name", "desc", new KanbanColumn("1231231")),
+      boards: new Board("02213", "name", "desc", [new KanbanColumn("1231231")]),
       dummy: [
         {
           id: 112,
@@ -61,7 +57,6 @@ export default {
   },*/
 };
 </script>
-
 <style lang="scss">
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700);
 @import url(https://fonts.googleapis.com/icon?family=Material+Icons);

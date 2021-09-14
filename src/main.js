@@ -5,9 +5,6 @@ import router from "./router"
 
 import Dashboard from './components/KanbanDashboard.vue'
 
-
-
-
 new Vue({
   el: '#app',
   router,

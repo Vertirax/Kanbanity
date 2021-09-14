@@ -11,13 +11,21 @@
     >
       <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
-          <form @submit.prevent="formType === 'board' ? createNewBoard() : createNewList()">
+          <form
+            @submit.prevent="
+              formType === 'board' ? createNewBoard() : createNewList()
+            "
+          >
             <div class="modal-header">
-              <h5
-                class="modal-title"
-                id="exampleModalLabel"
-              >Create {{formType == 'board' ? 'board' : 'List' }}</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <h5 class="modal-title" id="exampleModalLabel">
+                >Create {{ formType === "board" ? "board" : "List" }}
+              </h5>
+              <button
+                type="button"
+                class="close"
+                data-dismiss="modal"
+                aria-label="Close"
+              >
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -29,7 +37,9 @@
                       type="text"
                       v-model="newBoard.name"
                       class="form-control"
-                      :placeholder="formType === 'board' ? 'Board Name' : 'List Name' "
+                      :placeholder="
+                        formType === 'board' ? 'Board Name' : 'List Name'
+                      "
                     />
                   </div>
                 </div>
@@ -37,7 +47,6 @@
                   <div class="form-group">
                     <textarea
                       v-model="newBoard.description"
-                      type="text"
                       rows="3"
                       class="form-control"
                       placeholder="Project Description"
@@ -47,7 +56,9 @@
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary">Save changes</button>
+              <button type="submit" class="btn btn-primary">
+                Save changes
+              </button>
             </div>
           </form>
         </div>
@@ -56,8 +67,7 @@
   </div>
 </template>
 
-<script>
-// import { Bus } from "./../../utils/bus";
+<script lang="ts">
 import { mapActions } from "vuex";
 export default {
   name: "NewBoardPopup",
@@ -78,9 +88,9 @@ export default {
   methods: {
     ...mapActions({
       saveTaskBoard: "saveTaskBoard",
-      saveTaskList: "saveTaskList"
+      saveTaskList: "saveTaskList",
     }),
-    showCreateNewBoardPopup(type) {
+    /*showCreateNewBoardPopup(type) {
       console.log("type ", type);
       this.formType = type;
       this.newBoard.name = "";
@@ -104,10 +114,9 @@ export default {
     },
     closePopup() {
       // $("#genericPopup").modal("hide");
-    }
-  }
+    },*/
+  },
 };
 </script>
 
-<style>
-</style>
+<style lang="scss" scoped></style>

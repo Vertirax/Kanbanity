@@ -5,7 +5,7 @@
       <div class="row equal">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
-          v-for="board in this.$store.state.boards"
+          v-for="board in boards"
           :key="board.id"
         >
           <router-link
@@ -34,22 +34,25 @@
         </div>
       </div>
 
-      <div class="row">
+      <!--<div class="row">
         <div class="col-md-12">
           <div>
-            <!-- <draggable class="board-wrapper" >
-              <Taskboard  v-for="(board, key) in fetchBoards" :board="board" :key="key" />
-            </draggable>-->
+            <draggable class="board-wrapper" >
+              <Taskboard
+                v-for="(board, key) in xboards"
+                :board="board"
+                :key="key"
+              />
+            </draggable>
           </div>
         </div>
-      </div>
+      </div>-->
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { mapGetters, mapActions } from "vuex";
-// import { Bus } from "./../utils/bus";
+import { mapGetters, mapActions, mapState } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Board from "@/classes/Board";
 import KanbanColumn from "@/classes/KanbanColumn";
@@ -67,7 +70,7 @@ export default {
           "02213",
           "name",
           "desc",
-          new KanbanColumn("1231231", "asd", "desc")
+          [new KanbanColumn("1231231", "asd", "desc")]
         ),
       ],
     };
@@ -77,6 +80,7 @@ export default {
       unarchivedBoards: "unarchivedBoards",
       archivedBoards: "archivedBoards",
     }),
+    ...mapState(["boards"]),
   },
   methods: {
     ...mapActions({
@@ -105,7 +109,7 @@ export default {
     });*/
   },
   mounted() {
-    //console.log(this.$store.state.boards.columns);
+    // console.log(this.$store.state.boards.columns);
   },
 };
 </script>

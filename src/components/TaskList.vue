@@ -120,8 +120,8 @@ export default {
       return this.isDesktop || this.isTablet;
     },*/
   },
-  /*methods: {
-    ...mapActions({
+  methods: {
+  /*  ...mapActions({
       reorderTaskListItems: "reorderTaskListItems",
       saveTaskListItem: "saveTaskListItem",
       deleteTaskList:"deleteTaskList"
@@ -145,7 +145,7 @@ export default {
     removeTemplate(data) {
       // console.log("remove template ", data);
       this.showTemplate = false;
-    },
+    },*/
     createNewTask() {
       // console.log('list ', )
       this.showTemplate = true;
@@ -156,7 +156,7 @@ export default {
       //   item:{id:5},
       //   name:"hello"}
       // )
-    },
+    },/*
     itemEditing() {
       this.isEditing = true;
     },
@@ -165,8 +165,8 @@ export default {
     },
     itemCancelled() {
       this.isEditing = false;
-    }
-  }*/
+    }*/
+  }
 };
 </script>
 <style lang="scss">

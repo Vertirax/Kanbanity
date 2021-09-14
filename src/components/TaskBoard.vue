@@ -27,7 +27,7 @@
           v-bind="getDragOptions"
         >
           <TaskList
-            v-for="(listItem, index) in this.lists"
+            v-for="(listItem, index) in lists"
             :key="index"
             :board="getBoard"
             :list="listItem"
@@ -43,7 +43,6 @@
 import TaskItem from "@/components/TaskItem.vue";
 import Navbar from "@/components/Navbar.vue";
 import TaskList from "@/components/TaskList.vue";
-import store from "./../store/index";
 import draggable from "vuedraggable";
 import { mapActions, mapGetters } from "vuex";
 import TaskDetailPopup from "./popups/TaskDetailPopup.vue";
@@ -120,9 +119,9 @@ export default {
         });
       }
     }
-  },
+  },*/
   methods: {
-    // ...mapActions(["addTaskToBoard", "reorderTaskLists"]),
+    /*/ ...mapActions(["addTaskToBoard", "reorderTaskLists"]),
     ...mapActions({
       reorderTaskLists: "reorderTaskLists",
       setActiveTaskBoard: "setActiveTaskBoard",
@@ -136,7 +135,7 @@ export default {
       this.currentBoard.description = e.target.value.trim();
       this.saveTaskBoard(this.currentBoard);
     },
-    createNewTask(key) {
+    */ createNewTask(key) {
       let newTask = {
         title: "",
         priority: "Low",
@@ -146,7 +145,7 @@ export default {
       };
       this.addTaskToBoard({ key, newTask });
     },
-  },*/
+  },
 };
 </script>
 
@@ -171,7 +170,7 @@ export default {
   }
   .project-name-input,
   .project-desc-input {
-    font-size: 24px;
+    font-size: 20px;
     color: #525f7f;
     border: 1px solid transparent;
     background: transparent;
