@@ -10,7 +10,8 @@
         >
           <router-link
             class="project-card"
-            :to="{ name: 'task-board', params: { id: board.id } }"
+            :to="{ name: 'task-board', params: { currentBoardId: board.id } }"
+            @click.native="setCurrentBoardId(board.id)"
           >
             <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
               <div class="card-body">
@@ -34,11 +35,12 @@
         </div>
       </div>
 
+      <Twitter v-model="colors" triangle="hide"></Twitter>
       <!--<div class="row">
         <div class="col-md-12">
           <div>
             <draggable class="board-wrapper" >
-              <Taskboard
+              <TaskBoard
                 v-for="(board, key) in xboards"
                 :board="board"
                 :key="key"
@@ -54,33 +56,31 @@
 <script lang="ts">
 import { mapGetters, mapActions, mapState } from "vuex";
 import Navbar from "@/components/Navbar.vue";
-import Board from "@/classes/Board";
-import KanbanColumn from "@/classes/KanbanColumn";
+import Boards from "@/models/Board";
+import { Twitter } from "vue-color";
 
 export default {
   components: {
     Navbar,
+    Twitter,
   },
   data() {
     return {
-      documents: [],
       // boards: {},
-      xboards: [
-        new Board(
-          "02213",
-          "name",
-          "desc",
-          [new KanbanColumn("1231231", "asd", "desc")]
-        ),
-      ],
+      colors: {
+        hex: "#FF6900",
+      },
     };
   },
   computed: {
     ...mapGetters({
-      unarchivedBoards: "unarchivedBoards",
-      archivedBoards: "archivedBoards",
+      // unarchivedBoards: "unarchivedBoards",
+      // archivedBoards: "archivedBoards",
     }),
-    ...mapState(["boards"]),
+    boards() {
+      return Boards.all();
+    },
+    // ...mapState(["boards"]),
   },
   methods: {
     ...mapActions({
@@ -88,6 +88,9 @@ export default {
       archiveTaskBoard: "archiveTaskBoard",
       restoreTaskBoard: "restoreTaskBoard",
     }),
+    setCurrentBoardId(id: string) {
+      this.$store.commit("setCurrentBoardId", id);
+    },
     /*totalItems(lists) {
       let count = 0;
       lists.forEach((element) => {

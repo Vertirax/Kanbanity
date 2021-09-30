@@ -9,6 +9,7 @@ const routes: Array<RouteConfig> = [
     path: "/",
     // name: "Dashboard",
     component: KanbanDashboard,
+    // props: true,
   },
   {
     path: "/task-board",

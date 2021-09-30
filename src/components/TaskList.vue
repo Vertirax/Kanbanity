@@ -10,7 +10,16 @@
       />
       <div class="board-header">
         <p class="board-name" v-if="!isEditing">{{ list.name }}</p>
-        <div class="dropdown" v-if="!isEditing">
+        <div>
+          <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
+            <template #button-content>
+              <b-icon-three-dots-vertical></b-icon-three-dots-vertical>
+            </template>
+            <b-dropdown-item href="#"><b-icon-pencil-fill></b-icon-pencil-fill>Edit</b-dropdown-item>
+            <b-dropdown-item href="#"><b-icon-trash-fill></b-icon-trash-fill>Delete</b-dropdown-item>
+          </b-dropdown>
+        </div>
+        <!--<div class="dropdown" v-if="!isEditing">
           <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-ellipsis-v options" aria-hidden="true"></i>
           </a>
@@ -18,7 +27,7 @@
             <a class="dropdown-item" href="" @click.prevent="isEditing = !isEditing">Rename</a>
             <a class="dropdown-item" href="" @click.prevent="deleteWholeTaskList">Delete</a>
           </div>
-        </div>
+        </div>-->
       </div>
       <div class="board-content">
         <ul class="task-list">
@@ -40,9 +49,9 @@
         </ul>
       </div>
       <div class="board-footer">
-        <a class="add-task-btn" @click="createNewTask(0)">
+        <a class="add-task-btn" @click="createNewTask">
           Add task
-          <span>+</span>
+          <b-icon-plus></b-icon-plus>
         </a>
       </div>
     </div>
@@ -52,9 +61,9 @@
 <script lang="ts">
 import draggable from "vuedraggable";
 import TaskItem from "@/components/TaskItem.vue";
-import KanbanItem from "@/classes/KanbanItem";
-import { Priority } from "@/enums/Priorities";
 import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
+import {nanoid} from "nanoid";
+import Task from "@/models/Task";
 
 export default {
   components: {
@@ -68,25 +77,8 @@ export default {
       drag: false,
       showTemplate: false,
       isEditing: false,
-      items: [
-        new KanbanItem(
-          "534",
-          "[KB-001][B420]Creating Kanban app",
-          "desc",
-          Priority.HIGH_PRIORITY
-        ),
-        new KanbanItem(
-          "726",
-          "[KB-002][B4]Making Kanban app work",
-          "desc2",
-          Priority.MEDIUM_PRIORITY
-        ),
-      ],
       // taskListName: this.list.name,
     };
-  },
-  created() {
-    // Bus.$on("remove-template", this.removeTemplate);
   },
   computed: {
     defaultItem() {
@@ -103,20 +95,10 @@ export default {
         // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder
       };
     },
-    /*items: {
-      get() {
-        return this.list.items;
-      },
-      set(reorderedListItems) {
-        const payload = {
-          boardId: this.board.id,
-          listId: this.list.id,
-          items: reorderedListItems
-        };
-        this.reorderTaskListItems(payload);
-      }
+    items(): Task[] {
+      return Task.query().where("column_id", this.list.id).get();
     },
-    shouldAllowTaskItemsReorder() {
+    /*shouldAllowTaskItemsReorder() {
       return this.isDesktop || this.isTablet;
     },*/
   },
@@ -147,16 +129,15 @@ export default {
       this.showTemplate = false;
     },*/
     createNewTask() {
-      // console.log('list ', )
-      this.showTemplate = true;
-
-      // this.saveTaskListItem({
-      //   boardId: this.$route.params.id,
-      //   listId:this.list.id,
-      //   item:{id:5},
-      //   name:"hello"}
-      // )
-    },/*
+      Task.insert({
+        data: {
+          column_id: this.list.id,
+          name: "Task #" + nanoid(),
+          description: "desc1",
+          // assignee: Board.find(this.$store.state.currentBoardId),
+        },
+      }).then(() => console.log(this.$store.state.entities.tasks));
+    },
     itemEditing() {
       this.isEditing = true;
     },
@@ -165,22 +146,15 @@ export default {
     },
     itemCancelled() {
       this.isEditing = false;
-    }*/
-  }
+    },
+  },
 };
 </script>
 <style lang="scss">
 .sortable-chosen.ghost .task-item {
-  background: repeating-linear-gradient(
-    145deg,
-    transparent,
-    transparent 5px,
-    #e8eaf1 5px,
-    #e8eaf1 10px
-  );
+  background: #e8eaf1;
   border: 2px solid#e2e2e2;
 }
-
 .flip-list-move {
   transition: transform 0.2s;
 }

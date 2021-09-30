@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <Navbar buttonType="taskboard" />
+    <Navbar buttonType="taskboard" @addNewList="addNewList" />
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
         <div class="board-details">
@@ -22,6 +22,7 @@
           />
         </div>
         <draggable
+          v-if="lists"
           v-model="lists"
           class="row flex-nowrap"
           v-bind="getDragOptions"
@@ -40,20 +41,18 @@
 </template>
 
 <script lang="ts">
-import TaskItem from "@/components/TaskItem.vue";
 import Navbar from "@/components/Navbar.vue";
 import TaskList from "@/components/TaskList.vue";
 import draggable from "vuedraggable";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapState } from "vuex";
 import TaskDetailPopup from "./popups/TaskDetailPopup.vue";
-import KanbanColumn from "@/classes/KanbanColumn";
+import { nanoid } from "nanoid";
+import Column from "@/models/KanbanColumn";
 
 export default {
   name: "TaskBoard",
-  props: ["board"],
+  // props: ["board"],
   components: {
-    // eslint-disable-next-line vue/no-unused-components
-    TaskItem,
     TaskList,
     draggable,
     Navbar,
@@ -63,31 +62,20 @@ export default {
     return {
       projectName: "",
       projectDescription: "",
-      currentBoard: "",
-      lists: [
-        new KanbanColumn("1283", "name", "desc"),
-        new KanbanColumn("2746", "name2", "desc2"),
-      ],
     };
   },
-  created() {
-    // console.log(this.$store.state.boards);
+  props: {
   },
-  /*computed: {
-    ...mapGetters({
-      boards: "allBoards",
-      isLoading: "isLoading",
-    }),
-    /*getBoardName() {
-      let that = this;
-      this.boards.find(function(b) {
-        if (b.id === that.param) {
-          that.currentBoard = b;
-          that.projectName = b.name;
-          that.projectDescription = b.description;
-        }
-      });
-      return this.projectName;
+  mounted() {
+    // console.log("find-mount", Board.find(this.$store.state.currentBoardId),);
+    console.log(this.$store.state.entities);
+  },
+  computed: {
+    ...mapState(["columns", "tasks"]),
+    lists(): Column[] {
+      return Column.query()
+        .where("board_id", this.$store.state.currentBoardId)
+        .get();
     },
     getDragOptions() {
       return {
@@ -97,53 +85,73 @@ export default {
         group: "kanban-board-lists",
       };
     },
-
-    param() {
-      return this.$route.params.id;
+    currentBoardId(): string {
+      return this.$route.params.currentBoardId;
     },
+  /*
+    ...mapGetters({
+      boards: "allBoards",
+      isLoading: "isLoading",
+    }),*/
+    getBoardName() {
+      return "name constant";
+      /*let that = this;
+      this.boards.find(function(b) {
+        if (b.id === that.param) {
+          that.currentBoard = b;
+          that.projectName = b.name;
+          that.projectDescription = b.description;
+        }
+      });
+      return this.projectName;*/
+    },
+
     shouldAllowListOrder() {
-      return this.isDesktop || this.isTablet;
+      return true;
+      // return this.isDesktop || this.isTablet;
     },
     getBoard() {
-      return this.boards.find((b) => b.id === this.param);
+      return this.$store.state.currentBoardId;
+      // return this.boards.find((b) => b.id === this.param);
     },
-    lists: {
-      get() {
-        console.log(this.getBoard.lists);
-        return this.getBoard.lists;
-      },
-      async set(value) {
-        await this.reorderTaskLists({
-          boardId: this.param,
-          lists: value
-        });
-      }
-    }
-  },*/
+  },
   methods: {
-    /*/ ...mapActions(["addTaskToBoard", "reorderTaskLists"]),
-    ...mapActions({
+    ...mapActions(["addTaskToBoard", "reorderTaskLists"]),
+    /*/ ...mapActions({
       reorderTaskLists: "reorderTaskLists",
       setActiveTaskBoard: "setActiveTaskBoard",
       saveTaskBoard: "saveTaskBoard",
-    }),
-    editProjectName(e){
-      this.currentBoard.name = e.target.value.trim();
-      this.saveTaskBoard(this.currentBoard);
+    }),*/
+    addNewList() {
+      Column.insert({
+        data: {
+          board_id: this.$store.state.currentBoardId,
+          name: "To Do " + nanoid(),
+          description: "desc1",
+          // assignee: Board.find(this.$store.state.currentBoardId),
+        },
+      }).then((asd) => {
+        this.colId = "colÁjdí_" + nanoid();
+      });
     },
-    editProjectDescription(e){
-      this.currentBoard.description = e.target.value.trim();
-      this.saveTaskBoard(this.currentBoard);
+    editProjectName(e: any) {
+      // this.currentBoard.name = e.target.value.trim();
+      // this.saveTaskBoard(this.currentBoard);
     },
-    */ createNewTask(key) {
-      let newTask = {
+    editProjectDescription(e: any){
+      // this.currentBoard.description = e.target.value.trim();
+      // this.saveTaskBoard(this.currentBoard);
+    },
+    createNewTask(id: string) {
+
+      /*let newTask = {
         title: "",
         priority: "Low",
         comments: [],
         attachments: [],
         assignedUsers: [],
       };
-      this.addTaskToBoard({ key, newTask });
+      this.addTaskToBoard({ key, newTask });*/
     },
   },
 };

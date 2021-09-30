@@ -23,7 +23,8 @@
         <p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
         <!-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
       </div>
-      <!--<div class="task-item-footer">
+      <!-- TODO: copy content with vue-clipboard2
+      <div class="task-item-footer">
         <div class="comments-attachments">
           <div class="comments">
             <i class="far fa-comment-alt"></i> 1
@@ -80,32 +81,26 @@ export default {
     };
   },
   watch: {},
-  /*methods: {
-    assignUser(user){
-      this.item.assignedUsers.push(user),
-      // console.log(this.item);
-    },
+  methods: {
     changePriority() {
-      this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
+      /*this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
       this.showTaskPriority = !this.showTaskPriority;
       this.$nextTick(() => {
         const input = this.$refs.vueDropdown.$el.querySelector("input");
         input.focus();
-      });
+      });*/
     },
     setNewPriority(e) {
-      this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
-      this.showTaskPriority = !this.showTaskPriority;
+      // this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
+      // this.showTaskPriority = !this.showTaskPriority;
     },
-    openTaskDetailPopoup(item) {
+    openTaskDetailPopoup(item: any) {
       console.log("clicked");
-
       //Bus.$emit("open-task-detail-popup", item);
     },
-  },*/
+  },
 };
 </script>
-
 <style scoped lang="scss" >
 .assigned-users {
   .user-avatar {

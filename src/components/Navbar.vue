@@ -37,6 +37,7 @@
                   data-toggle="dropdown"
                   aria-haspopup="true"
                   aria-expanded="false"
+                  @click="addNewList"
                 >
                   <span class="btn-inner--text">New</span>
                 </button>
@@ -65,11 +66,12 @@
     <TeamPopup />-->
   </div>
 </template>
-
 <script lang="ts">
 // import { Bus } from "../utils/bus";
 // import NewBoardPopup from "@/components/"
 // import TeamPopup from "./popups/TeamPopup";
+import KanbanColumn from "@/models/KanbanColumn";
+
 export default {
   name: "Navbar",
   components: {
@@ -87,18 +89,15 @@ export default {
   },
   computed: {},
   methods: {
-    /*addNewBoard(e) {
-      e.preventDefault();
-      Bus.$emit("open-new-popup", "board");
+    addNewBoard(e: any) {
+      // e.preventDefault();
     },
-    addNewList(e) {
-      e.preventDefault();
-      Bus.$emit("open-new-popup", "list");
+    addNewList() {
+      this.$emit("addNewList");
     },
-    openTeamPopoup(e) {
-      e.preventDefault();
-      Bus.$emit("open-team-popup", "list");
-    },*/
+    openTeamPopoup(e: any) {
+      // e.preventDefault();
+    },
   },
 };
 </script>

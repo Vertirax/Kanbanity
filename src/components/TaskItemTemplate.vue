@@ -7,7 +7,7 @@
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
         <label>Task name:</label>
-        <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="saveItem" />
+        <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="saveItem" @keyup.enter="saveItem"/>
       </div>
       <div class="task-item-footer">
         <!-- <div class="comments-attachments">
@@ -30,6 +30,7 @@
 </template>
 <script lang="ts">
 import { mapActions } from "vuex";
+import { nanoid } from "nanoid";
 
 export default {
   name: "TaskItemTemplate",
@@ -50,23 +51,16 @@ export default {
       saveTaskListItem: "saveTaskListItem",
     }),
     saveItem() {
-      // Bus.$emit("remove-template", this.list.id);
-      console.log("this.taskTitle.trim().length ", this.taskName.trim().length);
-      if (this.taskName.trim().length <= 0) {
-        // Bus.$emit("remove-template", this.list.id);
-      } else {
-        this.saveTaskListItem({
-          boardId: this.$route.params.id,
-          listId: this.list.id,
-          item: {
-            id: 5,
-            text: this.taskName,
-            priority: "Low",
-            assignedUsers: [],
-          },
-        });
-        // Bus.$emit("remove-template", this.list.id);
-      }
+      this.saveTaskListItem({
+        boardId: this.$route.params.id,
+        listId: this.list.id,
+        item: {
+          id: nanoid(),
+          text: this.taskName,
+          priority: "Low",
+          assignedUsers: [],
+        },
+      });
     },
   },
 };
