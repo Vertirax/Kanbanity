@@ -54,12 +54,13 @@
 </template>
 
 <script lang="ts">
-import { mapGetters, mapActions, mapState } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Boards from "@/models/Board";
 import { Twitter } from "vue-color";
 
 export default {
+  name: "Dashboard",
   components: {
     Navbar,
     Twitter,

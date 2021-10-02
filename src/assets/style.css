@@ -134,11 +134,11 @@ ul, li {
     box-shadow: 0 0 5px -2px rgba(134, 134, 162, 1);
 }
 
-.task-priority.Low {
-    background: linear-gradient(89deg, #66a7f8 0, #8ea7fb 100%);
+.task-priority.Medium {
+    background: linear-gradient(89deg, #efb230 0, #ecc733 100%);
 }
 
-.task-priority.Medium {
+.task-priority.Low {
     background: linear-gradient(89deg, #79d3b9 0, #81d5de 100%);
 }
 

@@ -7,6 +7,7 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import KanbanBoard from "@/models/Board";
+import Board from "@/models/Board";
 
 export default {
   name: "app",
@@ -16,20 +17,22 @@ export default {
     }),
   },
   created() {
-    KanbanBoard.insert({
-      data: [
-        {
-          // id: 1,
-          name: "Board #1",
-          description: "desc #1",
-        },
-        {
-          // id: 2,
-          name: "Board #2",
-          description: "desc #2",
-        },
-      ],
-    });
+    if (Board.all().length === 0) {
+      KanbanBoard.insert({
+        data: [
+          {
+            // id: 1,
+            name: "Board #1",
+            description: "desc #1",
+          },
+          {
+            // id: 2,
+            name: "Board #2",
+            description: "desc #2",
+          },
+        ],
+      });
+    }
   },
   data() {
     return {

@@ -64,12 +64,6 @@ export default {
       projectDescription: "",
     };
   },
-  props: {
-  },
-  mounted() {
-    // console.log("find-mount", Board.find(this.$store.state.currentBoardId),);
-    console.log(this.$store.state.entities);
-  },
   computed: {
     ...mapState(["columns", "tasks"]),
     lists(): Column[] {
@@ -112,26 +106,24 @@ export default {
     },
     getBoard() {
       return this.$store.state.currentBoardId;
-      // return this.boards.find((b) => b.id === this.param);
     },
   },
   methods: {
     ...mapActions(["addTaskToBoard", "reorderTaskLists"]),
     /*/ ...mapActions({
       reorderTaskLists: "reorderTaskLists",
-      setActiveTaskBoard: "setActiveTaskBoard",
       saveTaskBoard: "saveTaskBoard",
     }),*/
     addNewList() {
       Column.insert({
         data: {
           board_id: this.$store.state.currentBoardId,
-          name: "To Do " + nanoid(),
+          name: "To Do",
           description: "desc1",
           // assignee: Board.find(this.$store.state.currentBoardId),
         },
       }).then((asd) => {
-        this.colId = "colÁjdí_" + nanoid();
+        //
       });
     },
     editProjectName(e: any) {
@@ -143,15 +135,7 @@ export default {
       // this.saveTaskBoard(this.currentBoard);
     },
     createNewTask(id: string) {
-
-      /*let newTask = {
-        title: "",
-        priority: "Low",
-        comments: [],
-        attachments: [],
-        assignedUsers: [],
-      };
-      this.addTaskToBoard({ key, newTask });*/
+      //
     },
   },
 };

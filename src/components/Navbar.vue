@@ -27,7 +27,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Profile</a>
+              <a class="nav-link" href="#" @click="addNewBoard">Profile</a>
             </li>
             <li class="nav-item add-board-link">
               <div class="dropdown">
@@ -67,10 +67,9 @@
   </div>
 </template>
 <script lang="ts">
-// import { Bus } from "../utils/bus";
-// import NewBoardPopup from "@/components/"
-// import TeamPopup from "./popups/TeamPopup";
-import KanbanColumn from "@/models/KanbanColumn";
+import Board from "@/models/Board";
+import Task from "@/models/Task";
+import Column from "@/models/KanbanColumn";
 
 export default {
   name: "Navbar",
@@ -79,9 +78,6 @@ export default {
     TeamPopup,*/
   },
   props: ["buttonType", "currentBoard"],
-  mounted() {
-    // console.log("buttonType ", this.buttonType);
-  },
   data() {
     return {
       // navBtnType: this.buttonType,
@@ -90,7 +86,9 @@ export default {
   computed: {},
   methods: {
     addNewBoard(e: any) {
-      // e.preventDefault();
+      Task.query().where("board_id", "$uid1").deleteAll();
+      Column.query().where("board_id", "$uid1").deleteAll();
+      Board.find("$uid1").$delete();
     },
     addNewList() {
       this.$emit("addNewList");

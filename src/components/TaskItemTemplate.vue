@@ -7,7 +7,7 @@
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
         <label>Task name:</label>
-        <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="saveItem" @keyup.enter="saveItem"/>
+        <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="discardItem" @keyup.enter="saveItem"/>
       </div>
       <div class="task-item-footer">
         <!-- <div class="comments-attachments">
@@ -31,6 +31,8 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import { nanoid } from "nanoid";
+import Task from "@/models/Task";
+import { Priority } from "@/enums/Priorities";
 
 export default {
   name: "TaskItemTemplate",
@@ -51,16 +53,20 @@ export default {
       saveTaskListItem: "saveTaskListItem",
     }),
     saveItem() {
-      this.saveTaskListItem({
-        boardId: this.$route.params.id,
-        listId: this.list.id,
-        item: {
-          id: nanoid(),
-          text: this.taskName,
-          priority: "Low",
-          assignedUsers: [],
-        },
-      });
+      if (this.taskName != "") {
+        Task.insert({
+          data: {
+            column_id: this.list.id,
+            board_id: this.$store.state.currentBoardId,
+            name: this.taskName,
+            priority: Priority.MEDIUM_PRIORITY,
+          },
+        });
+      }
+      this.$emit("toggleTemplate");
+    },
+    discardItem() {
+      this.$emit("discardItem");
     },
   },
 };

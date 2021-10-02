@@ -45,11 +45,11 @@
               />
             </transition-group>
           </draggable>
-          <TaskItemTemplate v-if="showTemplate" :list="list" />
+          <TaskItemTemplate v-if="showTemplate" :list="list" @toggleTemplate="toggleTemplate" @discardItem="hideTemplate"/>
         </ul>
       </div>
       <div class="board-footer">
-        <a class="add-task-btn" @click="createNewTask">
+        <a class="add-task-btn" @click="toggleTemplate">
           Add task
           <b-icon-plus></b-icon-plus>
         </a>
@@ -62,10 +62,10 @@
 import draggable from "vuedraggable";
 import TaskItem from "@/components/TaskItem.vue";
 import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
-import {nanoid} from "nanoid";
 import Task from "@/models/Task";
 
 export default {
+  name: "TaskList",
   components: {
     TaskItem,
     draggable,
@@ -81,12 +81,6 @@ export default {
     };
   },
   computed: {
-    defaultItem() {
-      return {
-        id: "",
-        text: "",
-      };
-    },
     dragOptions() {
       return {
         animation: "200",
@@ -128,15 +122,11 @@ export default {
       // console.log("remove template ", data);
       this.showTemplate = false;
     },*/
-    createNewTask() {
-      Task.insert({
-        data: {
-          column_id: this.list.id,
-          name: "Task #" + nanoid(),
-          description: "desc1",
-          // assignee: Board.find(this.$store.state.currentBoardId),
-        },
-      }).then(() => console.log(this.$store.state.entities.tasks));
+    toggleTemplate() {
+      this.showTemplate = !this.showTemplate;
+    },
+    hideTemplate() {
+      this.showTemplate = false;
     },
     itemEditing() {
       this.isEditing = true;
