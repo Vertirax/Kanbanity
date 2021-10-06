@@ -2,6 +2,12 @@
   <div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary-custom">
       <div class="container-fluid">
+        <router-link to="/">
+          <b-button variant="default" class="btn mr-3">
+            <b-icon-columns-gap/>
+            Dashboard
+          </b-button>
+        </router-link>
         <input
           type="text"
           class="form-control search-task"
@@ -20,6 +26,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbar-primary">
           <ul class="navbar-nav ml-lg-auto">
+            <li class="nav-item">
+              <b-form-checkbox class="nav-link pr-3" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
+            </li>
             <li class="nav-item">
               <a class="nav-link" href="#">
                 Discover
@@ -83,7 +92,16 @@ export default {
       // navBtnType: this.buttonType,
     };
   },
-  computed: {},
+  computed: {
+    toggleDarkMode: {
+      get() {
+        return this.$store.state.darkMode;
+      },
+      set() {
+        this.$store.dispatch("toggleDarkMode");
+      },
+    },
+  },
   methods: {
     addNewBoard(e: any) {
       Task.query().where("board_id", "$uid1").deleteAll();

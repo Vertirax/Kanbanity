@@ -7,7 +7,7 @@ export default class KanbanColumn extends Model {
 
   static fields() {
     return {
-      id: this.uid(),
+      id: this.uid(() => nanoid(10)),
       board_id: this.string(null).nullable(),
       name: this.string(""),
       description: this.string(""),

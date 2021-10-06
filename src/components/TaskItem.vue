@@ -1,29 +1,31 @@
 <template>
   <div>
-    <li class="task-item">
-      <div class="task-item-header">
-        <div
-          class="task-priority"
-          :class="item.priority"
-          v-if="showTaskPriority"
-          @click="changePriority"
-        >{{ item.priority }} Priority</div>
-        <v-select
-          v-model="item.priority"
-          ref="vueDropdown"
-          :options="['Low', 'Medium', 'High']"
-          v-if="showTaskPriorityDropdown"
-          @search:blur="setNewPriority"
-          :clearable="false"
-          :closeOnSelect="true"
-          class="custom-v-select"
-        ></v-select>
+    <li class="task-item row mx-1 align-items-center" v-b-hover="toggleShowIcons"> <!--v-b-hover="toggleShowIcons"-->
+      <div class="col-10">
+        <div class="task-item-header">
+          <div
+            class="task-priority"
+            :class="item.priority"
+            v-if="showTaskPriority"
+            @click="changePriority"
+          >{{ item.priority }} Priority</div>
+          <v-select
+            v-model="item.priority"
+            ref="vueDropdown"
+            :options="['Low', 'Medium', 'High']"
+            v-if="showTaskPriorityDropdown"
+            @search:blur="setNewPriority"
+            :clearable="false"
+            :closeOnSelect="true"
+            class="custom-v-select"
+          ></v-select>
+        </div>
+        <div class="task-item-body">
+          <p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
+          <!-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
+        </div>
       </div>
-      <div class="task-item-body">
-        <p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
-        <!-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
-      </div>
-      <!-- TODO: copy content with vue-clipboard2
+      <!--
       <div class="task-item-footer">
         <div class="comments-attachments">
           <div class="comments">
@@ -55,13 +57,16 @@
           </div>
         </div>
       </div>-->
+      <div v-if="showIcons" class="col-1 pl-2">
+        <b-button type="button" variant="default" class="btn-sm" @click="copyTaskName"><b-icon-clipboard/></b-button>
+        <b-button type="button" variant="default" class="btn-sm" @click="asd"><b-icon-pencil /></b-button>
+        <b-button type="button" variant="default" class="btn-sm" @click="deleteTask"><b-icon-trash /></b-button>
+      </div>
     </li>
   </div>
 </template>
 
 <script lang="ts">
-import store from "./../store/index";
-import { mapActions, mapGetters } from "vuex";
 import vSelect from "vue-select";
 import "vue-select/dist/vue-select.css";
 import TaskDetailPopup from "@/components/popups/TaskDetailPopup.vue";
@@ -78,10 +83,33 @@ export default {
     return {
       showTaskPriorityDropdown: false,
       showTaskPriority: true,
+      showIcons: false,
     };
   },
   watch: {},
   methods: {
+    asd(): void {
+      /*Notification.requestPermission().then(
+        new Notification("Title", {
+          icon: "https://cdn.onlinewebfonts.com/svg/img_2382.png",
+          body: "Noti body",
+        })
+      );*/
+    },
+    toggleShowIcons(): void {
+      this.showIcons = !this.showIcons;
+    },
+    copyTaskName(): void {
+      this.$copyText(this.item.name).then(() =>
+        this.$store.dispatch("successToaster", {
+          title: "Task",
+          message: "The selected task's name has been copied successfully!",
+        })
+      );
+    },
+    deleteTask(): void {
+      this.$emit("deleteTask", this.item.id);
+    },
     changePriority() {
       /*this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
       this.showTaskPriority = !this.showTaskPriority;
@@ -102,30 +130,23 @@ export default {
 };
 </script>
 <style scoped lang="scss" >
-.assigned-users {
-  .user-avatar {
-    margin-right: -15px;
-  }
+.col-1,
+.col-10 {
+  padding-left: 0;
+  padding-right: 0;
+  min-height: 95px;
 }
-.assigned-users .add-icon {
+.add-icon {
   margin-left: 20px;
   cursor: pointer;
 }
 .custom-v-select {
   font-size: 14px;
 }
-.assignee-selection .dropdown-item {
+.dropdown-item {
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  padding: 0.4rem .8rem;
-  .user-avatar {
-    margin-right: 15px;
-  }
-  .user-name {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgb(45, 45, 82);
-  }
+  padding: 0.4rem 0.8rem;
 }
 </style>

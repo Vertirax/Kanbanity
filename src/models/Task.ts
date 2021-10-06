@@ -7,7 +7,7 @@ export default class Task extends Model {
 
   static fields() {
     return {
-      id: this.uid(),
+      id: this.uid(() => nanoid(10)),
       column_id: this.string(null).nullable(),
       board_id: this.string(null).nullable(),
       name: this.string(""),

@@ -2,7 +2,7 @@
   <div class="main-wrapper">
     <Navbar buttonType="dashboard" />
     <div class="container-fluid main-container">
-      <div class="row equal">
+      <div class="row equal my-3 mx-2">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
           v-for="board in boards"
@@ -17,16 +17,25 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <h5 class="card-title flex-nowrap">{{ board.name }}</h5>
+                  <div>
+                    <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
+                      <template #button-content>
+                        <b-icon-three-dots-vertical variant="dark" />
+                      </template>
+                      <b-dropdown-item><b-icon-pencil-fill class="mr-3"/>Edit</b-dropdown-item>
+                      <b-dropdown-item @click="deleteBoard(board.id)"><b-icon-trash-fill class="mr-3"/>Delete</b-dropdown-item>
+                    </b-dropdown>
+                  </div>
                 </div>
                 <p class="card-text text-truncate">{{ board.description }}</p>
               </div>
               <div class="card-footer bg-transparent">
                 <div class="details-wrapper">
                   <div class="board-info">
-                    <!--<p class="card-text">Lists : 0 | Items : 0</p>-->
+                    <p class="card-text">Lists : 0 | Items : 0</p>
                   </div>
                   <div class="date">
-                    <!--<p class="text-muted">22 July 2019</p>-->
+                    <p class="text-muted">22 July 2019</p>
                   </div>
                 </div>
               </div>
@@ -35,7 +44,7 @@
         </div>
       </div>
 
-      <Twitter v-model="colors" triangle="hide"></Twitter>
+      <!--<Twitter v-model="colors" triangle="hide"></Twitter>-->
       <!--<div class="row">
         <div class="col-md-12">
           <div>
@@ -57,13 +66,11 @@
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Boards from "@/models/Board";
-import { Twitter } from "vue-color";
 
 export default {
   name: "Dashboard",
   components: {
     Navbar,
-    Twitter,
   },
   data() {
     return {
@@ -83,42 +90,39 @@ export default {
     },
     // ...mapState(["boards"]),
   },
+  mounted() {
+    this.setCurrentBoardId("");
+  },
   methods: {
     ...mapActions({
       setActiveTaskBoard: "setActiveTaskBoard",
       archiveTaskBoard: "archiveTaskBoard",
       restoreTaskBoard: "restoreTaskBoard",
     }),
-    setCurrentBoardId(id: string) {
+    setCurrentBoardId(id: string): void {
       this.$store.commit("setCurrentBoardId", id);
     },
-    /*totalItems(lists) {
-      let count = 0;
-      lists.forEach((element) => {
-        console.log(element);
-        if (element.items) count += element.items.length;
-      });
-      return count;
+    deleteBoard(id: string): void {
+      this.$store.dispatch("deleteBoard", { boardId: id });
     },
-    handleArchiveTaskBoard(board) {
-      this.archiveTaskBoard({ boardId: board.id });
-    },
-    handleRestoreTaskBoard(board) {
-      this.restoreTaskBoard({ boardId: board.id });
-    },
-  },
-  /*async created() {
-    await this.setActiveTaskBoard({
-      board: null,
-    });*/
-  },
-  mounted() {
-    // console.log(this.$store.state.boards.columns);
   },
 };
 </script>
 
 <style lang="scss" scoped>
+a:hover {
+  text-decoration: none;
+}
+.card {
+  transition: transform 0.25s ease;
+
+  .card-footer {
+    margin-top: 2rem;
+  }
+}
+.card:hover {
+  transform: scale(1.1);
+}
 .project-card {
   display: block;
   width: 100%;

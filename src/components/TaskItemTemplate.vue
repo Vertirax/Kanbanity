@@ -1,15 +1,24 @@
 <template>
   <div>
-    <li class="task-item">
+    <li class="task-item" @focusout="discardItem">
       <div class="task-item-header">
         <!-- <div class="task-priority" :class="priority">{{priority}} Priority</div> -->
       </div>
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
         <label>Task name:</label>
-        <input type="text" class="form-control" ref="taskTitle" v-model="taskName" @blur="discardItem" @keyup.enter="saveItem"/>
+        <b-form-input
+          id="input"
+          type="text"
+          class="form-control"
+          ref="taskTitle"
+          v-model="taskName"
+          autofocus
+          @keyup.enter="saveItem"
+        />
       </div>
       <div class="task-item-footer">
+        <b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>
         <!-- <div class="comments-attachments">
           <div class="comments">
             <i class="far fa-comment-alt"></i> 1

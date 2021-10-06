@@ -23,7 +23,7 @@ ul, li {
 }
 
 .search-task{
-    width: 30%;
+    width: 30% !important;
     background: none;
     border: none;
     color: #fff;
@@ -206,9 +206,11 @@ ul, li {
     color: #8686a2;
     cursor: pointer;
 }
+
 .scrollable-div{
     overflow-x: scroll;
 }
+
 .card-text{
     color: #525f7f;
     font-weight: 400;

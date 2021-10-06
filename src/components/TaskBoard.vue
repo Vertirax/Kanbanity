@@ -46,7 +46,6 @@ import TaskList from "@/components/TaskList.vue";
 import draggable from "vuedraggable";
 import { mapActions, mapGetters, mapState } from "vuex";
 import TaskDetailPopup from "./popups/TaskDetailPopup.vue";
-import { nanoid } from "nanoid";
 import Column from "@/models/KanbanColumn";
 
 export default {
@@ -66,10 +65,15 @@ export default {
   },
   computed: {
     ...mapState(["columns", "tasks"]),
-    lists(): Column[] {
-      return Column.query()
-        .where("board_id", this.$store.state.currentBoardId)
-        .get();
+    lists: {
+      get(): Column[] {
+        return Column.query()
+          .where("board_id", this.$store.state.currentBoardId)
+          .get();
+      },
+      set(value) {
+        this.$store.commit("updateList", value);
+      },
     },
     getDragOptions() {
       return {
@@ -122,8 +126,6 @@ export default {
           description: "desc1",
           // assignee: Board.find(this.$store.state.currentBoardId),
         },
-      }).then((asd) => {
-        //
       });
     },
     editProjectName(e: any) {
