@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <Navbar buttonType="taskboard" @addNewList="addNewList" />
+    <Navbar buttonType="taskboard" @addNewList="openNewListPopup" />
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
         <div class="board-details">
@@ -8,17 +8,15 @@
             <!-- <h3 v-if="showName">{{getBoardName}}</h3> -->
             <input
               type="text"
-              :value="getBoardName"
+              :value="this.$route.params.boardName"
               class="project-name-input form-control"
-              @blur="editProjectName"
             />
           </div>
           <!-- <p class="project-description">{{projectDescription}}</p> -->
           <input
             type="text"
-            :value="projectDescription"
+            :value="this.$route.params.boardDescription"
             class="project-desc-input form-control"
-            @blur="editProjectDescription"
           />
         </div>
         <draggable
@@ -36,7 +34,10 @@
         </draggable>
       </div>
     </div>
-    <TaskDetailPopup />
+    <NewColumnPopup
+      :id="'new-column-' + currentBoardId"
+      @save="addNewList"
+    />
   </div>
 </template>
 
@@ -45,17 +46,17 @@ import Navbar from "@/components/Navbar.vue";
 import TaskList from "@/components/TaskList.vue";
 import draggable from "vuedraggable";
 import { mapActions, mapGetters, mapState } from "vuex";
-import TaskDetailPopup from "./popups/TaskDetailPopup.vue";
+import NewColumnPopup from "@/components/popups/NewColumnPopup.vue";
 import Column from "@/models/KanbanColumn";
+import KanbanColumn from "@/classes/KanbanColumn";
 
 export default {
   name: "TaskBoard",
-  // props: ["board"],
   components: {
     TaskList,
     draggable,
     Navbar,
-    TaskDetailPopup,
+    NewColumnPopup,
   },
   data() {
     return {
@@ -64,14 +65,15 @@ export default {
     };
   },
   computed: {
-    ...mapState(["columns", "tasks"]),
+    ...mapState(["columns", "tasks", "boardName"]),
     lists: {
       get(): Column[] {
         return Column.query()
           .where("board_id", this.$store.state.currentBoardId)
           .get();
       },
-      set(value) {
+      set(value: Column[]): void {
+        // column ordering
         this.$store.commit("updateList", value);
       },
     },
@@ -118,26 +120,17 @@ export default {
       reorderTaskLists: "reorderTaskLists",
       saveTaskBoard: "saveTaskBoard",
     }),*/
-    addNewList() {
+    openNewListPopup(): void {
+      this.$bvModal.show("new-column-" + this.$store.state.currentBoardId);
+    },
+    addNewList(payload: KanbanColumn): void {
       Column.insert({
         data: {
           board_id: this.$store.state.currentBoardId,
-          name: "To Do",
-          description: "desc1",
-          // assignee: Board.find(this.$store.state.currentBoardId),
+          name: payload.title,
+          description: payload.description,
         },
       });
-    },
-    editProjectName(e: any) {
-      // this.currentBoard.name = e.target.value.trim();
-      // this.saveTaskBoard(this.currentBoard);
-    },
-    editProjectDescription(e: any){
-      // this.currentBoard.description = e.target.value.trim();
-      // this.saveTaskBoard(this.currentBoard);
-    },
-    createNewTask(id: string) {
-      //
     },
   },
 };

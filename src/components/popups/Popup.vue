@@ -1,11 +1,12 @@
 <template>
   <div>
     <b-modal
-      size="size"
       :id="id"
       :title="title"
+      :ok-title="okTitle"
+      @ok="save"
     >
-      <div>{{ text }}</div>
+      <slot name="default"></slot>
     </b-modal>
   </div>
 </template>
@@ -14,21 +15,14 @@
 export default {
   name: "Popup",
   props: {
-    data: {},
-    id: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
-      default: "Default Title",
-    },
-    text: {
-      type: String,
-    },
-    size: {
-      type: String,
-      default: "lg",
+    // data: {},
+    id: { type: String, required: true },
+    title: { type: String, required: true },
+    okTitle: { type: String, default: "OK" },
+  },
+  methods: {
+    save(): void {
+      this.$emit("save");
     },
   },
 };

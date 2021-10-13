@@ -1,7 +1,7 @@
 <template>
   <Popup
     :id="id"
-    :title="title"
+    title="Add New List"
     okTitle="Save"
     @save="save"
   >
@@ -9,12 +9,12 @@
       <InputField
         class="my-2 py-1"
         title="Title"
-        :value="data.title"
+        v-model="title"
       />
       <InputField
         class="my-2 py-1"
         title="Description"
-        :value="data.description"
+        v-model="description"
       />
       <!--
       <b-form-input v-model="data.title" />
@@ -29,7 +29,7 @@ import KanbanColumn from "@/classes/KanbanColumn";
 import InputField from "@/components/form/InputField.vue";
 
 export default {
-  name: "NewBoardPopup",
+  name: "NewColumnPopup",
   components: {
     InputField,
     Popup,
@@ -40,12 +40,13 @@ export default {
   data() {
     return {
       //popupId: "edit-popup",
+      title: "",
+      description: "",
     };
   },
 
   methods: {
     save(): void {
-      console.log(this.colData);
       this.$emit("save", new KanbanColumn("", this.title, this.description));
     },
   },

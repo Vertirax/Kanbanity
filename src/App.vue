@@ -30,11 +30,13 @@ export default {
             // id: 1,
             name: "Board #1",
             description: "desc #1",
+            createdDateString: new Date().toLocaleDateString(),
           },
           {
             // id: 2,
             name: "Board #2",
             description: "desc #2",
+            createdDateString: new Date().toLocaleDateString(),
           },
         ],
       });

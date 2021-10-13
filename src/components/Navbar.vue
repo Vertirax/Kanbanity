@@ -8,11 +8,11 @@
             Dashboard
           </b-button>
         </router-link>
-        <input
+        <!--<input
           type="text"
           class="form-control search-task"
           placeholder="Search for tasks.."
-        />
+        />-->
         <button
           class="navbar-toggler"
           type="button"
@@ -27,45 +27,29 @@
         <div class="collapse navbar-collapse" id="navbar-primary">
           <ul class="navbar-nav ml-lg-auto">
             <li class="nav-item">
-              <b-form-checkbox class="nav-link pr-3" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
+              <b-form-checkbox class="nav-link px-3" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Discover
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#" @click="addNewBoard">Profile</a>
-            </li>
+            <!--<li class="nav-item">
+              <b-button variant="default" class="btn mr-3 nav-link">
+                <b-icon-gear/>
+                Settings
+              </b-button>
+            </li>-->
             <li class="nav-item add-board-link">
-              <div class="dropdown">
-                <button
-                  class="btn btn-icon btn-3 btn-secondary"
-                  type="button"
-                  data-toggle="dropdown"
-                  aria-haspopup="true"
-                  aria-expanded="false"
-                  @click="addNewList"
-                >
-                  <span class="btn-inner--text">New</span>
-                </button>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    v-if="buttonType === 'dashboard'"
-                    @click="addNewBoard"
-                  >New Board</a>
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    v-if="buttonType === 'taskboard'"
-                    @click="addNewList"
-                  >New List</a>
-                  <a class="dropdown-item" href="#" @click="openTeamPopoup">Team</a>
-                </div>
-              </div>
+              <b-button
+                v-if="this.$route.name === 'dashboard'"
+                variant="primary"
+                @click="addNewBoard"
+              >
+                New Board
+              </b-button>
+              <b-button
+                v-if="this.$route.name === 'task-board'"
+                variant="primary"
+                @click="addNewList"
+              >
+                New List
+              </b-button>
             </li>
           </ul>
         </div>
@@ -103,10 +87,14 @@ export default {
     },
   },
   methods: {
-    addNewBoard(e: any) {
-      Task.query().where("board_id", "$uid1").deleteAll();
-      Column.query().where("board_id", "$uid1").deleteAll();
-      Board.find("$uid1").$delete();
+    addNewBoard(e: any): void {
+      Board.insert({
+        data: {
+          name: "New Board",
+          description: "description",
+          createdDateString: new Date().toLocaleDateString(),
+        },
+      });
     },
     addNewList() {
       this.$emit("addNewList");

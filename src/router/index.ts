@@ -7,20 +7,15 @@ Vue.use(VueRouter);
 const routes: Array<RouteConfig> = [
   {
     path: "/",
-    // name: "Dashboard",
+    name: "dashboard",
     component: KanbanDashboard,
-    // props: true,
+    props: true,
   },
   {
     path: "/task-board",
     name: "task-board",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => {
-      return import(
-        /* webpackChunkName: "about" */ "@/components/TaskBoard.vue"
-      );
+      return import("@/components/TaskBoard.vue");
     },
   },
 ];

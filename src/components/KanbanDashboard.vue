@@ -2,7 +2,7 @@
   <div class="main-wrapper">
     <Navbar buttonType="dashboard" />
     <div class="container-fluid main-container">
-      <div class="row equal my-3 mx-2">
+      <div class="row equal my-3 mx-2" style="position: relative; z-index: unset">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
           v-for="board in boards"
@@ -10,7 +10,14 @@
         >
           <router-link
             class="project-card"
-            :to="{ name: 'task-board', params: { currentBoardId: board.id } }"
+            :to="{
+              name: 'task-board',
+              params: {
+                currentBoardId: board.id,
+                boardName: board.name,
+                boardDescription: board.description,
+              },
+            }"
             @click.native="setCurrentBoardId(board.id)"
           >
             <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
@@ -32,10 +39,11 @@
               <div class="card-footer bg-transparent">
                 <div class="details-wrapper">
                   <div class="board-info">
-                    <p class="card-text">Lists : 0 | Items : 0</p>
+                    <!--<p class="card-text">Lists : {{ columnCount(board.id) }} | Items : {{ taskCount(board.id) }}</p>-->
+                    <p class="card-text"><b-icon-layout-sidebar-inset/> {{ columnCount(board.id) }} | <b-icon-list-task/> {{ taskCount(board.id) }}</p>
                   </div>
                   <div class="date">
-                    <p class="text-muted">22 July 2019</p>
+                    <p class="text-muted">{{ board.createdDateString }}</p>
                   </div>
                 </div>
               </div>
@@ -66,6 +74,8 @@
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Boards from "@/models/Board";
+import Task from "@/models/Task";
+import Column from "@/models/KanbanColumn";
 
 export default {
   name: "Dashboard",
@@ -105,11 +115,26 @@ export default {
     deleteBoard(id: string): void {
       this.$store.dispatch("deleteBoard", { boardId: id });
     },
+    columnCount(boardId: string): number {
+      return Column.query().where("board_id", boardId).count();
+    },
+    taskCount(boardId: string): number {
+      return Task.query().where("board_id", boardId).count();
+    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+
+.row {
+  position: relative;
+  z-index: 1;
+}
+.col-xs-12 {
+  z-index: 200;
+}
+
 a:hover {
   text-decoration: none;
 }

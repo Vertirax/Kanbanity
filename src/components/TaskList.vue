@@ -20,19 +20,20 @@
             <b-dropdown-item @click="deleteColumn"><b-icon-trash-fill class="mr-3"/>Delete</b-dropdown-item>
           </b-dropdown>
         </div>
-        <!--<div class="dropdown" v-if="!isEditing">
-          <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-ellipsis-v options" aria-hidden="true"></i>
-          </a>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="" @click.prevent="isEditing = !isEditing">Rename</a>
-            <a class="dropdown-item" href="" @click.prevent="deleteWholeTaskList">Delete</a>
-          </div>
-        </div>-->
       </div>
       <div class="board-content">
         <ul class="task-list">
-          <draggable v-model="items" v-bind="dragOptions" class="list-group" :move="onMove">
+          <draggable
+            v-if="!hideDraggableList"
+            :list="items"
+            v-bind="dragOptions"
+            v-bind:colId="colData.id"
+            group="kanban-board-list-items"
+            class="list-group"
+            :move="onMove"
+            @end="onEnd(colData.id)"
+            @remove="removeFlicker"
+          >
             <transition-group
               type="transition"
               :name="!drag ? 'flip-list' : null"
@@ -62,6 +63,12 @@
       :title="this.list.name"
       :text="this.list.description"
     />
+    <EditColumnPopup
+      :id="'edit-popup-' + this.list.id"
+      :title="'Edit Column ' + this.list.name"
+      :data="colData"
+      @save="editColumn"
+    /><!--`type-${type}`-->
   </div>
 </template>
 
@@ -71,6 +78,9 @@ import TaskItem from "@/components/TaskItem.vue";
 import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
 import Task from "@/models/Task";
 import Popup from "@/components/popups/Popup.vue";
+import EditColumnPopup from "@/components/popups/EditColumnPopup.vue";
+import KanbanColumn from "@/classes/KanbanColumn";
+import {mapActions} from "vuex";
 
 export default {
   name: "TaskList",
@@ -79,6 +89,7 @@ export default {
     draggable,
     TaskItemTemplate,
     Popup,
+    EditColumnPopup,
   },
   props: ["board", "list"],
   data() {
@@ -86,8 +97,11 @@ export default {
       drag: false,
       showTemplate: false,
       isEditing: false,
+      hideDraggableList: false,
       message: "",
       taskId: "",
+      fromColumnId: "",
+      toColumnId: "",
       // taskListName: this.list.name,
     };
   },
@@ -96,8 +110,8 @@ export default {
       return {
         animation: "200",
         ghostClass: "ghost",
-        //disabled: false,
         group: "kanban-board-list-items",
+        //disabled: false,
         // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder
       };
     },
@@ -105,15 +119,26 @@ export default {
       get(): Task[] {
         return Task.query().where("column_id", this.list.id).get();
       },
-      set(value) {
-        this.$store.commit("updateItems", value);
+      set(value: Task[]): void {
+        console.log("set-computed: ", value);
+        // this.$store.commit("updateItems", value);
       },
+    },
+    colData(): KanbanColumn {
+      return new KanbanColumn(
+        this.list.id,
+        this.list.name,
+        this.list.description
+      );
     },
     /*shouldAllowTaskItemsReorder() {
       return this.isDesktop || this.isTablet;
     },*/
   },
   methods: {
+    ...mapActions({
+      dragEvent: "dragTask",
+    }),
     deleteColumn(): void {
       this.$store.dispatch("deleteColumn", { colId: this.list.id }).then(() => {
         this.message = `The selected column named '${this.list.name}' has been deleted successfully!`;
@@ -127,7 +152,7 @@ export default {
       });
     },
     openPopup(): void {
-      this.$bvModal.show("popup_" + this.list.id);
+      this.$bvModal.show("edit-popup-" + this.list.id);
     },
     showToast(): void {
       this.$store.dispatch("successToaster", {
@@ -135,30 +160,41 @@ export default {
         message: this.message,
       });
     },
-    onMove({ relatedContext, draggedContext }) {
-      const relatedElement = relatedContext.element;
-      const draggedElement = draggedContext.element;
-      console.log("relatedElement", relatedElement);
-      console.log("draggedElement", draggedElement);
+    editColumn(e: KanbanColumn): void {
+      console.log("asdasdasdadasd", e);
     },
-  /*  ...mapActions({
-      reorderTaskListItems: "reorderTaskListItems",
-      saveTaskListItem: "saveTaskListItem",
-      deleteTaskList:"deleteTaskList"
-    }),
-    addTodoMethod(newTodoItem){
-      this.todo_items = [...this.todo_items, newTodoItem]
+    onMove({ relatedContext, draggedContext }): void {
+      // console.log("taskid", draggedContext.element.id);
+      this.taskId = draggedContext?.element?.id;
+      // console.log("drag", relatedContext.component.$attrs.colId);
+      this.toColumnId = relatedContext?.component?.$attrs?.colId;
     },
+    onEnd(id: string): void {
+      // console.log("target", id);
+      this.fromColumnId = id;
+      if (this.taskId && this.fromColumnId && this.fromColumnId !== this.toColumnId) {
+        this.dragEvent({
+          taskId: this.taskId,
+          fromColumnId: this.fromColumnId,
+          toColumnId: this.toColumnId,
+        });
+      }
+    },
+    removeFlicker(): void {
+      this.hideDraggableList = true;
+      this.$nextTick(() => {
+        this.$nextTick(() => {
+          this.hideDraggableList = false;
+        });
+      });
+    },
+    /*
     saveTaskListName(e){
       this.list.name = e.target.value
       // console.log('this.list.name', this.list.name);
       this.isEditing = !this.isEditing
-    },
-    removeTemplate(data) {
-      // console.log("remove template ", data);
-      this.showTemplate = false;
     },*/
-    toggleTemplate() {
+    toggleTemplate(): void {
       this.showTemplate = !this.showTemplate;
     },
     hideTemplate() {
@@ -166,12 +202,6 @@ export default {
     },
     itemEditing() {
       this.isEditing = true;
-    },
-    itemEdited() {
-      this.isEditing = false;
-    },
-    itemCancelled() {
-      this.isEditing = false;
     },
   },
 };

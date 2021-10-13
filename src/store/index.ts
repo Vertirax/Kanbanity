@@ -63,6 +63,34 @@ export default new Vuex.Store({
         data: items,
       });
     },
+    updateTask(state, payload) {
+      /*Task.update({
+        where: payload.taskId,
+        data: { column_id: payload.toColumnId },
+      });
+      Task.update({
+        where: (task) => { return task.id === payload.taskId; },
+        data: { column_id: payload.toColumnId },
+      });*/
+      // TODO: replace logic with update.
+      const task = Task.find(payload.taskId);
+      Task.insert({
+        data: {
+          column_id: payload.toColumnId,
+          board_id: task.board_id,
+          name: task.name,
+          description: task.description,
+          priority: task.priority,
+        },
+      });
+      Task.delete(payload.taskId);
+    },
+    renameTask(state, payload) {
+      Task.update({
+        where: (task) => { return task.id === payload.id; },
+        data: { name: payload.name },
+      });
+    },
     deleteBoard(state, payload) {
       const taskQuery = Task.query().where("board_id", payload.boardId).get();
       const columnQuery = Column.query().where("board_id", payload.boardId).get();
@@ -94,9 +122,15 @@ export default new Vuex.Store({
     toggleDarkMode({ commit }) {
       commit("toggleDarkMode");
     },
+    changeTaskName({ commit }, payload) {
+      commit("renameTask", payload);
+    },
     saveTaskListItem() {
       // console.log(find(this.state.boards, { id: this.state.currentBoardId }));
       // this.state.boards.find()
+    },
+    dragTask({ commit }, payload) {
+      commit("updateTask", payload);
     },
   },
   getters: {
