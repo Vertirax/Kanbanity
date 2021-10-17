@@ -19,13 +19,26 @@
               </div>
             </template>
             <b-dropdown-item-button
+              v-if="item.priority !== lowPriority"
               button-class="task-priority Low"
               @click="changePriority(lowPriority)"
             >
               Low Priority
             </b-dropdown-item-button>
-            <b-dropdown-item-button button-class="task-priority Medium my-half" @click="changePriority(mediumPriority)">Medium Priority</b-dropdown-item-button>
-            <b-dropdown-item-button button-class="task-priority High" @click="changePriority(highPriority)">High Priority</b-dropdown-item-button>
+            <b-dropdown-item-button
+              v-if="item.priority !== mediumPriority"
+              button-class="task-priority Medium my-half"
+              @click="changePriority(mediumPriority)"
+            >
+              Medium Priority
+            </b-dropdown-item-button>
+            <b-dropdown-item-button
+              v-if="item.priority !== highPriority"
+              button-class="task-priority High"
+              @click="changePriority(highPriority)"
+            >
+              High Priority
+            </b-dropdown-item-button>
           </b-dropdown>
         </div>
         <div class="task-item-body">
