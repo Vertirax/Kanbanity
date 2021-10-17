@@ -2,17 +2,14 @@
   <Popup
     :id="id"
     title="Add New List"
-    okTitle="Save"
     @save="save"
   >
     <template v-slot:default>
       <InputField
-        class="my-2 py-1"
         title="Title"
         v-model="title"
       />
       <InputField
-        class="my-2 py-1"
         title="Description"
         v-model="description"
       />

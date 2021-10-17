@@ -1,6 +1,6 @@
 <template>
   <div class="">
-    <label v-if="title" :for="id" class="text-secondary small">
+    <label v-if="title" :for="id" class="text-secondary small mb-1">
       {{ title }}
     </label>
     <b-textarea
@@ -63,8 +63,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-label {
-  margin-bottom: 0.25rem;
+textarea {
+  cursor: default;
 }
 input:disabled {
   background-color: inherit;

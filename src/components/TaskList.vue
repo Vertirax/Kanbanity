@@ -4,7 +4,7 @@
       <input
         type="text"
         class="form-control"
-        :value="this.list.name"
+        :value="list.name"
         v-if="isEditing"
         @blur="saveTaskListName"
       />
@@ -33,6 +33,8 @@
             :move="onMove"
             @end="onEnd(colData.id)"
             @remove="removeFlicker"
+            :v-bind:col="items"
+            @change="items = $event"
           >
             <transition-group
               type="transition"
@@ -58,14 +60,9 @@
         </a>
       </div>
     </div>
-    <Popup
-      :id="'popup_' + this.list.id"
-      :title="this.list.name"
-      :text="this.list.description"
-    />
     <EditColumnPopup
-      :id="'edit-popup-' + this.list.id"
-      :title="'Edit Column ' + this.list.name"
+      :id="editColumnPopupId"
+      :title="'Edit Column ' + list.name"
       :data="colData"
       @save="editColumn"
     /><!--`type-${type}`-->
@@ -77,10 +74,9 @@ import draggable from "vuedraggable";
 import TaskItem from "@/components/TaskItem.vue";
 import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
 import Task from "@/models/Task";
-import Popup from "@/components/popups/Popup.vue";
 import EditColumnPopup from "@/components/popups/EditColumnPopup.vue";
 import KanbanColumn from "@/classes/KanbanColumn";
-import {mapActions} from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "TaskList",
@@ -88,7 +84,6 @@ export default {
     TaskItem,
     draggable,
     TaskItemTemplate,
-    Popup,
     EditColumnPopup,
   },
   props: ["board", "list"],
@@ -102,10 +97,12 @@ export default {
       taskId: "",
       fromColumnId: "",
       toColumnId: "",
+      editColumnPopupId: "edit-popup" + this.list.id,
       // taskListName: this.list.name,
     };
   },
   computed: {
+    ...mapGetters({ newIndex: "getItemNewIndex" }),
     dragOptions() {
       return {
         animation: "200",
@@ -119,9 +116,13 @@ export default {
       get(): Task[] {
         return Task.query().where("column_id", this.list.id).get();
       },
-      set(value: Task[]): void {
-        console.log("set-computed: ", value);
-        // this.$store.commit("updateItems", value);
+      set(value): void {
+        // 'added' and 'removed' are present on dnd to other columns, 'moved' within column
+        if (value.moved) {
+          this.$store.commit("dragInColumn", value.moved);
+        } else if (value.added) {
+          this.$store.commit("setItemNewIndex", value.added.newIndex);
+        }
       },
     },
     colData(): KanbanColumn {
@@ -152,7 +153,7 @@ export default {
       });
     },
     openPopup(): void {
-      this.$bvModal.show("edit-popup-" + this.list.id);
+      this.$bvModal.show(this.editColumnPopupId);
     },
     showToast(): void {
       this.$store.dispatch("successToaster", {
@@ -161,22 +162,20 @@ export default {
       });
     },
     editColumn(e: KanbanColumn): void {
-      console.log("asdasdasdadasd", e);
+      console.log("TaskList edit", e);
     },
     onMove({ relatedContext, draggedContext }): void {
-      // console.log("taskid", draggedContext.element.id);
       this.taskId = draggedContext?.element?.id;
-      // console.log("drag", relatedContext.component.$attrs.colId);
       this.toColumnId = relatedContext?.component?.$attrs?.colId;
     },
     onEnd(id: string): void {
-      // console.log("target", id);
       this.fromColumnId = id;
       if (this.taskId && this.fromColumnId && this.fromColumnId !== this.toColumnId) {
         this.dragEvent({
           taskId: this.taskId,
           fromColumnId: this.fromColumnId,
           toColumnId: this.toColumnId,
+          itemNewIndex: this.newIndex,
         });
       }
     },
@@ -197,10 +196,10 @@ export default {
     toggleTemplate(): void {
       this.showTemplate = !this.showTemplate;
     },
-    hideTemplate() {
+    hideTemplate(): void {
       this.showTemplate = false;
     },
-    itemEditing() {
+    itemEditing(): void {
       this.isEditing = true;
     },
   },

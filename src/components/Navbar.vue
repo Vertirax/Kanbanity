@@ -1,10 +1,13 @@
 <template>
   <div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-gradient-primary-custom">
+    <nav
+      class="navbar navbar-expand-lg"
+      :class="toggleDarkMode ? 'bg-dark-mode navbar-dark' : 'bg-gradient-primary-custom'"
+    >
       <div class="container-fluid">
         <router-link to="/">
           <b-button variant="default" class="btn mr-3">
-            <b-icon-columns-gap/>
+            <b-icon-columns-gap />
             Dashboard
           </b-button>
         </router-link>
@@ -55,21 +58,14 @@
         </div>
       </div>
     </nav>
-    <!--<NewBoardPopup />
-    <TeamPopup />-->
   </div>
 </template>
 <script lang="ts">
 import Board from "@/models/Board";
-import Task from "@/models/Task";
-import Column from "@/models/KanbanColumn";
 
 export default {
   name: "Navbar",
-  components: {
-    /*NewBoardPopup,
-    TeamPopup,*/
-  },
+  components: {},
   props: ["buttonType", "currentBoard"],
   data() {
     return {
@@ -98,9 +94,6 @@ export default {
     },
     addNewList() {
       this.$emit("addNewList");
-    },
-    openTeamPopoup(e: any) {
-      // e.preventDefault();
     },
   },
 };

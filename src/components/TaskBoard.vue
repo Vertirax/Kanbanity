@@ -28,14 +28,14 @@
           <TaskList
             v-for="(listItem, index) in lists"
             :key="index"
-            :board="getBoard"
+            :board="currentBoardId"
             :list="listItem"
           ></TaskList>
         </draggable>
       </div>
     </div>
     <NewColumnPopup
-      :id="'new-column-' + currentBoardId"
+      :id="newColumnPopupId"
       @save="addNewList"
     />
   </div>
@@ -60,17 +60,17 @@ export default {
   },
   data() {
     return {
+      newColumnPopupId: "new-column-" + this.currentBoardId,
       projectName: "",
       projectDescription: "",
     };
   },
   computed: {
     ...mapState(["columns", "tasks", "boardName"]),
+    ...mapGetters({ currentBoardId: "getCurrentBoardId" }),
     lists: {
       get(): Column[] {
-        return Column.query()
-          .where("board_id", this.$store.state.currentBoardId)
-          .get();
+        return Column.query().where("board_id", this.currentBoardId).get();
       },
       set(value: Column[]): void {
         // column ordering
@@ -85,33 +85,9 @@ export default {
         group: "kanban-board-lists",
       };
     },
-    currentBoardId(): string {
-      return this.$route.params.currentBoardId;
-    },
-  /*
-    ...mapGetters({
-      boards: "allBoards",
-      isLoading: "isLoading",
-    }),*/
-    getBoardName() {
-      return "name constant";
-      /*let that = this;
-      this.boards.find(function(b) {
-        if (b.id === that.param) {
-          that.currentBoard = b;
-          that.projectName = b.name;
-          that.projectDescription = b.description;
-        }
-      });
-      return this.projectName;*/
-    },
-
     shouldAllowListOrder() {
       return true;
       // return this.isDesktop || this.isTablet;
-    },
-    getBoard() {
-      return this.$store.state.currentBoardId;
     },
   },
   methods: {
@@ -121,12 +97,12 @@ export default {
       saveTaskBoard: "saveTaskBoard",
     }),*/
     openNewListPopup(): void {
-      this.$bvModal.show("new-column-" + this.$store.state.currentBoardId);
+      this.$bvModal.show(this.newColumnPopupId);
     },
     addNewList(payload: KanbanColumn): void {
       Column.insert({
         data: {
-          board_id: this.$store.state.currentBoardId,
+          board_id: this.currentBoardId,
           name: payload.title,
           description: payload.description,
         },

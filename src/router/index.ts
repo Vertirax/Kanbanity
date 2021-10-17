@@ -18,6 +18,7 @@ const routes: Array<RouteConfig> = [
       return import("@/components/TaskBoard.vue");
     },
   },
+  { path: "*", redirect: "/" },
 ];
 
 const router = new VueRouter({

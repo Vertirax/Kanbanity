@@ -8,6 +8,7 @@ import createPersistedState from "vuex-persistedstate";
 import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
 import ToastStorage from "@/store/modules/toast-storage";
+import DragAndDropStorage from "@/store/modules/drag-and-drop-storage";
 import Board from "@/models/Board";
 
 Vue.use(Vuex);
@@ -40,53 +41,6 @@ export default new Vuex.Store({
     setCurrentBoardId(state, id) {
       state.currentBoardId = id;
     },
-    updateList(state, list) {
-      // TODO: replace logic with update.
-      const query = Column.query().where("board_id", list[0].board_id).get();
-      query.map((val) => val.$delete());
-      Column.insert({
-        data: list,
-      });
-    },
-    updateItems(state, items) {
-      // gets called between columns and in one column
-      /*Task.update({
-        where: (record) => {
-          return record.column_id === items[0].column_id;
-        },
-        data: [items],
-      });*/
-      //.then(() => console.log(Task.query().where("column_id", items[0].column_id).get()));*/
-
-      // TODO: replace logic with update.
-      const query = Task.query().where("column_id", items[0].column_id).get();
-      query.map((val) => val.$delete());
-      Task.insert({
-        data: items,
-      });
-    },
-    updateTask(state, payload) {
-      /*Task.update({
-        where: payload.taskId,
-        data: { column_id: payload.toColumnId },
-      });
-      Task.update({
-        where: (task) => { return task.id === payload.taskId; },
-        data: { column_id: payload.toColumnId },
-      });*/
-      // TODO: replace logic with update.
-      const task = Task.find(payload.taskId);
-      Task.insert({
-        data: {
-          column_id: payload.toColumnId,
-          board_id: task.board_id,
-          name: task.name,
-          description: task.description,
-          priority: task.priority,
-        },
-      });
-      Task.delete(payload.taskId);
-    },
     renameTask(state, payload) {
       Task.update({
         where: (task) => { return task.id === payload.id; },
@@ -94,21 +48,53 @@ export default new Vuex.Store({
       });
     },
     deleteBoard(state, payload) {
-      const taskQuery = Task.query().where("board_id", payload.boardId).get();
-      const columnQuery = Column.query().where("board_id", payload.boardId).get();
-      taskQuery.map((val) => val.$delete());
-      columnQuery.map((val) => val.$delete());
-
+      Task.query()
+        .where("board_id", payload.boardId)
+        .get()
+        .forEach((val) => val.$delete());
+      Column.query()
+        .where("board_id", payload.boardId)
+        .get()
+        .forEach((val) => val.$delete());
       Board.delete(payload.boardId);
     },
     deleteColumn(state, payload) {
-      const query = Task.query().where("column_id", payload.colId).get();
-      query.map((val) => val.$delete());
-
+      Task.query()
+        .where("column_id", payload.colId)
+        .get()
+        .forEach((val) => val.$delete());
       Column.delete(payload.colId);
     },
     deleteTask(state, payload) {
       Task.delete(payload.taskId);
+    },
+    initData() {
+      if (Board.all().length === 0) {
+        Board.insert({
+          data: [
+            {
+              name: "Board #1",
+              description: "desc #1",
+              createdDateString: new Date().toLocaleDateString(),
+            },
+            {
+              name: "Board #2",
+              description: "desc #2",
+              createdDateString: new Date().toLocaleDateString(),
+            },
+          ],
+        }).then((data) => {
+          const cols = ["To Do", "In Progress", "Done", "Review"];
+          cols.forEach((colName) =>
+            Column.insert({
+              data: {
+                board_id: data.boards[0].id,
+                name: colName,
+              },
+            })
+          );
+        });
+      }
     },
   },
   actions: {
@@ -131,14 +117,12 @@ export default new Vuex.Store({
       // console.log(find(this.state.boards, { id: this.state.currentBoardId }));
       // this.state.boards.find()
     },
-    dragTask({ commit }, payload) {
-      commit("updateTask", payload);
-    },
   },
   getters: {
     getCurrentBoardId: (state) => state.currentBoardId,
   },
   modules: {
     ToastStorage,
+    DragAndDropStorage,
   },
 });

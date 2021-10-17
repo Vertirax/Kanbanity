@@ -2,23 +2,17 @@
   <Popup
     :id="id"
     :title="title"
-    okTitle="Save"
     @save="save"
   >
     <template v-slot:default>
       <InputField
-        class="my-2 py-1"
         title="Title"
-        v-model="data.title"
+        :v-model="data.title"
       />
       <InputField
-        class="my-2 py-1"
         title="Description"
         v-model="data.description"
       />
-      <!--
-      <b-form-input v-model="data.title" />
-      <b-form-input v-model="data.description" />-->
     </template>
   </Popup>
 </template>
@@ -47,7 +41,7 @@ export default {
 
   methods: {
     save(): void {
-      console.log(this.colData);
+      console.log(this.id, this.data.title, this.data.description);
       this.$emit("save", new KanbanColumn(this.id, this.data.title, this.data.description));
     },
   },

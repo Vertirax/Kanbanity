@@ -18,7 +18,7 @@ export default {
     // data: {},
     id: { type: String, required: true },
     title: { type: String, required: true },
-    okTitle: { type: String, default: "OK" },
+    okTitle: { type: String, default: "Save" },
   },
   methods: {
     save(): void {

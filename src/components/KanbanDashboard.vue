@@ -73,7 +73,7 @@
 <script lang="ts">
 import { mapGetters, mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
-import Boards from "@/models/Board";
+import Board from "@/models/Board";
 import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
 
@@ -96,7 +96,7 @@ export default {
       // archivedBoards: "archivedBoards",
     }),
     boards() {
-      return Boards.all();
+      return Board.all();
     },
     // ...mapState(["boards"]),
   },
