@@ -5,14 +5,27 @@
     @save="save"
   >
     <template v-slot:default>
-      <InputField
+      <label :for="'input-title-' + id" class="text-secondary small mb-1">
+        Title
+      </label>
+      <b-form-input
+        :id="'input-title-' + id"
         title="Title"
-        :v-model="data.title"
+        v-model="data.title"
+        autofocus
       />
-      <InputField
+      <label :for="'input-desc-' + id" class="text-secondary small mb-1">
+        Description
+      </label>
+      <b-form-input
+        :id="'input-desc-' + id"
         title="Description"
         v-model="data.description"
       />
+      <!--<InputField
+        title="Description"
+        v-model="data.description"
+      />-->
     </template>
   </Popup>
 </template>
@@ -20,12 +33,10 @@
 <script lang="ts">
 import Popup from "@/components/popups/Popup.vue";
 import KanbanColumn from "@/classes/KanbanColumn";
-import InputField from "@/components/form/InputField.vue";
 
 export default {
   name: "EditColumnPopup",
   components: {
-    InputField,
     Popup,
   },
   props: {
@@ -35,14 +46,14 @@ export default {
   },
   data() {
     return {
-      //popupId: "edit-popup",
+      listName: "",
+      listDescription: "",
     };
   },
 
   methods: {
     save(): void {
-      console.log(this.id, this.data.title, this.data.description);
-      this.$emit("save", new KanbanColumn(this.id, this.data.title, this.data.description));
+      this.$emit("save", new KanbanColumn(this.data.id, this.data.title, this.data.description));
     },
   },
 };

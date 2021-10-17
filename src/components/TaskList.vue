@@ -9,7 +9,7 @@
         @blur="saveTaskListName"
       />
       <div class="board-header">
-        <p class="board-name" v-if="!isEditing">{{ list.name }}</p>
+        <p class="board-name mx-1" v-if="!isEditing">{{ list.name }}</p>
         <!--<b-icon-info-circle v-b-tooltip variant="info" class="h5" :title="list.description"></b-icon-info-circle>-->
         <div>
           <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
@@ -162,7 +162,9 @@ export default {
       });
     },
     editColumn(e: KanbanColumn): void {
-      console.log("TaskList edit", e);
+      if (e.title !== "") {
+        this.$store.dispatch("editColumn", e);
+      }
     },
     onMove({ relatedContext, draggedContext }): void {
       this.taskId = draggedContext?.element?.id;

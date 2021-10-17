@@ -14,17 +14,34 @@
               <div
                 class="task-priority"
                 :class="item.priority"
-                @click="changePriority"
-              >{{ item.priority }} Priority</div>
+              >
+                {{ item.priority }} Priority
+              </div>
             </template>
-
-            <b-dropdown-item-button button-class="task-priority Low my-1">Low Priority</b-dropdown-item-button>
-            <b-dropdown-item-button button-class="task-priority High">High Priority</b-dropdown-item-button>
+            <b-dropdown-item-button
+              button-class="task-priority Low"
+              @click="changePriority(lowPriority)"
+            >
+              Low Priority
+            </b-dropdown-item-button>
+            <b-dropdown-item-button button-class="task-priority Medium my-half" @click="changePriority(mediumPriority)">Medium Priority</b-dropdown-item-button>
+            <b-dropdown-item-button button-class="task-priority High" @click="changePriority(highPriority)">High Priority</b-dropdown-item-button>
           </b-dropdown>
         </div>
         <div class="task-item-body">
+          <b-textarea
+            class="task-title"
+            :class="editMode ? 'cursor-text' : 'overflow-hidden'"
+            :id="'textarea-' + item.id"
+            type="text"
+            no-resize
+            rows="2"
+            max-rows="6"
+            :plaintext="!editMode"
+            v-model="item.name"
+          />
           <!--<InputField class="task-title" :data="this.item.name" :disabled="!editMode"></InputField>-->
-          <TextArea
+          <!--<TextArea
             class="task-title"
             :data="this.item.name"
             :plainText="!editMode"
@@ -32,7 +49,7 @@
             rows="1"
             max-rows="5"
             @update="saveTaskNameTemp"
-          ></TextArea>
+          ></TextArea>-->
           <!--<p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
           <-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
         </div>
@@ -42,7 +59,7 @@
       <div v-if="showIcons" class="col-1 pl-3">
         <b-button type="button" variant="default" class="btn-sm my-1" @click="copyTaskName"><b-icon-clipboard/></b-button>
         <b-button type="button" variant="default" class="btn-sm my-1" @click="toggleEdit">
-          <b-icon-pencil-fill v-if="editMode" @click="saveTaskName"/>
+          <b-icon-pencil-fill v-if="editMode" @click="saveTaskName" />
           <b-icon-pencil v-else />
         </b-button>
         <b-button type="button" variant="default" class="btn-sm my-1" @click="deleteTask"><b-icon-trash/></b-button>
@@ -52,24 +69,21 @@
 </template>
 
 <script lang="ts">
-import TaskDetailPopup from "@/components/popups/TaskDetailPopup.vue";
-import TextArea from "@/components/form/TextArea.vue";
+import { Priority } from "@/enums/Priorities";
 
 export default {
   name: "TaskItem",
   props: ["item", "list", "board"],
-  components: {
-    TextArea,
-    // eslint-disable-next-line vue/no-unused-components
-    TaskDetailPopup,
-  },
+  components: {},
   data() {
     return {
       showTaskPriorityDropdown: false,
       showTaskPriority: true,
       showIcons: false,
       editMode: false,
-      updatedTaskNameTemp: "",
+      lowPriority: Priority.LOW_PRIORITY,
+      mediumPriority: Priority.MEDIUM_PRIORITY,
+      highPriority: Priority.HIGH_PRIORITY,
     };
   },
   watch: {},
@@ -99,26 +113,17 @@ export default {
     saveTaskName(): void {
       this.$store.dispatch("changeTaskName", {
         id: this.item.id,
-        name: this.updatedTaskNameTemp,
+        name: this.item.name,
       });
-    },
-    saveTaskNameTemp(name): void {
-      this.updatedTaskNameTemp = name;
     },
     deleteTask(): void {
       this.$emit("deleteTask", this.item.id);
     },
-    changePriority() {
-      /*this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
-      this.showTaskPriority = !this.showTaskPriority;
-      this.$nextTick(() => {
-        const input = this.$refs.vueDropdown.$el.querySelector("input");
-        input.focus();
-      });*/
-    },
-    setNewPriority(e) {
-      // this.showTaskPriorityDropdown = !this.showTaskPriorityDropdown;
-      // this.showTaskPriority = !this.showTaskPriority;
+    changePriority(priority: string): void {
+      this.$store.dispatch("changePriority", {
+        id: this.item.id,
+        priority: priority,
+      });
     },
     openTaskDetailPopoup(item: any) {
       // console.log("clicked");

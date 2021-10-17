@@ -5,11 +5,20 @@
     @save="save"
   >
     <template v-slot:default>
-      <InputField
+      <label :for="'input-title-' + id" class="text-secondary small mb-1">
+        Title
+      </label>
+      <b-form-input
+        :id="'input-title-' + id"
         title="Title"
         v-model="title"
+        autofocus
       />
-      <InputField
+      <label :for="'input-desc-' + id" class="text-secondary small mb-1">
+        Description
+      </label>
+      <b-form-input
+        :id="'input-desc-' + id"
         title="Description"
         v-model="description"
       />
@@ -23,12 +32,10 @@
 <script lang="ts">
 import Popup from "@/components/popups/Popup.vue";
 import KanbanColumn from "@/classes/KanbanColumn";
-import InputField from "@/components/form/InputField.vue";
 
 export default {
   name: "NewColumnPopup",
   components: {
-    InputField,
     Popup,
   },
   props: {

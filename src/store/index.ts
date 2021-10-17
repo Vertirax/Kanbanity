@@ -47,6 +47,12 @@ export default new Vuex.Store({
         data: { name: payload.name },
       });
     },
+    changePriority(state, payload) {
+      Task.update({
+        where: (task) => { return task.id === payload.id; },
+        data: { priority: payload.priority },
+      });
+    },
     deleteBoard(state, payload) {
       Task.query()
         .where("board_id", payload.boardId)
@@ -57,6 +63,15 @@ export default new Vuex.Store({
         .get()
         .forEach((val) => val.$delete());
       Board.delete(payload.boardId);
+    },
+    editColumn(state, payload) {
+      Column.update({
+        where: (col) => { return col.id === payload.id; },
+        data: {
+          name: payload.title,
+          description: payload.description,
+        },
+      });
     },
     deleteColumn(state, payload) {
       Task.query()
@@ -98,6 +113,9 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    editColumn({ commit }, payload) {
+      commit("editColumn", payload);
+    },
     deleteBoard({ commit }, payload) {
       commit("deleteBoard", payload);
     },
@@ -112,6 +130,9 @@ export default new Vuex.Store({
     },
     changeTaskName({ commit }, payload) {
       commit("renameTask", payload);
+    },
+    changePriority({ commit }, payload) {
+      commit("changePriority", payload);
     },
     saveTaskListItem() {
       // console.log(find(this.state.boards, { id: this.state.currentBoardId }));

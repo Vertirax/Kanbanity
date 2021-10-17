@@ -157,7 +157,7 @@ ul, li {
 }
 
 .task-item-body {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .task-item-body .task-title {
@@ -231,5 +231,14 @@ ul, li {
 
 .task-item-body .task-title:hover {
     text-decoration: underline;
-    cursor: pointer;
+    cursor: default;
+}
+
+.cursor-text {
+  cursor: text !important;
+}
+
+.my-half {
+  margin-bottom: 0.1rem !important;
+  margin-top: 0.1rem !important;
 }
