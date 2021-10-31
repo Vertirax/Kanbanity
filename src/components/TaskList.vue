@@ -55,8 +55,7 @@
       </div>
       <div class="board-footer">
         <a class="add-task-btn" @click="toggleTemplate">
-          Add task
-          <b-icon-plus />
+          Add task<b-icon-plus />
         </a>
       </div>
     </div>
@@ -132,9 +131,6 @@ export default {
         this.list.description
       );
     },
-    /*shouldAllowTaskItemsReorder() {
-      return this.isDesktop || this.isTablet;
-    },*/
   },
   methods: {
     ...mapActions({

@@ -164,8 +164,10 @@ ul, li {
     color: #8686a2;
     font-weight: 500;
     text-overflow: ellipsis;
-    white-space: break-spaces;
+    white-space: normal;
     overflow: hidden;
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 .task-item-footer, .assigned-users, .comments-attachments {
@@ -238,7 +240,6 @@ ul, li {
   cursor: text !important;
 }
 
-.my-half {
+.mb-half {
   margin-bottom: 0.1rem !important;
-  margin-top: 0.1rem !important;
 }

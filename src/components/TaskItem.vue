@@ -20,14 +20,14 @@
             </template>
             <b-dropdown-item-button
               v-if="item.priority !== lowPriority"
-              button-class="task-priority Low"
+              button-class="task-priority Low mb-half"
               @click="changePriority(lowPriority)"
             >
               Low Priority
             </b-dropdown-item-button>
             <b-dropdown-item-button
               v-if="item.priority !== mediumPriority"
-              button-class="task-priority Medium my-half"
+              button-class="task-priority Medium mb-half"
               @click="changePriority(mediumPriority)"
             >
               Medium Priority
@@ -69,7 +69,7 @@
       </div>
       <!--<div class="task-item-footer">
       </div>-->
-      <div v-if="showIcons" class="col-1 pl-3">
+      <div v-if="showIcons || editMode" class="col-1 pl-3">
         <b-button type="button" variant="default" class="btn-sm my-1" @click="copyTaskName"><b-icon-clipboard/></b-button>
         <b-button type="button" variant="default" class="btn-sm my-1" @click="toggleEdit">
           <b-icon-pencil-fill v-if="editMode" @click="saveTaskName" />
@@ -101,14 +101,6 @@ export default {
   },
   watch: {},
   methods: {
-    asd(): void {
-      /*Notification.requestPermission().then(
-        new Notification("Title", {
-          icon: "https://cdn.onlinewebfonts.com/svg/img_2382.png",
-          body: "Noti body",
-        })
-      );*/
-    },
     toggleShowIcons(): void {
       this.showIcons = !this.showIcons;
     },
@@ -137,10 +129,6 @@ export default {
         id: this.item.id,
         priority: priority,
       });
-    },
-    openTaskDetailPopoup(item: any) {
-      // console.log("clicked");
-      //Bus.$emit("open-task-detail-popup", item);
     },
   },
 };
