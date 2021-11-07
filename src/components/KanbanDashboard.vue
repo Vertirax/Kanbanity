@@ -2,7 +2,7 @@
   <div class="main-wrapper">
     <Navbar buttonType="dashboard" />
     <div class="container-fluid main-container">
-      <div class="row equal my-3 mx-2" style="position: relative; z-index: unset">
+      <div class="row equal my-3 mx-2">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
           v-for="board in boards"
@@ -39,11 +39,13 @@
               <div class="card-footer bg-transparent">
                 <div class="details-wrapper">
                   <div class="board-info">
-                    <!--<p class="card-text">Lists : {{ columnCount(board.id) }} | Items : {{ taskCount(board.id) }}</p>-->
-                    <p class="card-text"><b-icon-layout-sidebar-inset/> {{ columnCount(board.id) }} | <b-icon-list-task/> {{ taskCount(board.id) }}</p>
+                    <p class="card-text">
+                      <b-icon-layout-sidebar-inset title="Number of Columns" /> {{ columnCount(board.id) }} |
+                      <b-icon-list-task title="Number of Tasks" /> {{ taskCount(board.id) }}
+                    </p>
                   </div>
                   <div class="date">
-                    <p class="text-muted">{{ board.createdDateString }}</p>
+                    <p class="text-muted" title="Created Date">{{ board.createdDateString }}</p>
                   </div>
                 </div>
               </div>
@@ -84,21 +86,15 @@ export default {
   },
   data() {
     return {
-      // boards: {},
       colors: {
         hex: "#FF6900",
       },
     };
   },
   computed: {
-    ...mapGetters({
-      // unarchivedBoards: "unarchivedBoards",
-      // archivedBoards: "archivedBoards",
-    }),
     boards() {
       return Board.all();
     },
-    // ...mapState(["boards"]),
   },
   mounted() {
     this.setCurrentBoardId("");
@@ -129,10 +125,9 @@ export default {
 
 .row {
   position: relative;
-  z-index: 1;
 }
 .col-xs-12 {
-  z-index: 200;
+  // z-index: 200;
 }
 
 a:hover {

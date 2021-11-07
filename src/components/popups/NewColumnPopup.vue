@@ -11,7 +11,7 @@
       <b-form-input
         :id="'input-title-' + id"
         title="Title"
-        v-model="title"
+        v-model="column.title"
         autofocus
       />
       <label :for="'input-desc-' + id" class="text-secondary small mb-1">
@@ -20,7 +20,7 @@
       <b-form-input
         :id="'input-desc-' + id"
         title="Description"
-        v-model="description"
+        v-model="column.description"
       />
       <!--
       <b-form-input v-model="data.title" />
@@ -43,15 +43,17 @@ export default {
   },
   data() {
     return {
-      //popupId: "edit-popup",
-      title: "",
-      description: "",
+      column: new KanbanColumn(),
     };
   },
 
   methods: {
     save(): void {
-      this.$emit("save", new KanbanColumn("", this.title, this.description));
+      this.$emit("save", this.column);
+      this.clear();
+    },
+    clear(): void {
+      this.column = new KanbanColumn();
     },
   },
 };

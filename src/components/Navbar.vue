@@ -1,64 +1,55 @@
 <template>
-  <div>
-    <nav
-      class="navbar navbar-expand-lg"
-      :class="toggleDarkMode ? 'bg-dark-mode navbar-dark' : 'bg-gradient-primary-custom'"
-    >
-      <div class="container-fluid">
-        <router-link to="/">
-          <b-button variant="default" class="btn mr-3">
-            <b-icon-columns-gap />
-            Dashboard
-          </b-button>
-        </router-link>
-        <!--<input
-          type="text"
-          class="form-control search-task"
-          placeholder="Search for tasks.."
-        />-->
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbar-primary"
-          aria-controls="navbar-primary"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-primary">
-          <ul class="navbar-nav ml-lg-auto">
-            <li class="nav-item">
-              <b-form-checkbox class="nav-link px-3" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
-            </li>
-            <!--<li class="nav-item">
-              <b-button variant="default" class="btn mr-3 nav-link">
-                <b-icon-gear/>
-                Settings
-              </b-button>
-            </li>-->
-            <li class="nav-item add-board-link">
-              <b-button
-                v-if="this.$route.name === 'dashboard'"
-                variant="primary"
-                @click="addNewBoard"
-              >
-                New Board
-              </b-button>
-              <b-button
-                v-if="this.$route.name === 'task-board'"
-                variant="primary"
-                @click="addNewList"
-              >
-                New List
-              </b-button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  </div>
+  <b-navbar
+    :class="toggleDarkMode ? 'bg-dark-mode' : 'bg-gradient-primary-custom'"
+    toggleable="lg"
+    sticky
+  >
+    <router-link to="/">
+      <b-button variant="default" class="btn mr-3">
+        <b-icon-columns-gap />
+        Dashboard
+      </b-button>
+    </router-link>
+    <!--<input
+        type="text"
+        class="form-control search-task"
+        placeholder="Search for tasks.."
+      />-->
+    <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+    <b-collapse id="nav-collapse" is-nav>
+      <b-navbar-nav class="ml-auto">
+        <a class="nav-item my-auto">
+          <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
+        </a>
+        <b-nav-item>
+          <router-link to="/notifications">
+            <a class="nav-link">
+              Notifications
+            </a>
+          </router-link>
+        </b-nav-item>
+        <b-nav-item v-if="this.$route.name === 'dashboard'">
+          <b-button variant="primary" @click="addNewBoard">New Board</b-button>
+        </b-nav-item>
+        <b-nav-item v-if="this.$route.name === 'task-board'">
+          <b-button variant="primary" @click="addNewList">New List</b-button>
+        </b-nav-item>
+        <b-nav-item v-if="this.$route.name === 'notifications'">
+          <b-button variant="primary" @click="addNewNotification">New Notification</b-button>
+        </b-nav-item>
+
+        <!--
+        <li class="nav-item">
+            <b-button variant="default" class="btn mr-3 nav-link">
+              <b-icon-gear/>
+              Settings
+            </b-button>
+          </li>
+        -->
+      </b-navbar-nav>
+    </b-collapse>
+  </b-navbar>
 </template>
 <script lang="ts">
 import Board from "@/models/Board";
@@ -67,11 +58,6 @@ export default {
   name: "Navbar",
   components: {},
   props: ["buttonType", "currentBoard"],
-  data() {
-    return {
-      // navBtnType: this.buttonType,
-    };
-  },
   computed: {
     toggleDarkMode: {
       get() {
@@ -92,8 +78,11 @@ export default {
         },
       });
     },
-    addNewList() {
+    addNewList(): void {
       this.$emit("addNewList");
+    },
+    addNewNotification(): void {
+      this.$emit("addNewNotification");
     },
   },
 };
@@ -104,10 +93,9 @@ export default {
   align-items: center;
 }
 .navbar {
-  position: fixed;
   width: 100%;
-  height: 70px;
-  z-index: 100;
+  min-height: 70px;
+  height: auto;
 }
 .search-task::placeholder {
   color: #e8e8e8;

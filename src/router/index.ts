@@ -18,6 +18,13 @@ const routes: Array<RouteConfig> = [
       return import("@/components/TaskBoard.vue");
     },
   },
+  {
+    path: "/notifications",
+    name: "notifications",
+    component: () => {
+      return import("@/components/Notifications.vue");
+    },
+  },
   { path: "*", redirect: "/" },
 ];
 

@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 100%">
+  <div class="h-100">
     <Navbar buttonType="taskboard" @addNewList="openNewListPopup" />
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
@@ -99,6 +99,7 @@ export default {
     openNewListPopup(): void {
       this.$bvModal.show(this.newColumnPopupId);
     },
+    // TODO: storage
     addNewList(payload: KanbanColumn): void {
       Column.insert({
         data: {

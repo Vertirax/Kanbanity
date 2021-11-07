@@ -9,6 +9,7 @@ import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
 import ToastStorage from "@/store/modules/toast-storage";
 import DragAndDropStorage from "@/store/modules/drag-and-drop-storage";
+import NotificationStorage from "@/store/modules/notification-storage";
 import Board from "@/models/Board";
 
 Vue.use(Vuex);
@@ -145,5 +146,6 @@ export default new Vuex.Store({
   modules: {
     ToastStorage,
     DragAndDropStorage,
+    NotificationStorage,
   },
 });

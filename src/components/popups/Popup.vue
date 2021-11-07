@@ -7,6 +7,9 @@
       @ok="save"
     >
       <slot name="default"></slot>
+      <template #modal-footer>
+        <slot name="footer"></slot>
+      </template>
     </b-modal>
   </div>
 </template>
@@ -15,7 +18,6 @@
 export default {
   name: "Popup",
   props: {
-    // data: {},
     id: { type: String, required: true },
     title: { type: String, required: true },
     okTitle: { type: String, default: "Save" },

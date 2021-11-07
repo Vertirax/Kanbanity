@@ -33,7 +33,7 @@
 <script lang="ts">
 import Popup from "@/components/popups/Popup.vue";
 import KanbanColumn from "@/classes/KanbanColumn";
-
+// TODO: merge with newColPopup
 export default {
   name: "EditColumnPopup",
   components: {
@@ -50,10 +50,9 @@ export default {
       listDescription: "",
     };
   },
-
   methods: {
     save(): void {
-      this.$emit("save", new KanbanColumn(this.data.id, this.data.title, this.data.description));
+      this.$emit("save", this.data);
     },
   },
 };
