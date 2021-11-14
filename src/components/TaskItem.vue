@@ -134,17 +134,17 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-::v-deep .btn {
+/deep/ .btn {
   padding: 0;
 
   .disabled {
     opacity: 1;
   }
 }
-::v-deep .disabled {
+/deep/ .disabled {
   opacity: 1;
 }
-::v-deep .dropdown-menu {
+/deep/ .dropdown-menu {
   padding: 0;
   border: none;
   text-align: center;

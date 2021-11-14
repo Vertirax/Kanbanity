@@ -11,6 +11,7 @@ import ToastStorage from "@/store/modules/toast-storage";
 import DragAndDropStorage from "@/store/modules/drag-and-drop-storage";
 import NotificationStorage from "@/store/modules/notification-storage";
 import Board from "@/models/Board";
+import KanbanDashboard from "@/classes/Board";
 
 Vue.use(Vuex);
 
@@ -22,7 +23,7 @@ export default new Vuex.Store({
     }),
   ],
   state: {
-    currentBoardId: "",
+    currentBoard: KanbanDashboard,
     darkMode: true,
   },
   mutations: {
@@ -39,8 +40,12 @@ export default new Vuex.Store({
     toggleDarkMode(state) {
       state.darkMode = !state.darkMode;
     },
-    setCurrentBoardId(state, id) {
-      state.currentBoardId = id;
+    setCurrentBoard(state, board) {
+      state.currentBoard = new KanbanDashboard(
+        board.id,
+        board.name,
+        board.description
+      );
     },
     renameTask(state, payload) {
       Task.update({
@@ -65,6 +70,15 @@ export default new Vuex.Store({
         .forEach((val) => val.$delete());
       Board.delete(payload.boardId);
     },
+    saveColumn(state, payload) {
+      Column.insert({
+        data: {
+          board_id: state.currentBoard.id,
+          name: payload.title,
+          description: payload.description,
+        },
+      });
+    },
     editColumn(state, payload) {
       Column.update({
         where: (col) => { return col.id === payload.id; },
@@ -80,6 +94,15 @@ export default new Vuex.Store({
         .get()
         .forEach((val) => val.$delete());
       Column.delete(payload.colId);
+    },
+    saveTask(state, payload) {
+      Task.insert({
+        data: {
+          column_id: payload.column_id,
+          board_id: payload.board_id,
+          name: payload.name,
+        },
+      });
     },
     deleteTask(state, payload) {
       Task.delete(payload.taskId);
@@ -114,20 +137,23 @@ export default new Vuex.Store({
     },
   },
   actions: {
-    editColumn({ commit }, payload) {
-      commit("editColumn", payload);
+    toggleDarkMode({ commit }) {
+      commit("toggleDarkMode");
     },
     deleteBoard({ commit }, payload) {
       commit("deleteBoard", payload);
     },
+    saveColumn({ commit }, payload) {
+      commit("saveColumn", payload);
+    },
+    editColumn({ commit }, payload) {
+      commit("editColumn", payload);
+    },
     deleteColumn({ commit }, payload) {
       commit("deleteColumn", payload);
     },
-    deleteTask({ commit }, payload) {
-      commit("deleteTask", payload);
-    },
-    toggleDarkMode({ commit }) {
-      commit("toggleDarkMode");
+    saveTaskItem({ commit }, payload) {
+      commit("saveTask", payload);
     },
     changeTaskName({ commit }, payload) {
       commit("renameTask", payload);
@@ -135,13 +161,12 @@ export default new Vuex.Store({
     changePriority({ commit }, payload) {
       commit("changePriority", payload);
     },
-    saveTaskListItem() {
-      // console.log(find(this.state.boards, { id: this.state.currentBoardId }));
-      // this.state.boards.find()
+    deleteTask({ commit }, payload) {
+      commit("deleteTask", payload);
     },
   },
   getters: {
-    getCurrentBoardId: (state) => state.currentBoardId,
+    getCurrentBoard: (state) => state.currentBoard,
   },
   modules: {
     ToastStorage,

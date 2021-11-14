@@ -64,7 +64,7 @@
       :title="'Edit Column ' + list.name"
       :data="colData"
       @save="editColumn"
-    /><!--`type-${type}`-->
+    />
   </div>
 </template>
 
@@ -185,12 +185,6 @@ export default {
         });
       });
     },
-    /*
-    saveTaskListName(e){
-      this.list.name = e.target.value
-      // console.log('this.list.name', this.list.name);
-      this.isEditing = !this.isEditing
-    },*/
     toggleTemplate(): void {
       this.showTemplate = !this.showTemplate;
     },

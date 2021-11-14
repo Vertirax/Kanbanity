@@ -18,8 +18,8 @@
           :notification="notification"
         ></NotificationCard>
       </div>
+      <HelperImage v-if="notifications.length === 0" text="Add notifications to remember everything!" />
     </div>
-
     <NotificationPopup :id="popupId" @save="addNotification" />
   </div>
 </template>
@@ -29,6 +29,7 @@ import Navbar from "@/components/Navbar.vue";
 import NotificationCard from "@/components/NotificationCard.vue";
 import NotificationModel from "@/models/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
+import HelperImage from "@/components/HelperImage.vue";
 
 export default {
   name: "Notifications",
@@ -36,6 +37,7 @@ export default {
     Navbar,
     NotificationCard,
     NotificationPopup,
+    HelperImage,
   },
   data() {
     return {

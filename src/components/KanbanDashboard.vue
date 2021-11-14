@@ -1,8 +1,8 @@
 <template>
   <div class="main-wrapper">
-    <Navbar buttonType="dashboard" />
+    <Navbar />
     <div class="container-fluid main-container">
-      <div class="row equal my-3 mx-2">
+      <div class="equal my-3 mx-2" :class="boards.length > 0 ? 'row' : ''">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
           v-for="board in boards"
@@ -10,15 +10,8 @@
         >
           <router-link
             class="project-card"
-            :to="{
-              name: 'task-board',
-              params: {
-                currentBoardId: board.id,
-                boardName: board.name,
-                boardDescription: board.description,
-              },
-            }"
-            @click.native="setCurrentBoardId(board.id)"
+            to="task-board"
+            @click.native="setCurrentBoard(board)"
           >
             <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
               <div class="card-body">
@@ -52,6 +45,12 @@
             </div>
           </router-link>
         </div>
+        <HelperImage
+          v-if="boards.length === 0"
+          text="Add a board to start organising your work!"
+          width="350px"
+          height="350px"
+        />
       </div>
 
       <!--<Twitter v-model="colors" triangle="hide"></Twitter>-->
@@ -73,16 +72,19 @@
 </template>
 
 <script lang="ts">
-import { mapGetters, mapActions } from "vuex";
+import { mapActions } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Board from "@/models/Board";
 import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
+import HelperImage from "@/components/HelperImage.vue";
+import KanbanDashboard from "@/classes/Board";
 
 export default {
   name: "Dashboard",
   components: {
     Navbar,
+    HelperImage,
   },
   data() {
     return {
@@ -97,7 +99,7 @@ export default {
     },
   },
   mounted() {
-    this.setCurrentBoardId("");
+    this.setCurrentBoard(new KanbanDashboard());
   },
   methods: {
     ...mapActions({
@@ -105,8 +107,8 @@ export default {
       archiveTaskBoard: "archiveTaskBoard",
       restoreTaskBoard: "restoreTaskBoard",
     }),
-    setCurrentBoardId(id: string): void {
-      this.$store.commit("setCurrentBoardId", id);
+    setCurrentBoard(board): void {
+      this.$store.commit("setCurrentBoard", board);
     },
     deleteBoard(id: string): void {
       this.$store.dispatch("deleteBoard", { boardId: id });
@@ -122,7 +124,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .row {
   position: relative;
 }

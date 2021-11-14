@@ -18,7 +18,7 @@
         />
       </div>
       <div class="task-item-footer">
-        <b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>
+        <!--<b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>-->
         <!-- <div class="comments-attachments">
           <div class="comments">
             <i class="far fa-comment-alt"></i> 1
@@ -39,9 +39,6 @@
 </template>
 <script lang="ts">
 import { mapActions } from "vuex";
-import { nanoid } from "nanoid";
-import Task from "@/models/Task";
-import { Priority } from "@/enums/Priorities";
 
 export default {
   name: "TaskItemTemplate",
@@ -53,28 +50,21 @@ export default {
       taskName: "",
     };
   },
-  mounted() {
-    // this.$refs.taskTitle.focus();
-    // console.log("list ", this.list);
-  },
   methods: {
     ...mapActions({
-      saveTaskListItem: "saveTaskListItem",
+      saveTaskItem: "saveTaskItem",
     }),
-    saveItem() {
+    saveItem(): void {
       if (this.taskName != "") {
-        Task.insert({
-          data: {
-            column_id: this.list.id,
-            board_id: this.$store.state.currentBoardId,
-            name: this.taskName,
-            priority: Priority.MEDIUM_PRIORITY,
-          },
+        this.saveTaskItem({
+          column_id: this.list.id,
+          board_id: this.$store.state.currentBoard.id,
+          name: this.taskName,
         });
       }
       this.$emit("toggleTemplate");
     },
-    discardItem() {
+    discardItem(): void {
       this.$emit("discardItem");
     },
   },

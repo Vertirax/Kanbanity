@@ -57,7 +57,7 @@ import Board from "@/models/Board";
 export default {
   name: "Navbar",
   components: {},
-  props: ["buttonType", "currentBoard"],
+  props: ["currentBoard"],
   computed: {
     toggleDarkMode: {
       get() {
