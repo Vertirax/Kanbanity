@@ -3,22 +3,33 @@
     <Navbar @addNewList="openNewListPopup" />
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
-        <div class="board-details">
-          <div class="project-name mb-2">
+        <b-icon v-b-toggle.collapse :icon="isCollapsed ? 'chevron-down' : 'chevron-up'"/>
+        <b-collapse class="board-details pl-1" id="collapse" v-model="isCollapsed">
+          <div class="project-name mb-2 row">
             <b-input
               type="text"
               :value="currentBoard.name"
-              class="project-name-input form-control"
+              class="project-name-input col-6"
               disabled
             />
           </div>
-          <b-input
-            type="text"
-            :value="currentBoard.description"
-            class="project-desc-input form-control"
-            disabled
-          />
-        </div>
+          <div class="row">
+            <b-input
+              type="text"
+              :value="currentBoard.description"
+              class="project-desc-input col-6"
+              disabled
+            />
+          </div>
+          <div class="row">
+            <b-input
+              type="text"
+              :value="currentBoard.createdDateString"
+              class="project-desc-input col-6"
+              disabled
+            />
+          </div>
+        </b-collapse>
         <draggable
           v-if="lists"
           v-model="lists"
@@ -64,6 +75,7 @@ export default {
   data() {
     return {
       newColumnPopupId: "new-column-popup",
+      isCollapsed: true,
     };
   },
   computed: {

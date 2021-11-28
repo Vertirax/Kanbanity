@@ -3,6 +3,7 @@
     :id="id"
     :title="edit ? 'Edit Notification' : 'Add New Notification'"
     @save="save"
+    @hide="hide"
   >
     <template v-slot:default>
       <label :for="'input-title-' + id" class="text-secondary small mb-1">
@@ -95,17 +96,16 @@ export default {
       this.notification.hour = this.time.split(":")[0];
       this.notification.minute = this.time.split(":")[1];
       this.$emit(this.edit ? "change" : "save", this.notification);
-      this.hide();
-      if (!this.edit) {
-        this.clear();
-      }
     },
     clear(): void {
-      this.notification = new NotificationModel();
+      this.edit
+        ? (this.notification = { ...this.noti })
+        : (this.notification = new NotificationModel());
       this.time = "";
     },
     hide(): void {
       this.$bvModal.hide(this.id);
+      this.$nextTick(() => this.clear());
     },
   },
 };

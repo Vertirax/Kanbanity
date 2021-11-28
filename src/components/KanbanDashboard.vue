@@ -1,6 +1,6 @@
 <template>
   <div class="main-wrapper">
-    <Navbar />
+    <Navbar @addNewBoard="openPopup" />
     <div class="container-fluid main-container">
       <div class="equal my-3 mx-2" :class="boards.length > 0 ? 'row' : ''">
         <div
@@ -22,7 +22,7 @@
                       <template #button-content>
                         <b-icon-three-dots-vertical variant="dark" />
                       </template>
-                      <b-dropdown-item><b-icon-pencil-fill class="mr-3"/>Edit</b-dropdown-item>
+                      <b-dropdown-item @click="openPopup(board.id)"><b-icon-pencil-fill class="mr-3"/>Edit</b-dropdown-item>
                       <b-dropdown-item @click="deleteBoard(board.id)"><b-icon-trash-fill class="mr-3"/>Delete</b-dropdown-item>
                     </b-dropdown>
                   </div>
@@ -44,6 +44,7 @@
               </div>
             </div>
           </router-link>
+          <DashboardPopup :id="popupId + board.id" :dashboard="board" edit @change="editBoard"/>
         </div>
         <HelperImage
           v-if="boards.length === 0"
@@ -68,6 +69,7 @@
         </div>
       </div>-->
     </div>
+    <DashboardPopup :id="popupId" @save="saveBoard"/>
   </div>
 </template>
 
@@ -79,15 +81,18 @@ import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
 import HelperImage from "@/components/HelperImage.vue";
 import KanbanDashboard from "@/classes/Board";
+import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 
 export default {
   name: "Dashboard",
   components: {
     Navbar,
     HelperImage,
+    DashboardPopup,
   },
   data() {
     return {
+      popupId: "dashboard-popup",
       colors: {
         hex: "#FF6900",
       },
@@ -103,9 +108,6 @@ export default {
   },
   methods: {
     ...mapActions({
-      setActiveTaskBoard: "setActiveTaskBoard",
-      archiveTaskBoard: "archiveTaskBoard",
-      restoreTaskBoard: "restoreTaskBoard",
     }),
     setCurrentBoard(board): void {
       this.$store.commit("setCurrentBoard", board);
@@ -118,6 +120,15 @@ export default {
     },
     taskCount(boardId: string): number {
       return Task.query().where("board_id", boardId).count();
+    },
+    openPopup(id: string): void {
+      this.$bvModal.show(id ? this.popupId + id : this.popupId);
+    },
+    editBoard(board: KanbanDashboard): void {
+      this.$store.dispatch("editBoard", board);
+    },
+    saveBoard(board: KanbanDashboard): void {
+      this.$store.dispatch("saveBoard", board);
     },
   },
 };

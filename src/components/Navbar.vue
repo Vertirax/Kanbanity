@@ -69,14 +69,8 @@ export default {
     },
   },
   methods: {
-    addNewBoard(e: any): void {
-      Board.insert({
-        data: {
-          name: "New Board",
-          description: "description",
-          createdDateString: new Date().toLocaleDateString(),
-        },
-      });
+    addNewBoard(): void {
+      this.$emit("addNewBoard");
     },
     addNewList(): void {
       this.$emit("addNewList");

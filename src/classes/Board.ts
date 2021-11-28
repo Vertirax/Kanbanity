@@ -5,6 +5,7 @@ export default class Board {
     public id?: string,
     public name?: string,
     public description?: string,
+    public createdDateString?: string,
     public columns?: KanbanColumn[]
   ) {}
 }

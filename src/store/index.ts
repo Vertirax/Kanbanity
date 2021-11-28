@@ -44,7 +44,8 @@ export default new Vuex.Store({
       state.currentBoard = new KanbanDashboard(
         board.id,
         board.name,
-        board.description
+        board.description,
+        board.createdDateString
       );
     },
     renameTask(state, payload) {
@@ -57,6 +58,24 @@ export default new Vuex.Store({
       Task.update({
         where: (task) => { return task.id === payload.id; },
         data: { priority: payload.priority },
+      });
+    },
+    editBoard(state, payload) {
+      Board.update({
+        where: (board) => { return board.id === payload.id; },
+        data: {
+          name: payload.name,
+          description: payload.description,
+        },
+      });
+    },
+    saveBoard(state, payload) {
+      Board.insert({
+        data: {
+          name: payload.name,
+          description: payload.description,
+          createdDateString: new Date().toLocaleDateString(),
+        },
       });
     },
     deleteBoard(state, payload) {
@@ -139,6 +158,12 @@ export default new Vuex.Store({
   actions: {
     toggleDarkMode({ commit }) {
       commit("toggleDarkMode");
+    },
+    editBoard({ commit }, payload) {
+      commit("editBoard", payload);
+    },
+    saveBoard({ commit }, payload) {
+      commit("saveBoard", payload);
     },
     deleteBoard({ commit }, payload) {
       commit("deleteBoard", payload);
