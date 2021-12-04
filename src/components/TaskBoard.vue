@@ -3,7 +3,7 @@
     <Navbar @addNewList="openNewListPopup" />
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
-        <b-icon v-b-toggle.collapse :icon="isCollapsed ? 'chevron-down' : 'chevron-up'"/>
+        <b-icon v-b-toggle.collapse :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"/>
         <b-collapse class="board-details pl-1" id="collapse" v-model="isCollapsed">
           <div class="project-name mb-2 row">
             <b-input
@@ -79,7 +79,6 @@ export default {
     };
   },
   computed: {
-    ...mapState(["columns", "tasks", "boardName"]),
     ...mapGetters({ currentBoard: "getCurrentBoard" }),
     lists: {
       get(): Column[] {

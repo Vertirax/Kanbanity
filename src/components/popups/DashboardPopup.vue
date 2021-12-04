@@ -17,7 +17,7 @@
         required
       />
       <label :for="'input-description-' + id" class="text-secondary small mb-1">
-        Message
+        Description
       </label>
       <b-form-input
         :id="'input-description-' + id"

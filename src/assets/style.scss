@@ -61,41 +61,39 @@ ul, li {
     content: '';
     width: 100%;
     height: 4px;
-    background: linear-gradient(89deg, #c875e8 0, #dd6883 100%);
     position: absolute;
     margin-left: -15px;
     top: 0;
     border-radius: 5px 5px 0 0;
 }
 
-.task-board.todo-board:before {
+.task-board:before,
+.badge.general-list {
     background: linear-gradient(89deg, #c875e8 0, #dd6883 100%);
 }
 
-.task-board.inprogress-board:before {
-    background: linear-gradient(89deg, #feb143 0, #fe9279 100%);
-}
-
-.task-board.review-board:before {
-    background: linear-gradient(89deg, #8a92cc 0, #66aef7 100%);
-}
-
-.task-board.done-board:before {
-    background: linear-gradient(89deg, #75d2a8 0, #78d2ea 100%);
-}
-
+.badge[data-board-name="Todo"],
+.badge[data-board-name="To Do"],
+.task-board[data-board-name="To Do"]:before,
+.task-board.todo-board:before,
 .task-board[data-board-name="Todo"]:before {
-    background: linear-gradient(89deg, #c875e8 0, #dd6883 100%);
+    background: linear-gradient(89deg, #fcad02 0, #ff0000 100%);
 }
 
+.badge[data-board-name="In Progress"],
+.task-board.inprogress-board:before,
 .task-board[data-board-name="In Progress"]:before {
     background: linear-gradient(89deg, #feb143 0, #fe9279 100%);
 }
 
+.badge[data-board-name="Review"],
+.task-board.review-board:before,
 .task-board[data-board-name="Review"]:before {
     background: linear-gradient(89deg, #8a92cc 0, #66aef7 100%);
 }
 
+.badge[data-board-name="Done"],
+.task-board.done-board:before,
 .task-board[data-board-name="Done"]:before {
     background: linear-gradient(89deg, #75d2a8 0, #78d2ea 100%);
 }

@@ -25,6 +25,13 @@ const routes: Array<RouteConfig> = [
       return import("@/components/Notifications.vue");
     },
   },
+  {
+    path: "/preferences",
+    name: "preferences",
+    component: () => {
+      return import("@/components/preferences/Preferences.vue");
+    },
+  },
   { path: "*", redirect: "/" },
 ];
 

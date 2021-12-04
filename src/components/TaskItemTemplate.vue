@@ -1,6 +1,6 @@
 <template>
   <div>
-    <li class="task-item" @focusout="discardItem">
+    <li class="task-item" v-on-clickaway="discardItem">
       <div class="task-item-header">
         <!-- <div class="task-priority" :class="priority">{{priority}} Priority</div> -->
       </div>
@@ -18,7 +18,7 @@
         />
       </div>
       <div class="task-item-footer">
-        <!--<b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>-->
+        <b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>
         <!-- <div class="comments-attachments">
           <div class="comments">
             <i class="far fa-comment-alt"></i> 1
@@ -39,10 +39,14 @@
 </template>
 <script lang="ts">
 import { mapActions } from "vuex";
+import { directive as onClickaway } from "vue-clickaway2";
 
 export default {
   name: "TaskItemTemplate",
   props: ["list"],
+  directives: {
+    onClickaway: onClickaway,
+  },
   components: {},
   data() {
     return {

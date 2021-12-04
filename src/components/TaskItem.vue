@@ -83,10 +83,13 @@
 
 <script lang="ts">
 import { Priority } from "@/enums/Priorities";
+import Task from "@/models/Task";
 
 export default {
   name: "TaskItem",
-  props: ["item", "list", "board"],
+  props: {
+    item: { type: Task, required: true },
+  },
   components: {},
   data() {
     return {
