@@ -1,8 +1,7 @@
 import { Model } from "@vuex-orm/core";
 import { nanoid } from "nanoid";
-import BoardTemplate from "@/classes/BoardTemplate";
 
-export default class Notification extends Model {
+export default class Preferences extends Model {
   static entity = "preferences";
 
   static fields() {
@@ -10,7 +9,7 @@ export default class Notification extends Model {
       id: this.uid(() => nanoid(10)),
       ignoreNewBoardPopup: this.boolean(false),
 
-      templates: this.attr([BoardTemplate]),
+      // templates: this.attr(() => Array<BoardTemplate>()),
     };
   }
 }

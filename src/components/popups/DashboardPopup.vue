@@ -25,6 +25,24 @@
         v-model="board.description"
         required
       />
+      <b-dropdown
+        v-if="!edit"
+        :text="
+          selectedTemplate.name !== ''
+            ? selectedTemplate.name
+            : 'Select Template'
+        "
+        variant="default"
+        class="m-2"
+      >
+        <b-dropdown-item
+          v-for="template in templates"
+          :key="template.id"
+          @click="selectTemplate(template)"
+        >
+          {{ template.name }}
+        </b-dropdown-item>
+      </b-dropdown>
     </template>
   </Popup>
 </template>
@@ -32,6 +50,8 @@
 <script lang="ts">
 import Popup from "@/components/popups/Popup.vue";
 import Board from "@/classes/Board";
+import BoardTemplate from "@/models/BoardTemplate";
+import Template from "@/classes/BoardTemplate";
 
 export default {
   name: "DashboardPopup",
@@ -46,19 +66,27 @@ export default {
   data() {
     return {
       board: { ...this.dashboard },
+      selectedTemplate: new Template(),
     };
   },
-
   methods: {
     save(): void {
-      this.$emit(this.edit ? "change" : "save", this.board).then(() =>
-        this.$nextTick(() => this.clear())
-      );
+      this.$emit(this.edit ? "change" : "save", this.board, this.selectedTemplate);
+      this.clear();
     },
     clear(): void {
       this.edit
         ? (this.board = { ...this.dashboard })
         : (this.board = new Board());
+      this.selectedTemplate = new BoardTemplate();
+    },
+    selectTemplate(template: BoardTemplate): void {
+      this.selectedTemplate = template;
+    },
+  },
+  computed: {
+    templates(): BoardTemplate[] {
+      return BoardTemplate.all().filter((template) => template.name !== "");
     },
   },
 };

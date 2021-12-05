@@ -1,15 +1,17 @@
 <template>
-  <div class="">
-    <label v-if="title" :for="`input-${id}`" class="text-secondary small">
+  <div>
+    <label v-if="title" :for="id" class="text-secondary small mb-1">
       {{ title }}
     </label>
     <b-form-input
+      :class="disabled ? 'pl-2' : ''"
       :id="id"
       :type="type"
       :placeholder="placeholder"
       :state="state"
       :disabled="disabled"
-      v-model="value"
+      v-model="inputValue"
+      :required="required"
       @input="emitInput"
     />
   </div>
@@ -28,13 +30,14 @@ export default {
     title: { type: String },
     placeholder: { type: String },
     type: { type: String, default: "text" },
-    //value: { type: String, default: "keki" },
+    value: { type: String },
     state: { type: Boolean, default: null },
     disabled: { type: Boolean, default: false },
+    required: { type: Boolean, default: false },
   },
   data() {
     return {
-      value: "",
+      inputValue: this.value,
     };
   },
   computed: {
@@ -44,18 +47,15 @@ export default {
   },
   methods: {
     emitInput(): void {
-      this.$emit("input", this.value);
+      this.$emit("input", this.inputValue);
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-label {
-  margin-bottom: 0.25rem;
-}
 input:disabled {
-  background-color: inherit;
+  background-color: #f4f3f3;
   color: inherit;
   border: none;
   padding-left: 1px;

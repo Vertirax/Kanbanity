@@ -67,9 +67,10 @@
             </draggable>
           </div>
         </div>
-      </div>-->
+      </div>--
+      <div class="position-fixed"><b-button variant="light">Manage Templates</b-button></div>-->
     </div>
-    <DashboardPopup :id="popupId" @save="saveBoard"/>
+    <DashboardPopup :id="popupId" @save="saveBoard" />
   </div>
 </template>
 
@@ -82,6 +83,7 @@ import Column from "@/models/KanbanColumn";
 import HelperImage from "@/components/HelperImage.vue";
 import KanbanDashboard from "@/classes/Board";
 import DashboardPopup from "@/components/popups/DashboardPopup.vue";
+import BoardTemplate from "@/classes/BoardTemplate";
 
 export default {
   name: "Dashboard",
@@ -127,8 +129,8 @@ export default {
     editBoard(board: KanbanDashboard): void {
       this.$store.dispatch("editBoard", board);
     },
-    saveBoard(board: KanbanDashboard): void {
-      this.$store.dispatch("saveBoard", board);
+    saveBoard(board: KanbanDashboard, template: BoardTemplate): void {
+      this.$store.dispatch("saveBoard", { board, template });
     },
   },
 };

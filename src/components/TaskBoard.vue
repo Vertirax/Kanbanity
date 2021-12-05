@@ -13,7 +13,7 @@
               disabled
             />
           </div>
-          <div class="row">
+          <div class="row" v-if="currentBoard.description !== ''">
             <b-input
               type="text"
               :value="currentBoard.description"

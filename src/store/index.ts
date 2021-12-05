@@ -10,8 +10,10 @@ import Column from "@/models/KanbanColumn";
 import ToastStorage from "@/store/modules/toast-storage";
 import DragAndDropStorage from "@/store/modules/drag-and-drop-storage";
 import NotificationStorage from "@/store/modules/notification-storage";
+import PreferenceStorage from "@/store/modules/preferences-storage";
 import Board from "@/models/Board";
 import KanbanDashboard from "@/classes/Board";
+import Preferences from "@/models/Preferences";
 
 Vue.use(Vuex);
 
@@ -54,6 +56,27 @@ export default new Vuex.Store({
         data: { name: payload.name },
       });
     },
+    saveBoard(state, payload) {
+      Board.insert({
+        data: {
+          name: payload.board.name,
+          description: payload.board.description,
+          createdDateString: new Date().toLocaleDateString(),
+        },
+      }).then((response) => {
+        if (payload.template.name !== "") {
+          payload.template.columns.split(",").map((template) => {
+            template = template.trim();
+            Column.insert({
+              data: {
+                board_id: response.boards[0].id,
+                name: template,
+              },
+            });
+          });
+        }
+      });
+    },
     changePriority(state, payload) {
       Task.update({
         where: (task) => { return task.id === payload.id; },
@@ -66,15 +89,6 @@ export default new Vuex.Store({
         data: {
           name: payload.name,
           description: payload.description,
-        },
-      });
-    },
-    saveBoard(state, payload) {
-      Board.insert({
-        data: {
-          name: payload.name,
-          description: payload.description,
-          createdDateString: new Date().toLocaleDateString(),
         },
       });
     },
@@ -126,8 +140,18 @@ export default new Vuex.Store({
     deleteTask(state, payload) {
       Task.delete(payload.taskId);
     },
+    deleteAll({ dispatch }) {
+      Task.deleteAll();
+      Column.deleteAll();
+      Board.deleteAll().then(() => {
+        this.dispatch("successToaster", {
+          title: "Preferences",
+          message: "Successfully deleted all Board related data!",
+        });
+      });
+    },
     initData() {
-      if (Board.all().length === 0) {
+      if (Board.query().count() === 0) {
         Board.insert({
           data: [
             {
@@ -152,6 +176,10 @@ export default new Vuex.Store({
             })
           );
         });
+      }
+
+      if (Preferences.query().count() === 0) {
+        Preferences.new();
       }
     },
   },
@@ -197,5 +225,6 @@ export default new Vuex.Store({
     ToastStorage,
     DragAndDropStorage,
     NotificationStorage,
+    PreferenceStorage,
   },
 });

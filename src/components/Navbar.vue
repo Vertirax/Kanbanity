@@ -18,6 +18,12 @@
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
+      <router-link to="/preferences">
+        <b-button variant="default" class="btn mr-3">
+          <b-icon-sliders />
+          Preferences
+        </b-button>
+      </router-link>
       <b-navbar-nav class="ml-auto">
         <a class="nav-item my-auto">
           <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
@@ -52,7 +58,6 @@
   </b-navbar>
 </template>
 <script lang="ts">
-import Board from "@/models/Board";
 
 export default {
   name: "Navbar",

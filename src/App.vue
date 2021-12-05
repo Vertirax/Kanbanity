@@ -48,9 +48,7 @@ export default {
             notification.minute === date.getMinutes()
         )
         .get();
-      // console.log(notifications);
       notifications.forEach((notification) => {
-        // console.log(notification);
         // eslint-disable-next-line
         // @ts-ignore
         new Notification(notification.title, {

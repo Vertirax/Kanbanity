@@ -42,7 +42,6 @@ export default {
       targetColTasks.forEach((val) => val.$delete());
       Task.insert({ data: targetColTasks });
 
-      // console.log("upd", payload.itemNewIndex);
       // TODO: replace logic with update.
       /*const task = Task.find(payload.taskId);
       Task.insert({
