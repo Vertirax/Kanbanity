@@ -86,6 +86,8 @@ export default {
   },
   computed: {
     templates(): BoardTemplate[] {
+      // eslint-disable-next-line
+      // @ts-ignore
       return BoardTemplate.all().filter((template) => template.name !== "");
     },
   },
