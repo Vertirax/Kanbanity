@@ -13,6 +13,7 @@
       v-model="inputValue"
       :required="required"
       @input="emitInput"
+      @keyup.enter="emitEnter"
     />
   </div>
 </template>
@@ -48,6 +49,9 @@ export default {
   methods: {
     emitInput(): void {
       this.$emit("input", this.inputValue);
+    },
+    emitEnter(): void {
+      this.$emit("enterHit");
     },
   },
 };

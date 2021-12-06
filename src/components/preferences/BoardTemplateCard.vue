@@ -63,7 +63,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-  max-width: 48.5%;
-}
 </style>

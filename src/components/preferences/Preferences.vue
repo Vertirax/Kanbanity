@@ -26,4 +26,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card {
+  max-width: 48.5%;
+  min-height: 400px;
+}
 </style>

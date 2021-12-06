@@ -11,6 +11,7 @@
       <BadgeSequence
         class="mt-1"
         v-if="showBadges"
+        v-b-hover="showIconsTrue"
         :template-string="
           template.columns !== ''
             ? template.columns
@@ -25,6 +26,7 @@
         v-model="template.columns"
         placeholder="Add list names separated with comma..."
         v-on-clickaway="toggleBadges"
+        @enterHit="toggleBadges"
         :disabled="!edit"
       />
     </div>
@@ -77,11 +79,16 @@ export default {
     toggleBadges(): void {
       if (this.edit) {
         this.showBadges = !this.showBadges;
-        this.showIcons = false;
       }
+      this.showIconsTrue();
     },
     toggleShowIcons(): void {
-      this.showIcons = !this.showIcons;
+      if (this.showBadges) {
+        this.showIcons = !this.showIcons;
+      }
+    },
+    showIconsTrue(): void {
+      this.showIcons = true;
     },
     saveTemplate(): void {
       this.$store.dispatch("saveBoardTemplate", this.template);
