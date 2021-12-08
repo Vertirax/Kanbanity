@@ -30,10 +30,13 @@
         :text="
           selectedTemplate.name !== ''
             ? selectedTemplate.name
+            : !templates.length
+            ? 'No Template Available'
             : 'Select Template'
         "
+        :disabled="!templates.length"
         variant="default"
-        class="m-2"
+        class="mt-2"
       >
         <b-dropdown-item
           v-for="template in templates"
@@ -95,4 +98,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+/deep/ .dropdown-toggle {
+  padding-left: 0;
+}
 </style>
