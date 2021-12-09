@@ -6,32 +6,20 @@
     @hide="hide"
   >
     <template v-slot:default>
-      <label :for="'input-title-' + id" class="text-secondary small mb-1">
-        Title
-      </label>
-      <b-form-input
-        :id="'input-title-' + id"
-        title="Title"
+      <InputField
         v-model="notification.title"
+        title="Title"
         autofocus
         required
       />
-      <label :for="'input-mess-' + id" class="text-secondary small mb-1">
-        Message
-      </label>
-      <b-form-input
-        :id="'input-mess-' + id"
-        title="Message"
+      <InputField
         v-model="notification.message"
+        title="Message"
         required
       />
-      <label :for="'input-iconUrl-' + id" class="text-secondary small mb-1">
-        Icon URL
-      </label>
-      <b-form-input
-        :id="'input-iconUrl-' + id"
-        title="Icon URL"
+      <InputField
         v-model="notification.iconUrl"
+        title="Icon URL"
       />
       <label :for="'input-time-' + id" class="text-secondary small mb-1">
         Time
@@ -64,11 +52,13 @@
 <script lang="ts">
 import Popup from "@/components/popups/Popup.vue";
 import NotificationModel from "@/models/Notification";
+import InputField from "@/components/form/InputField.vue";
 
 export default {
   name: "NotificationPopup",
   components: {
     Popup,
+    InputField,
   },
   props: {
     id: { type: String, required: true },
@@ -86,8 +76,8 @@ export default {
         return this.notification.hour + ":" + this.notification.minute;
       },
       set(value: string): void {
-        this.notification.hour = value.split(":")[0];
-        this.notification.minute = value.split(":")[1];
+        this.notification.hour = value ? value.split(":")[0] : 0;
+        this.notification.minute = value ? value.split(":")[1] : 0;
       },
     },
   },
@@ -95,6 +85,7 @@ export default {
     save(): void {
       this.notification.hour = this.time.split(":")[0];
       this.notification.minute = this.time.split(":")[1];
+      this.hide();
       this.$emit(this.edit ? "change" : "save", this.notification);
     },
     clear(): void {

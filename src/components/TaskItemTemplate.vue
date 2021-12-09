@@ -7,12 +7,9 @@
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
         <label>Task name:</label>
-        <b-form-input
-          id="input"
-          type="text"
-          class="form-control"
-          ref="taskTitle"
+        <InputField
           v-model="taskName"
+          ref="taskTitle"
           autofocus
           @keyup.enter="saveItem"
         />
@@ -40,6 +37,7 @@
 <script lang="ts">
 import { mapActions } from "vuex";
 import { directive as onClickaway } from "vue-clickaway2";
+import InputField from "@/components/form/InputField.vue";
 
 export default {
   name: "TaskItemTemplate",
@@ -47,7 +45,9 @@ export default {
   directives: {
     onClickaway: onClickaway,
   },
-  components: {},
+  components: {
+    InputField,
+  },
   data() {
     return {
       priority: "Low",

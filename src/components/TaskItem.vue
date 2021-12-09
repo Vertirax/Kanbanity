@@ -1,6 +1,11 @@
 <template>
   <div>
-    <li class="task-item row mx-1 align-items-center" v-b-hover="toggleShowIcons" :class="editMode ? 'highlighted' : ''">
+    <li
+      class="task-item row mx-1 align-items-center"
+      v-b-hover="toggleShowIcons"
+      v-on-clickaway="clickAway"
+      :class="editMode ? 'highlighted' : ''"
+    >
       <div class="col-10">
         <div class="task-item-header">
           <b-dropdown
@@ -11,10 +16,7 @@
             :disabled="!editMode"
           >
             <template #button-content>
-              <div
-                class="task-priority"
-                :class="item.priority"
-              >
+              <div class="task-priority" :class="item.priority">
                 {{ item.priority }} Priority
               </div>
             </template>
@@ -84,13 +86,16 @@
 <script lang="ts">
 import { Priority } from "@/enums/Priorities";
 import Task from "@/models/Task";
+import { directive as onClickaway } from "vue-clickaway2";
 
 export default {
   name: "TaskItem",
   props: {
     item: { type: Task, required: true },
   },
-  components: {},
+  directives: {
+    onClickaway: onClickaway,
+  },
   data() {
     return {
       showTaskPriorityDropdown: false,
@@ -109,6 +114,10 @@ export default {
     },
     toggleEdit(): void {
       this.editMode = !this.editMode;
+    },
+    clickAway(): void {
+      this.editMode = false;
+      this.showIcons = false;
     },
     copyTaskName(): void {
       this.$copyText(this.item.name).then(() =>

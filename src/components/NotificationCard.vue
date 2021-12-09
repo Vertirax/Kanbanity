@@ -27,7 +27,7 @@
       Edit
     </b-button>
     <NotificationPopup
-      :id="'edit-notification-popup' + notification.id"
+      :id="'edit-notification-popup-' + notification.id"
       :noti="notification"
       @change="editNotification"
       @delete="deleteNotification"
@@ -50,12 +50,18 @@ export default {
   },
   computed: {
     time() {
-      return this.notification.hour + ":" + (this.notification.minute < 10 ? "0" + this.notification.minute: this.notification.minute);
+      return (
+        this.notification.hour +
+        ":" +
+        (this.notification.minute < 10
+          ? "0" + this.notification.minute
+          : this.notification.minute)
+      );
     },
   },
   methods: {
     openEditNotificationPopup(): void {
-      this.$bvModal.show("edit-notification-popup" + this.notification.id);
+      this.$bvModal.show("edit-notification-popup-" + this.notification.id);
     },
     editNotification(payload: Notification): void {
       this.$store.dispatch("editNotification", payload);

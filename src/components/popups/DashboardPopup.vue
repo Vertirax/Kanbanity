@@ -6,25 +6,8 @@
     @hide="clear"
   >
     <template v-slot:default>
-      <label :for="'input-title-' + id" class="text-secondary small mb-1">
-        Title
-      </label>
-      <b-form-input
-        :id="'input-title-' + id"
-        title="Title"
-        v-model="board.name"
-        autofocus
-        required
-      />
-      <label :for="'input-description-' + id" class="text-secondary small mb-1">
-        Description
-      </label>
-      <b-form-input
-        :id="'input-description-' + id"
-        title="Description"
-        v-model="board.description"
-        required
-      />
+      <InputField v-model="board.name" title="Title" autofocus required />
+      <InputField v-model="board.description" title="Description" required />
       <b-dropdown
         v-if="!edit"
         :text="
@@ -55,11 +38,13 @@ import Popup from "@/components/popups/Popup.vue";
 import Board from "@/classes/Board";
 import BoardTemplate from "@/models/BoardTemplate";
 import Template from "@/classes/BoardTemplate";
+import InputField from "@/components/form/InputField.vue";
 
 export default {
   name: "DashboardPopup",
   components: {
     Popup,
+    InputField,
   },
   props: {
     id: { type: String, required: true },

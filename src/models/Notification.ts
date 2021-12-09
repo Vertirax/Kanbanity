@@ -10,8 +10,8 @@ export default class Notification extends Model {
       title: this.string(""),
       message: this.string(""),
       iconUrl: this.string(""),
-      hour: this.number(null),
-      minute: this.number(null),
+      hour: this.number(0),
+      minute: this.number(0),
       active: this.boolean(true),
     };
   }

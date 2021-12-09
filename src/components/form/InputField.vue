@@ -5,12 +5,13 @@
     </label>
     <b-form-input
       :class="disabled ? 'pl-2' : ''"
+      v-model="inputValue"
       :id="id"
       :type="type"
       :placeholder="placeholder"
+      :autofocus="autofocus"
       :state="state"
       :disabled="disabled"
-      v-model="inputValue"
       :required="required"
       @input="emitInput"
       @keyup.enter="emitEnter"
@@ -35,6 +36,7 @@ export default {
     state: { type: Boolean, default: null },
     disabled: { type: Boolean, default: false },
     required: { type: Boolean, default: false },
+    autofocus: { type: Boolean, default: false },
   },
   data() {
     return {
