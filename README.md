@@ -1,20 +1,26 @@
-<<<<<<< HEAD
-# vue-kanban
+# Kanbanity
 
-## Kanban board Application built with [#Vue.js](https://github.com/vuejs/vue)
-> Some of the features
+## Kanban board Application built with [Vue.js 2](https://github.com/vuejs/vue)
+### Some of the features
 
-* Create project / board
-* Create lists in board 
+* Create boards
+* Create lists in board
 * Create items / tasks in list
 * Set task priority
-* Drag from one list to another
-* Add / Edit board name and description
-* Assign task to user 
+* Drag a task to another list, or drag a whole list to change its order
+* Add notifications
+* Manage preferences including board templates
+* You can do all this in dark mode! 🌙
 
+### Some technologies used include
 
-![alt text](https://raw.githubusercontent.com/ayazsayyed/vue-kanban/master/Kanban-UI.png)
+* Vuex with Vuex ORM
+* BootstrapVue
+* Typescript
 
+![Board Preview](Board-UI-darkmode.png)
+
+> As this is a frontend only application, all data is stored in LocalStorage in the user's browser
 
 ## Build Setup
 
@@ -28,10 +34,6 @@ npm run dev
 # build for production with minification
 npm run build
 ```
-
-For detailed explanation on how things work, consult the [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
-# vue-kanban-app
 
 ## Project setup
 ```
@@ -55,4 +57,6 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
->>>>>>> init
+
+### Disclaimer
+The initial design and backbone is based on the [application](https://github.com/ayazsayyed/vue-kanban) written by [@ayazsayyed](https://github.com/ayazsayyed).
