@@ -12,7 +12,7 @@ export default class Task extends Model {
       board_id: this.string(null).nullable(),
       name: this.string(""),
       description: this.string(""),
-      priority: this.string(Priority.MEDIUM_PRIORITY),
+      priority: this.string(Priority.MEDIUM),
     };
   }
 }

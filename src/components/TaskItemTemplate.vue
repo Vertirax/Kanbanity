@@ -1,17 +1,21 @@
 <template>
   <div>
     <li class="task-item" v-on-clickaway="discardItem">
-      <div class="task-item-header">
-        <!-- <div class="task-priority" :class="priority">{{priority}} Priority</div> -->
+      <div class="task-item-header row align-items-center px-1">
+        <div class="col-6">Task name:</div>
+        <PriorityDropdown
+          class="ml-auto mr-3"
+          :priority="task.priority"
+          @change="setPriority"
+        />
       </div>
       <div class="task-item-body">
         <!-- <p class="task-title">{{text}}</p> -->
-        <label>Task name:</label>
         <InputField
-          v-model="taskName"
+          v-model="task.name"
           ref="taskTitle"
           autofocus
-          @keyup.enter="saveItem"
+          @enterHit="saveItem"
         />
       </div>
       <div class="task-item-footer">
@@ -38,6 +42,9 @@
 import { mapActions } from "vuex";
 import { directive as onClickaway } from "vue-clickaway2";
 import InputField from "@/components/form/InputField.vue";
+import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
+import Task from "@/models/Task";
+import { Priority } from "@/enums/Priorities";
 
 export default {
   name: "TaskItemTemplate",
@@ -47,11 +54,11 @@ export default {
   },
   components: {
     InputField,
+    PriorityDropdown,
   },
   data() {
     return {
-      priority: "Low",
-      taskName: "",
+      task: new Task(),
     };
   },
   methods: {
@@ -59,17 +66,21 @@ export default {
       saveTaskItem: "saveTaskItem",
     }),
     saveItem(): void {
-      if (this.taskName != "") {
+      if (this.task.name != "") {
         this.saveTaskItem({
           column_id: this.list.id,
           board_id: this.$store.state.currentBoard.id,
-          name: this.taskName,
+          name: this.task.name,
+          priority: this.task.priority,
         });
       }
       this.$emit("toggleTemplate");
     },
     discardItem(): void {
       this.$emit("discardItem");
+    },
+    setPriority(priority: Priority): void {
+      this.task.priority = priority;
     },
   },
 };

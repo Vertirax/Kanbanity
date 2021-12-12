@@ -134,6 +134,7 @@ export default new Vuex.Store({
           column_id: payload.column_id,
           board_id: payload.board_id,
           name: payload.name,
+          priority: payload.priority,
         },
       });
     },
