@@ -17,6 +17,7 @@
 * Vuex with Vuex ORM
 * BootstrapVue
 * Typescript
+* Vuelidate
 
 ![Board Preview](Board-UI-darkmode.png)
 

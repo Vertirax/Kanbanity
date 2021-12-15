@@ -6,6 +6,7 @@
       :ok-title="okTitle"
       @ok="save"
       @hide="hide"
+      @cancel="cancel"
     >
       <slot name="default"></slot>
       <template #modal-footer>
@@ -24,11 +25,14 @@ export default {
     okTitle: { type: String, default: "Save" },
   },
   methods: {
-    save(): void {
-      this.$emit("save");
+    save(bvModalEvt): void {
+      this.$emit("save", bvModalEvt);
     },
     hide(): void {
       this.$emit("hide");
+    },
+    cancel(): void {
+      this.$emit("cancel");
     },
   },
 };

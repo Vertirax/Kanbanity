@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="title" :for="id" class="text-secondary small mb-1">
-      {{ title }}
+      {{ title }}<span v-if="required" class="form-required">*</span>
     </label>
     <b-form-input
       :class="disabled ? 'pl-2' : ''"
@@ -16,6 +16,7 @@
       @input="emitInput"
       @keyup.enter="emitEnter"
     />
+    <slot name="error"></slot>
   </div>
 </template>
 
