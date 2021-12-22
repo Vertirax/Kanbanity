@@ -138,6 +138,14 @@ export default new Vuex.Store({
         },
       });
     },
+    changeTaskHighlightColor(state, payload) {
+      Task.update({
+        where: (task) => { return task.id === payload.id; },
+        data: {
+          highlightColor: payload.highlightColor,
+        },
+      });
+    },
     deleteTask(state, payload) {
       Task.delete(payload.taskId);
     },
@@ -214,6 +222,9 @@ export default new Vuex.Store({
     },
     changePriority({ commit }, payload) {
       commit("changePriority", payload);
+    },
+    changeTaskHighlightColor({ commit }, payload) {
+      commit("changeTaskHighlightColor", payload);
     },
     deleteTask({ commit }, payload) {
       commit("deleteTask", payload);

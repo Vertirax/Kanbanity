@@ -13,6 +13,7 @@ export default class Task extends Model {
       name: this.string(""),
       description: this.string(""),
       priority: this.string(Priority.MEDIUM),
+      highlightColor: this.string(null).nullable(),
     };
   }
 }

@@ -4,9 +4,10 @@
     v-b-hover="toggleShowIcons"
     v-on-clickaway="clickAway"
     :class="editMode ? 'highlighted' : ''"
+    :style="shadows"
   >
     <div class="col-10">
-      <div class="task-item-header">
+      <div class="task-item-header row ml-0">
         <PriorityDropdown
           :disabled="!editMode"
           :priority="item.priority"
@@ -39,20 +40,22 @@
         <-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
       </div>
     </div>
-    <!--<div class="task-item-footer">
-    </div>-->
     <div v-if="showIcons || editMode" class="col-1 pl-3">
-      <b-button type="button" variant="default" class="btn-sm my-1" @click="copyTaskName">
+      <b-button type="button" variant="default" class="btn-sm mb-1" @click="copyTaskName">
         <b-icon-clipboard/>
       </b-button>
-      <b-button type="button" variant="default" class="btn-sm my-1" @click="toggleEdit">
-        <b-icon-pencil-fill v-if="editMode" @click="saveTaskName"/>
-        <b-icon-pencil v-else/>
+      <b-button type="button" variant="default" class="btn-sm mb-1" @click="toggleEdit">
+        <b-icon-pencil-fill v-if="editMode" @click="saveTaskName" />
+        <b-icon-pencil v-else />
       </b-button>
-      <b-button type="button" variant="default" class="btn-sm my-1" @click="deleteTask">
-        <b-icon-trash/>
+      <b-button type="button" variant="default" title="Highlight Task" class="btn-sm mb-1" @click="openHighlightPopup">
+        <b-icon-layout-sidebar-reverse />
+      </b-button>
+      <b-button type="button" variant="default" class="btn-sm" @click="deleteTask">
+        <b-icon-trash />
       </b-button>
     </div>
+    <TaskHighlightPopup :id="colorPopupId + item.id" @save="changeHighlightColor"/>
   </li>
 </template>
 
@@ -61,10 +64,12 @@ import { Priority } from "@/enums/Priorities";
 import Task from "@/models/Task";
 import { directive as onClickaway } from "vue-clickaway2";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
+import TaskHighlightPopup from "@/components/popups/TaskHighlightPopup.vue";
 
 export default {
   name: "TaskItem",
   components: {
+    TaskHighlightPopup,
     PriorityDropdown,
   },
   props: {
@@ -75,14 +80,27 @@ export default {
   },
   data() {
     return {
-      showTaskPriorityDropdown: false,
       showTaskPriority: true,
       showIcons: false,
       editMode: false,
-      lowPriority: Priority.LOW,
-      mediumPriority: Priority.MEDIUM,
-      highPriority: Priority.HIGH,
+      colorPopupId: "highlight-color-popup",
     };
+  },
+  computed: {
+    shadows(): string {
+      return "box-shadow: ".concat(
+        this.editMode && this.item.highlightColor
+          ? this.item.highlightColor +
+              " 10px 0px 0px 0px, ".concat(
+                "#ffc107 10px 0px 0px 0.15rem, #ffc107 0px 0px 0px 0.15rem;"
+              )
+          : this.editMode
+          ? "#ffc107 0px 0px 0px 0.15rem;"
+          : this.item.highlightColor
+          ? this.item.highlightColor + " 10px 0px 0px 0px;"
+          : "none"
+      );
+    },
   },
   methods: {
     toggleShowIcons(): void {
@@ -118,6 +136,15 @@ export default {
         priority: priority,
       });
     },
+    openHighlightPopup(): void {
+      this.$bvModal.show(this.colorPopupId + this.item.id);
+    },
+    changeHighlightColor(color: string): void {
+      this.$store.dispatch("changeTaskHighlightColor", {
+        id: this.item.id,
+        highlightColor: color,
+      });
+    },
   },
 };
 </script>
@@ -134,8 +161,5 @@ export default {
 .add-icon {
   margin-left: 20px;
   cursor: pointer;
-}
-.custom-v-select {
-  font-size: 14px;
 }
 </style>

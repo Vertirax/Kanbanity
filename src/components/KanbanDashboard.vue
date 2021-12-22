@@ -53,22 +53,6 @@
           height="350px"
         />
       </div>
-
-      <!--<Twitter v-model="colors" triangle="hide"></Twitter>-->
-      <!--<div class="row">
-        <div class="col-md-12">
-          <div>
-            <draggable class="board-wrapper" >
-              <TaskBoard
-                v-for="(board, key) in xboards"
-                :board="board"
-                :key="key"
-              />
-            </draggable>
-          </div>
-        </div>
-      </div>--
-      <div class="position-fixed"><b-button variant="light">Manage Templates</b-button></div>-->
     </div>
     <DashboardPopup :id="popupId" @save="saveBoard" />
   </div>
@@ -95,9 +79,6 @@ export default {
   data() {
     return {
       popupId: "dashboard-popup",
-      colors: {
-        hex: "#FF6900",
-      },
     };
   },
   computed: {
@@ -164,6 +145,7 @@ a:hover {
 .details-wrapper {
   display: flex;
   justify-content: space-between;
+
   .board-info p,
   .date p {
     font-size: 13px;

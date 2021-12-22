@@ -12,7 +12,7 @@ Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueClipboard);
-Vue.use(VueColor);
+Vue.extend(VueColor);
 Vue.use(Vuelidate);
 
 new Vue({
