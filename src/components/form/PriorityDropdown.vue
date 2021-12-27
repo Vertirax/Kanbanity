@@ -3,7 +3,7 @@
     <b-dropdown
       size="lg"
       variant="link"
-      toggle-class="text-decoration-none"
+      toggle-class="text-decoration-none d-flex"
       no-caret
       :disabled="disabled"
     >

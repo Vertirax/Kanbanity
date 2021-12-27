@@ -14,6 +14,9 @@ import PreferenceStorage from "@/store/modules/preferences-storage";
 import Board from "@/models/Board";
 import KanbanDashboard from "@/classes/Board";
 import Preferences from "@/models/Preferences";
+import KanbanColumn from "@/models/KanbanColumn";
+import Notification from "@/models/Notification";
+import BoardTemplate from "@/models/BoardTemplate";
 
 Vue.use(Vuex);
 
@@ -27,6 +30,7 @@ export default new Vuex.Store({
   state: {
     currentBoard: KanbanDashboard,
     darkMode: true,
+    storageToExport: "",
   },
   mutations: {
     initialiseStore(state) {
@@ -49,6 +53,16 @@ export default new Vuex.Store({
         board.description,
         board.createdDateString
       );
+    },
+    setStorageToExport(state) {
+      state.storageToExport = `{
+        "${Board.entity}": ${JSON.stringify(Board.all())},
+        "${KanbanColumn.entity}": ${JSON.stringify(KanbanColumn.all())},
+        "${Task.entity}": ${JSON.stringify(Task.all())},
+        "${Notification.entity}": ${JSON.stringify(Notification.all())},
+        "${BoardTemplate.entity}": ${JSON.stringify(BoardTemplate.all())},
+        "${Preferences.entity}": ${JSON.stringify(Preferences.all())}
+      }`;
     },
     renameTask(state, payload) {
       Task.update({
@@ -150,14 +164,34 @@ export default new Vuex.Store({
       Task.delete(payload.taskId);
     },
     deleteAll({ dispatch }) {
-      Task.deleteAll();
-      Column.deleteAll();
-      Board.deleteAll().then(() => {
+      Promise.all([
+        Task.deleteAll(),
+        Column.deleteAll(),
+        Board.deleteAll(),
+      ]).then(() => {
         this.dispatch("successToaster", {
           title: "Preferences",
           message: "Successfully deleted all Board related data!",
         });
       });
+    },
+    importStorage(state, payload) {
+      const entities = [
+        Board.entity,
+        KanbanColumn.entity,
+        Task.entity,
+        Notification.entity,
+        BoardTemplate.entity,
+      ];
+      entities.forEach((entity) => {
+        if (payload[entity]) {
+          this.dispatch("entities/insert", {
+            entity: entity,
+            data: payload[entity],
+          });
+        }
+      });
+      // TODO: Preferences
     },
     initData() {
       if (Board.query().count() === 0) {
@@ -229,9 +263,17 @@ export default new Vuex.Store({
     deleteTask({ commit }, payload) {
       commit("deleteTask", payload);
     },
+    importStorage({ commit, dispatch }, payload) {
+      commit("importStorage", payload);
+      dispatch("successToaster", {
+        title: "File Import",
+        message: "Successfully imported data!",
+      });
+    },
   },
   getters: {
     getCurrentBoard: (state) => state.currentBoard,
+    getStorageToExport: (state) => state.storageToExport,
   },
   modules: {
     ToastStorage,

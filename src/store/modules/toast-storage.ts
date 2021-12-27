@@ -8,6 +8,11 @@ export default {
 
       dispatch("showToaster", payload);
     },
+    errorToaster({ dispatch }, payload: any): void {
+      payload.variant = "danger";
+
+      dispatch("showToaster", payload);
+    },
     showToaster({ dispatch }, payload: any): void {
       new BToast().$bvToast.toast(payload.message, {
         title: payload.title,
