@@ -1,0 +1,94 @@
+<template>
+  <Popup
+    :id="id"
+    :title="edit ? 'Edit List' : 'Add New List'"
+    @save="save"
+    @cancel="clear"
+  >
+    <template #default>
+      <InputField
+        v-model="column.name"
+        title="Title"
+        autofocus
+        required
+        :state="sent ? !$v.column.name.$error : null"
+      >
+        <template #error>
+          <b-form-invalid-feedback v-if="!$v.column.name.required">
+            Value is required
+          </b-form-invalid-feedback>
+        </template>
+      </InputField>
+      <InputField
+        class="mt-2"
+        v-model="column.description"
+        title="Description"
+      />
+    </template>
+  </Popup>
+</template>
+
+<script lang="ts">
+import Popup from "@/components/popups/Popup.vue";
+import Column from "@/models/KanbanColumn";
+import InputField from "@/components/form/InputField.vue";
+import { required } from "vuelidate/lib/validators";
+
+export default {
+  name: "ColumnPopup",
+  components: {
+    Popup,
+    InputField,
+  },
+  props: {
+    id: { type: String, required: true },
+    edit: { type: Boolean, default: false },
+    list: { type: Object, default: () => new Column() },
+  },
+  data() {
+    return {
+      column: { ...this.list },
+      sent: false,
+    };
+  },
+  methods: {
+    save(event): void {
+      this.sent = true;
+      this.$v.$touch();
+
+      if (!this.$v.$error) {
+        this.$emit("save", this.column);
+        this.clear();
+      } else {
+        event.preventDefault();
+      }
+    },
+    clear(): void {
+      this.sent = false;
+      this.$v.$reset();
+      this.edit
+        ? (this.column = { ...this.list })
+        : (this.column = new Column());
+    },
+  },
+  watch: {
+    list: {
+      deep: true,
+      handler(): void {
+        this.column = { ...this.list };
+      },
+    },
+  },
+  validations: {
+    column: {
+      name: { required },
+    },
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+/deep/ .dropdown-toggle {
+  padding-left: 0;
+}
+</style>

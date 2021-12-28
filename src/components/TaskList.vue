@@ -59,12 +59,7 @@
         </a>
       </div>
     </div>
-    <EditColumnPopup
-      :id="editColumnPopupId"
-      :title="'Edit Column ' + list.name"
-      :data="colData"
-      @save="editColumn"
-    />
+    <ColumnPopup :id="editColumnPopupId" :list="list" @save="editColumn" edit />
   </div>
 </template>
 
@@ -73,9 +68,10 @@ import draggable from "vuedraggable";
 import TaskItem from "@/components/TaskItem.vue";
 import TaskItemTemplate from "@/components/TaskItemTemplate.vue";
 import Task from "@/models/Task";
-import EditColumnPopup from "@/components/popups/EditColumnPopup.vue";
+import Column from "@/models/KanbanColumn";
 import KanbanColumn from "@/classes/KanbanColumn";
 import { mapActions, mapGetters } from "vuex";
+import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 
 export default {
   name: "TaskList",
@@ -83,7 +79,7 @@ export default {
     TaskItem,
     draggable,
     TaskItemTemplate,
-    EditColumnPopup,
+    ColumnPopup,
   },
   props: ["board", "list"],
   data() {
@@ -96,8 +92,7 @@ export default {
       taskId: "",
       fromColumnId: "",
       toColumnId: "",
-      editColumnPopupId: "edit-popup" + this.list.id,
-      // taskListName: this.list.name,
+      editColumnPopupId: "edit-column-popup-" + this.list.id,
     };
   },
   computed: {
@@ -107,7 +102,6 @@ export default {
         animation: "200",
         ghostClass: "ghost",
         group: "kanban-board-list-items",
-        //disabled: false,
         // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder
       };
     },
@@ -157,10 +151,8 @@ export default {
         message: this.message,
       });
     },
-    editColumn(e: KanbanColumn): void {
-      if (e.title !== "") {
-        this.$store.dispatch("editColumn", e);
-      }
+    editColumn(e: Column): void {
+      this.$store.dispatch("editColumn", e);
     },
     onMove({ relatedContext, draggedContext }): void {
       this.taskId = draggedContext?.element?.id;

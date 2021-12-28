@@ -37,6 +37,7 @@
   },
   "devDependencies": {
     "@types/vue-color": "^2.4.4",
+    "@types/vuelidate": "^0.7.15",
     "@typescript-eslint/eslint-plugin": "^4.18.0",
     "@typescript-eslint/parser": "^4.18.0",
     "@vue/cli-plugin-babel": "^4.5.15",
@@ -47,8 +48,8 @@
     "@vue/cli-service": "^4.5.15",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
-    "vue-template-compiler": "^2.6.14",
     "prettier": "^2.4.1",
+    "vue-template-compiler": "^2.6.14",
     "webpack": "^4.46.0"
   }
 }

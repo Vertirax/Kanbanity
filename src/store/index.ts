@@ -121,7 +121,7 @@ export default new Vuex.Store({
       Column.insert({
         data: {
           board_id: state.currentBoard.id,
-          name: payload.title,
+          name: payload.name,
           description: payload.description,
         },
       });
@@ -130,7 +130,7 @@ export default new Vuex.Store({
       Column.update({
         where: (col) => { return col.id === payload.id; },
         data: {
-          name: payload.title,
+          name: payload.name,
           description: payload.description,
         },
       });

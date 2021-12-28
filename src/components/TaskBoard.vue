@@ -37,19 +37,16 @@
           v-bind="getDragOptions"
         >
           <TaskList
-            v-for="(listItem, index) in lists"
-            :key="index"
+            v-for="list in lists"
+            :key="list.id"
             :board="currentBoard.id"
-            :list="listItem"
+            :list="list"
           ></TaskList>
         </draggable>
       </div>
       <HelperImage v-if="lists.length === 0" text="Add a list to track your work!" />
     </div>
-    <NewColumnPopup
-      :id="newColumnPopupId"
-      @save="addNewList"
-    />
+    <ColumnPopup :id="newColumnPopupId" @save="addNewList" />
   </div>
 </template>
 
@@ -57,11 +54,10 @@
 import Navbar from "@/components/Navbar.vue";
 import TaskList from "@/components/TaskList.vue";
 import draggable from "vuedraggable";
-import { mapActions, mapGetters, mapState } from "vuex";
-import NewColumnPopup from "@/components/popups/NewColumnPopup.vue";
+import { mapActions, mapGetters } from "vuex";
 import HelperImage from "@/components/HelperImage.vue";
 import Column from "@/models/KanbanColumn";
-import KanbanColumn from "@/classes/KanbanColumn";
+import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 
 export default {
   name: "TaskBoard",
@@ -69,8 +65,8 @@ export default {
     TaskList,
     draggable,
     Navbar,
-    NewColumnPopup,
     HelperImage,
+    ColumnPopup,
   },
   data() {
     return {
@@ -103,7 +99,7 @@ export default {
     openNewListPopup(): void {
       this.$bvModal.show(this.newColumnPopupId);
     },
-    addNewList(payload: KanbanColumn): void {
+    addNewList(payload: Column): void {
       this.saveColumn(payload);
     },
   },

@@ -106,6 +106,14 @@ export default {
       return BoardTemplate.all().filter((template) => template.name !== "");
     },
   },
+  watch: {
+    dashboard: {
+      deep: true,
+      handler(): void {
+        this.board = { ...this.dashboard };
+      },
+    },
+  },
   validations: {
     board: {
       name: { required },
