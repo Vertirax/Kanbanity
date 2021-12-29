@@ -41,19 +41,26 @@
       </div>
     </div>
     <div v-if="showIcons || editMode" class="col-1 pl-3">
-      <b-button type="button" variant="default" class="btn-sm mb-1" @click="copyTaskName">
-        <b-icon-clipboard/>
-      </b-button>
-      <b-button type="button" variant="default" class="btn-sm mb-1" @click="toggleEdit">
-        <b-icon-pencil-fill v-if="editMode" @click="saveTaskName" />
-        <b-icon-pencil v-else />
-      </b-button>
-      <b-button type="button" variant="default" title="Highlight Task" class="btn-sm mb-1" @click="openHighlightPopup">
-        <b-icon-layout-sidebar-reverse />
-      </b-button>
-      <b-button type="button" variant="default" class="btn-sm" @click="deleteTask">
-        <b-icon-trash />
-      </b-button>
+      <GeneralButton
+        class="mb-half"
+        size="sm"
+        icon="clipboard"
+        @click="copyTaskName"
+      />
+      <GeneralButton
+        class="mb-half"
+        size="sm"
+        :icon="editMode ? 'pencil-fill' : 'pencil'"
+        @click="toggleEdit"
+      />
+      <GeneralButton
+        class="mb-half"
+        size="sm"
+        icon="layout-sidebar-reverse"
+        hoverTitle="Highlight Task"
+        @click="openHighlightPopup"
+      />
+      <GeneralButton size="sm" icon="trash" @click="deleteTask" />
     </div>
     <TaskHighlightPopup :id="colorPopupId + item.id" @save="changeHighlightColor"/>
   </li>
@@ -65,12 +72,14 @@ import Task from "@/models/Task";
 import { directive as onClickaway } from "vue-clickaway2";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
 import TaskHighlightPopup from "@/components/popups/TaskHighlightPopup.vue";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "TaskItem",
   components: {
     TaskHighlightPopup,
     PriorityDropdown,
+    GeneralButton,
   },
   props: {
     item: { type: Task, required: true },
@@ -107,6 +116,9 @@ export default {
       this.showIcons = !this.showIcons;
     },
     toggleEdit(): void {
+      if (this.editMode) {
+        this.saveTaskName();
+      }
       this.editMode = !this.editMode;
     },
     clickAway(): void {

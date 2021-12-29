@@ -19,7 +19,7 @@
         />
       </div>
       <div class="task-item-footer">
-        <b-button type="button" variant="default" class="btn-sm" @click="saveItem"><b-icon-check2 /></b-button>
+        <GeneralButton size="sm" icon="check2" @click="saveItem" />
         <!-- <div class="comments-attachments">
           <div class="comments">
             <i class="far fa-comment-alt"></i> 1
@@ -45,6 +45,7 @@ import InputField from "@/components/form/InputField.vue";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
 import Task from "@/models/Task";
 import { Priority } from "@/enums/Priorities";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "TaskItemTemplate",
@@ -55,6 +56,7 @@ export default {
   components: {
     InputField,
     PriorityDropdown,
+    GeneralButton,
   },
   data() {
     return {

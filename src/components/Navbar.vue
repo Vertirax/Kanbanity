@@ -5,10 +5,7 @@
     sticky
   >
     <router-link to="/">
-      <b-button variant="default" class="btn mr-3">
-        <b-icon-columns-gap />
-        Dashboard
-      </b-button>
+      <GeneralButton icon="columns-gap" text="Dashboard" />
     </router-link>
     <!--<input
         type="text"
@@ -19,10 +16,7 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <router-link to="/preferences">
-        <b-button variant="default" class="btn mr-3">
-          <b-icon-sliders />
-          Preferences
-        </b-button>
+        <GeneralButton icon="sliders" text="Preferences" />
       </router-link>
       <b-navbar-nav class="ml-auto">
         <a class="nav-item my-auto">
@@ -30,38 +24,20 @@
         </a>
         <b-nav-item>
           <router-link to="/notifications">
-            <a class="nav-link">
-              Notifications
-            </a>
+            <a class="nav-link"> Notifications </a>
           </router-link>
         </b-nav-item>
-        <b-nav-item v-if="this.$route.name === 'dashboard'">
-          <b-button variant="primary" @click="addNewBoard">New Board</b-button>
-        </b-nav-item>
-        <b-nav-item v-if="this.$route.name === 'task-board'">
-          <b-button variant="primary" @click="addNewList">New List</b-button>
-        </b-nav-item>
-        <b-nav-item v-if="this.$route.name === 'notifications'">
-          <b-button variant="primary" @click="addNewNotification">New Notification</b-button>
-        </b-nav-item>
-
-        <!--
-        <li class="nav-item">
-            <b-button variant="default" class="btn mr-3 nav-link">
-              <b-icon-gear/>
-              Settings
-            </b-button>
-          </li>
-        -->
+        <slot name="addButton" />
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 <script lang="ts">
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "Navbar",
-  components: {},
+  components: { GeneralButton },
   props: ["currentBoard"],
   computed: {
     toggleDarkMode: {
@@ -71,17 +47,6 @@ export default {
       set() {
         this.$store.dispatch("toggleDarkMode");
       },
-    },
-  },
-  methods: {
-    addNewBoard(): void {
-      this.$emit("addNewBoard");
-    },
-    addNewList(): void {
-      this.$emit("addNewList");
-    },
-    addNewNotification(): void {
-      this.$emit("addNewNotification");
     },
   },
 };

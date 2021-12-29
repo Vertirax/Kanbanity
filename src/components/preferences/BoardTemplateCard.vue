@@ -2,16 +2,20 @@
   <b-card class="col-md-6 col-xl-6 p-2 m-2">
     <b-card-title class="d-flex">
       <span>Manage Board Templates</span>
-
-      <slot name="title-right" />
-
-      <b-button variant="outline-primary" class="ml-auto" @click="addBoardTemplate">
-        <b-icon-plus-square />
-        Add Template
-      </b-button>
-      <b-button variant="outline-primary" class="ml-2" :pressed="edit" @click="toggleEdit">
-        <b-icon-pencil-fill />
-      </b-button>
+      <GeneralButton
+        class="ml-auto"
+        variant="outline-primary"
+        @click="addBoardTemplate"
+        text="Add Template"
+        icon="plus-square"
+      />
+      <GeneralButton
+        class="ml-2"
+        variant="outline-primary"
+        :pressed="edit"
+        @click="toggleEdit"
+        icon="pencil-fill"
+      />
     </b-card-title>
 
     <BoardTemplate
@@ -26,13 +30,15 @@
 
 <script lang="ts">
 import BoardTemplate from "@/components/preferences/BoardTemplate.vue";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 import TemplateModel from "@/models/BoardTemplate";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "BoardTemplateCard",
   components: {
     BoardTemplate,
+    GeneralButton,
   },
   data() {
     return {
@@ -47,9 +53,6 @@ export default {
   methods: {
     ...mapActions({
       addTemplate: "addBoardTemplate",
-    }),
-    ...mapGetters({
-      // templates: "getBoardTemplates",
     }),
     toggleEdit(): void {
       this.edit = !this.edit;

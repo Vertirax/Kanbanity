@@ -17,15 +17,14 @@
 
     <p><b-icon-clock class="mr-1" />{{ time }}</p>
 
-    <b-button
-      type="button"
+    <GeneralButton
+      class="mt-3"
+      size="sm"
       variant="outline-primary"
-      class="btn-sm mt-3"
       @click="openEditNotificationPopup"
-    >
-      <b-icon-box-arrow-up />
-      Edit
-    </b-button>
+      text="Edit"
+      icon="box-arrow-up"
+    />
     <NotificationPopup
       :id="'edit-notification-popup-' + notification.id"
       :noti="notification"
@@ -39,11 +38,13 @@
 <script lang="ts">
 import Notification from "@/classes/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "NotificationCard",
   components: {
     NotificationPopup,
+    GeneralButton,
   },
   props: {
     notification: { type: Object, required: true },

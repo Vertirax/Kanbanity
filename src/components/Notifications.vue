@@ -1,6 +1,16 @@
 <template>
   <div class="h-100">
-    <Navbar @addNewNotification="$bvModal.show(popupId)" />
+    <Navbar>
+      <template #addButton>
+        <b-nav-item>
+          <GeneralButton
+            variant="primary"
+            text="New Notification"
+            @click="$bvModal.show(popupId)"
+          />
+        </b-nav-item>
+      </template>
+    </Navbar>
     <div class="container-fluid main-container">
       <b-alert
         class="mt-3"
@@ -30,6 +40,7 @@ import NotificationCard from "@/components/NotificationCard.vue";
 import NotificationModel from "@/models/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import HelperImage from "@/components/HelperImage.vue";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "Notifications",
@@ -38,6 +49,7 @@ export default {
     NotificationCard,
     NotificationPopup,
     HelperImage,
+    GeneralButton,
   },
   data() {
     return {

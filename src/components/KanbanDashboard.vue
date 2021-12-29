@@ -1,6 +1,12 @@
 <template>
   <div class="main-wrapper">
-    <Navbar @addNewBoard="openPopup" />
+    <Navbar>
+      <template #addButton>
+        <b-nav-item>
+          <GeneralButton variant="primary" text="New Board" @click="openPopup" />
+        </b-nav-item>
+      </template>
+    </Navbar>
     <div class="container-fluid main-container">
       <div class="equal my-3 mx-2" :class="boards.length > 0 ? 'row' : ''">
         <div
@@ -68,6 +74,7 @@ import HelperImage from "@/components/HelperImage.vue";
 import KanbanDashboard from "@/classes/Board";
 import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 import BoardTemplate from "@/classes/BoardTemplate";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "Dashboard",
@@ -75,6 +82,7 @@ export default {
     Navbar,
     HelperImage,
     DashboardPopup,
+    GeneralButton,
   },
   data() {
     return {

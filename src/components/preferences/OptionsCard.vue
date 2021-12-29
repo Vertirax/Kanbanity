@@ -3,36 +3,41 @@
     <b-card-title class="d-flex">
       <span>Options</span>
 
-      <b-button variant="outline-primary" class="ml-auto" :pressed="edit" @click="edit = !edit">
-        <b-icon-pencil-fill />
-      </b-button>
+      <GeneralButton
+        variant="outline-primary"
+        class="ml-auto"
+        :pressed="edit"
+        @click="edit = !edit"
+        icon="pencil-fill"
+      />
     </b-card-title>
 
-    <div class="row">
-      <label class="text-secondary small mb-1 col-12">Delete all Board related data</label>
-      <b-button
-        variant="danger"
-        class="ml-3"
-        :disabled="!edit"
-        @click="deleteAll"
-      >
-        <b-icon-trash-fill />
-        Delete All
-      </b-button>
-    </div>
+    <GeneralButton
+      variant="danger"
+      :disabled="!edit"
+      @click="openConfirmationPopup"
+      text="Delete All"
+      icon="trash-fill"
+      title="Delete all Board related data"
+    />
+    <ConfirmationPopup
+      :id="popupId"
+      title="Delete Data"
+      text="Are you sure you want to delete all board related data?"
+      @confirm="deleteAll"
+    />
     <div class="row mt-2 pt-4">
-      <label class="text-secondary small mb-1 col-12">Export or Import your Kanbanity data</label>
+      <Title class="col-12" text="Export or Import your Kanbanity data" />
       <b-link :download="filename" :href="downloadLink" class="ml-3">
-        <b-button @click="exportJson">Export</b-button>
+        <GeneralButton text="Export" @click="exportJson" variant="secondary" />
       </b-link>
-      <b-button
-        v-b-toggle.import
-        class="ml-2"
+      <GeneralButton
+        v-b-toggle:import
         variant="warning"
+        class="ml-2"
         :disabled="!edit"
-      >
-        Import
-      </b-button>
+        text="Import"
+      />
     </div>
     <div class="row mt-2">
       <b-collapse id="import" class="ml-3">
@@ -49,9 +54,17 @@
 
 <script lang="ts">
 import { mapActions, mapGetters } from "vuex";
+import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
+import GeneralButton from "@/components/form/GeneralButton.vue";
+import Title from "@/components/form/Title.vue";
 
 export default {
   name: "OptionsCard",
+  components: {
+    ConfirmationPopup,
+    GeneralButton,
+    Title,
+  },
   data() {
     return {
       edit: false,
@@ -59,6 +72,7 @@ export default {
       downloadLink: "",
       importFile: null,
       jsonType: "application/json",
+      popupId: "confirmation-popup",
     };
   },
   computed: {
@@ -90,6 +104,9 @@ export default {
           message: "Please upload a valid JSON file!",
         });
       }
+    },
+    openConfirmationPopup(): void {
+      this.$bvModal.show(this.popupId);
     },
   },
 };

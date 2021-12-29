@@ -31,20 +31,12 @@
       />
     </div>
     <div v-if="showIcons && edit" class="col-1">
-      <b-button
-        type="button"
-        variant="default"
-        @click="saveTemplate"
-        title="Save"
-        ><b-icon-check2
-      /></b-button>
-      <b-button
-        type="button"
-        variant="default"
+      <GeneralButton hoverTitle="Save" icon="check2" @click="saveTemplate" />
+      <GeneralButton
+        hoverTitle="Delete"
+        icon="trash-fill"
         @click="deleteTemplate(template.id)"
-        title="Delete"
-        ><b-icon-trash-fill
-      /></b-button>
+      />
     </div>
   </div>
 </template>
@@ -54,19 +46,20 @@ import { directive as onClickaway } from "vue-clickaway2";
 import BadgeSequence from "../form/BadgeSequence.vue";
 import InputField from "@/components/form/InputField.vue";
 import Template from "@/models/BoardTemplate";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "BoardTemplate",
   components: {
     BadgeSequence,
     InputField,
+    GeneralButton,
   },
   directives: {
     onClickaway: onClickaway,
   },
   data() {
     return {
-      // template: { ...this.templateProp },
       showBadges: true,
       showIcons: false,
     };

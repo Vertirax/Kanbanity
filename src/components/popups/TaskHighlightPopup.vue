@@ -5,14 +5,19 @@
     @save="save"
   >
     <template v-slot:default>
-      <span class="text-secondary small">Select a color or specify one to highlight the selected task</span>
+      <Title text="Select a color or specify one to highlight the selected task" />
       <Twitter v-model="color" triangle="hide" class="p-0 my-2" />
       <Slider v-model="color" class="pt-3" />
     </template>
     <template v-slot:footer>
-      <b-button variant="warning" @click="resetColor" class="mr-auto">Reset Highlight</b-button>
-      <b-button variant="secondary" @click="hide">Cancel</b-button>
-      <b-button variant="primary" @click="save">Save</b-button>
+      <GeneralButton
+        class="mr-auto"
+        variant="warning"
+        @click="resetColor"
+        text="Reset Highlight"
+      />
+      <GeneralButton variant="secondary" @click="hide" text="Cancel" />
+      <GeneralButton variant="primary" @click="save" text="Save" />
     </template>
   </Popup>
 </template>
@@ -21,6 +26,8 @@
 import Popup from "@/components/popups/Popup.vue";
 import { Twitter } from "vue-color";
 import { Slider } from "vue-color";
+import GeneralButton from "@/components/form/GeneralButton.vue";
+import Title from "@/components/form/Title.vue";
 
 export default {
   name: "TaskHighlightPopup",
@@ -28,6 +35,8 @@ export default {
     Popup,
     Slider,
     Twitter,
+    GeneralButton,
+    Title,
   },
   props: {
     id: { type: String, required: true },

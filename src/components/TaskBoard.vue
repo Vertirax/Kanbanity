@@ -1,6 +1,16 @@
 <template>
   <div class="h-100">
-    <Navbar @addNewList="openNewListPopup" />
+    <Navbar>
+      <template #addButton>
+        <b-nav-item>
+          <GeneralButton
+            variant="primary"
+            text="New List"
+            @click="openNewListPopup"
+          />
+        </b-nav-item>
+      </template>
+    </Navbar>
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
         <b-icon v-b-toggle.collapse :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"/>
@@ -58,6 +68,7 @@ import { mapActions, mapGetters } from "vuex";
 import HelperImage from "@/components/HelperImage.vue";
 import Column from "@/models/KanbanColumn";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
+import GeneralButton from "@/components/form/GeneralButton.vue";
 
 export default {
   name: "TaskBoard",
@@ -67,6 +78,7 @@ export default {
     Navbar,
     HelperImage,
     ColumnPopup,
+    GeneralButton,
   },
   data() {
     return {

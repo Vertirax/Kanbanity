@@ -33,19 +33,20 @@
       </InputField>
       <TimePicker v-model="time" title="Time" required />
       <InputField v-model="notification.iconUrl" title="Icon URL" />
-      <label v-if="edit" :for="'checkbox-active-' + id" class="text-secondary small mb-1">
-        Active
-      </label>
+      <Title v-if="edit" :forId="'checkbox-active-' + id" text="Active" />
       <b-form-checkbox v-if="edit" :id="'checkbox-active-' + id" size="lg" v-model="notification.active"></b-form-checkbox>
     </template>
 
     <template v-slot:footer v-if="edit">
-      <b-button variant="danger" @click="$emit('delete', notification.id)" class="mr-auto">
-        <b-icon-trash-fill />
-        Delete
-      </b-button>
-      <b-button variant="secondary" @click="hide">Cancel</b-button>
-      <b-button variant="primary" @click="save">Save</b-button>
+      <GeneralButton
+        class="mr-auto"
+        variant="danger"
+        icon="trash-fill"
+        text="Delete"
+        @click="$emit('delete', notification.id)"
+      />
+      <GeneralButton variant="secondary" text="Cancel" @click="hide" />
+      <GeneralButton variant="primary" text="Save" @click="save" />
     </template>
   </Popup>
 </template>
@@ -56,6 +57,8 @@ import NotificationModel from "@/models/Notification";
 import InputField from "@/components/form/InputField.vue";
 import TimePicker from "@/components/form/TimePicker.vue";
 import { required } from "vuelidate/lib/validators";
+import GeneralButton from "@/components/form/GeneralButton.vue";
+import Title from "@/components/form/Title.vue";
 
 export default {
   name: "NotificationPopup",
@@ -63,6 +66,8 @@ export default {
     Popup,
     InputField,
     TimePicker,
+    GeneralButton,
+    Title,
   },
   props: {
     id: { type: String, required: true },
