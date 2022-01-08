@@ -41,6 +41,7 @@ import NotificationModel from "@/models/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import HelperImage from "@/components/HelperImage.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Notifications",
@@ -58,9 +59,7 @@ export default {
     };
   },
   computed: {
-    notifications(): NotificationModel[] {
-      return NotificationModel.all();
-    },
+    ...mapGetters({ notifications: "getAllNotifications" }),
   },
   created() {
     Notification.requestPermission().then((value) =>

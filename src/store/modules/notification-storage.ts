@@ -27,4 +27,7 @@ export default {
       commit("deleteNotification", id);
     },
   },
+  getters: {
+    getAllNotifications: () => Notification.all(),
+  },
 };
