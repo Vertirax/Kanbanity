@@ -6,6 +6,7 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import VueClipboard from "vue-clipboard2";
 import VueColor from "vue-color";
 import Vuelidate from "vuelidate";
+import { i18n } from "./i18n";
 import "@/assets/app.scss";
 
 Vue.config.productionTip = false;
@@ -18,6 +19,7 @@ Vue.use(Vuelidate);
 new Vue({
   router,
   store,
+  i18n,
   beforeCreate() {
     this.$store.commit("initialiseStore");
   },

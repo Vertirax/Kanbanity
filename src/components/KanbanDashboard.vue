@@ -3,7 +3,11 @@
     <Navbar>
       <template #addButton>
         <b-nav-item>
-          <GeneralButton variant="primary" text="New Board" @click="openPopup" />
+          <GeneralButton
+            variant="primary"
+            :text="$t('dashboard.add-button')"
+            @click="openPopup"
+          />
         </b-nav-item>
       </template>
     </Navbar>
@@ -28,8 +32,8 @@
                       <template #button-content>
                         <b-icon-three-dots-vertical variant="dark" />
                       </template>
-                      <b-dropdown-item @click="openPopup(board.id)"><b-icon-pencil-fill class="mr-3"/>Edit</b-dropdown-item>
-                      <b-dropdown-item @click="deleteBoard(board.id)"><b-icon-trash-fill class="mr-3"/>Delete</b-dropdown-item>
+                      <b-dropdown-item @click="openPopup(board.id)"><b-icon-pencil-fill class="mr-3"/>{{ $t("general.button.edit") }}</b-dropdown-item>
+                      <b-dropdown-item @click="deleteBoard(board.id)"><b-icon-trash-fill class="mr-3"/>{{ $t("general.button.delete") }}</b-dropdown-item>
                     </b-dropdown>
                   </div>
                 </div>
@@ -39,12 +43,12 @@
                 <div class="details-wrapper">
                   <div class="board-info">
                     <p class="card-text">
-                      <b-icon-layout-sidebar-inset title="Number of Columns" /> {{ columnCount(board.id) }} |
-                      <b-icon-list-task title="Number of Tasks" /> {{ taskCount(board.id) }}
+                      <b-icon-layout-sidebar-inset :title="$t('dashboard.card.cols')" /> {{ columnCount(board.id) }} |
+                      <b-icon-list-task :title="$t('dashboard.card.tasks')" /> {{ taskCount(board.id) }}
                     </p>
                   </div>
                   <div class="date">
-                    <p class="text-muted" title="Created Date">{{ board.createdDateString }}</p>
+                    <p class="text-muted" :title="$t('dashboard.card.created-date')">{{ board.createdDateString }}</p>
                   </div>
                 </div>
               </div>
@@ -65,9 +69,8 @@
 </template>
 
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapGetters } from "vuex";
 import Navbar from "@/components/Navbar.vue";
-import Board from "@/models/Board";
 import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
 import HelperImage from "@/components/HelperImage.vue";
@@ -89,17 +92,13 @@ export default {
       popupId: "dashboard-popup",
     };
   },
-  computed: {
-    boards() {
-      return Board.all();
-    },
-  },
   mounted() {
     this.setCurrentBoard(new KanbanDashboard());
   },
+  computed: {
+    ...mapGetters({ boards: "getAllBoards" }),
+  },
   methods: {
-    ...mapActions({
-    }),
     setCurrentBoard(board): void {
       this.$store.commit("setCurrentBoard", board);
     },
@@ -129,10 +128,6 @@ export default {
 .row {
   position: relative;
 }
-.col-xs-12 {
-  // z-index: 200;
-}
-
 a:hover {
   text-decoration: none;
 }

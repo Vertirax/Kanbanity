@@ -274,6 +274,7 @@ export default new Vuex.Store({
   getters: {
     getCurrentBoard: (state) => state.currentBoard,
     getStorageToExport: (state) => state.storageToExport,
+    getAllBoards: () => Board.all(),
   },
   modules: {
     ToastStorage,

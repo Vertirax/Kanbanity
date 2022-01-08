@@ -1,0 +1,17 @@
+{
+  "general": {
+    "button": {
+      "yes": "Yes",
+      "edit": "Edit",
+      "delete": "Delete"
+    }
+  },
+  "dashboard": {
+    "add-button": "New Board",
+    "card": {
+      "cols": "Number of Columns",
+      "tasks": "Number of Tasks",
+      "created-date": "Created Date"
+    }
+  }
+}
