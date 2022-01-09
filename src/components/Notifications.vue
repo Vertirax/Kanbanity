@@ -5,7 +5,7 @@
         <b-nav-item>
           <GeneralButton
             variant="primary"
-            text="New Notification"
+            :text="$t('notifications.buttons.add')"
             @click="$bvModal.show(popupId)"
           />
         </b-nav-item>
@@ -18,7 +18,7 @@
         variant="danger"
         dismissible
       >
-        Notifications will only be shown if you give permission to the site!
+        {{ $t("notifications.permission-alert") }}
       </b-alert>
 
       <div class="row equal my-3 mx-2">
@@ -37,7 +37,6 @@
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
 import NotificationCard from "@/components/NotificationCard.vue";
-import NotificationModel from "@/models/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import HelperImage from "@/components/HelperImage.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";

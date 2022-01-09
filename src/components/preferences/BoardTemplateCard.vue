@@ -1,12 +1,12 @@
 <template>
   <b-card class="col-md-6 col-xl-6 p-2 m-2">
     <b-card-title class="d-flex">
-      <span>Manage Board Templates</span>
+      <span>{{ $t("preferences.board-template.title") }}</span>
       <GeneralButton
         class="ml-auto"
         variant="outline-primary"
         @click="addBoardTemplate"
-        text="Add Template"
+        :text="$t('preferences.board-template.buttons.add')"
         icon="plus-square"
       />
       <GeneralButton

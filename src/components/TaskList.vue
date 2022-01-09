@@ -1,23 +1,16 @@
 <template>
   <div>
     <div class="task-board" :data-board-name="list.name">
-      <input
-        type="text"
-        class="form-control"
-        :value="list.name"
-        v-if="isEditing"
-        @blur="saveTaskListName"
-      />
       <div class="board-header">
-        <p class="board-name mx-1" v-if="!isEditing">{{ list.name }}</p>
+        <p class="board-name mx-1">{{ list.name }}</p>
         <!--<b-icon-info-circle v-b-tooltip variant="info" class="h5" :title="list.description"></b-icon-info-circle>-->
         <div>
           <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
             <template #button-content>
               <b-icon-three-dots-vertical variant="dark" />
             </template>
-            <b-dropdown-item @click="openPopup"><b-icon-pencil-fill class="mr-3"/>Edit</b-dropdown-item>
-            <b-dropdown-item @click="deleteColumn"><b-icon-trash-fill class="mr-3"/>Delete</b-dropdown-item>
+            <b-dropdown-item @click="openPopup"><b-icon-pencil-fill class="mr-3"/>{{ $t("general.button.edit") }}</b-dropdown-item>
+            <b-dropdown-item @click="deleteColumn"><b-icon-trash-fill class="mr-3"/>{{ $t("general.button.delete") }}</b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -55,7 +48,7 @@
       </div>
       <div class="board-footer">
         <a class="add-task-btn" @click="toggleTemplate">
-          Add task<b-icon-plus />
+          {{ $t("task-board.task.add") }}<b-icon-plus />
         </a>
       </div>
     </div>
@@ -72,6 +65,7 @@ import Column from "@/models/KanbanColumn";
 import KanbanColumn from "@/classes/KanbanColumn";
 import { mapActions, mapGetters } from "vuex";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
+import { i18n } from "@/i18n";
 
 export default {
   name: "TaskList",
@@ -86,7 +80,6 @@ export default {
     return {
       drag: false,
       showTemplate: false,
-      isEditing: false,
       hideDraggableList: false,
       message: "",
       taskId: "",
@@ -109,7 +102,7 @@ export default {
       get(): Task[] {
         return Task.query().where("column_id", this.list.id).get();
       },
-      set(value): void {
+      set(value: any): void {
         // 'added' and 'removed' are present on dnd to other columns, 'moved' within column
         if (value.moved) {
           this.$store.commit("dragInColumn", value.moved);
@@ -132,13 +125,13 @@ export default {
     }),
     deleteColumn(): void {
       this.$store.dispatch("deleteColumn", { colId: this.list.id }).then(() => {
-        this.message = `The selected column named '${this.list.name}' has been deleted successfully!`;
+        this.message = i18n.t("task-board.toaster.delete");
         this.showToast();
       });
     },
     deleteTask(taskId: string): void {
       this.$store.dispatch("deleteTask", { taskId: taskId }).then(() => {
-        this.message = "The selected task has been deleted successfully!";
+        this.message = i18n.t("task-board.task.toaster.delete.message");
         this.showToast();
       });
     },
@@ -182,9 +175,6 @@ export default {
     },
     hideTemplate(): void {
       this.showTemplate = false;
-    },
-    itemEditing(): void {
-      this.isEditing = true;
     },
   },
 };

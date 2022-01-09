@@ -1,28 +1,28 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? 'Edit List' : 'Add New List'"
+    :title="edit ? $t('task-board.popup.titles.edit') : $t('task-board.popup.titles.new')"
     @save="save"
     @cancel="clear"
   >
     <template #default>
       <InputField
         v-model="column.name"
-        title="Title"
+        :title="$t('task-board.popup.fields.name')"
         autofocus
         required
         :state="sent ? !$v.column.name.$error : null"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.column.name.required">
-            Value is required
+            {{ $t("general.validation.field.required") }}
           </b-form-invalid-feedback>
         </template>
       </InputField>
       <InputField
         class="mt-2"
         v-model="column.description"
-        title="Description"
+        :title="$t('task-board.popup.fields.description')"
       />
     </template>
   </Popup>

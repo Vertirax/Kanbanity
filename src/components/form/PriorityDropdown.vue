@@ -9,7 +9,7 @@
     >
       <template #button-content>
         <div class="task-priority" :class="priority">
-          {{ priority }} Priority
+          {{ priority }} {{ $t("general.enums.priority.title") }}
         </div>
       </template>
       <b-dropdown-item-button

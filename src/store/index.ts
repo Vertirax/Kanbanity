@@ -17,6 +17,7 @@ import Preferences from "@/models/Preferences";
 import KanbanColumn from "@/models/KanbanColumn";
 import Notification from "@/models/Notification";
 import BoardTemplate from "@/models/BoardTemplate";
+import { i18n } from "@/i18n";
 
 Vue.use(Vuex);
 
@@ -170,8 +171,8 @@ export default new Vuex.Store({
         Board.deleteAll(),
       ]).then(() => {
         this.dispatch("successToaster", {
-          title: "Preferences",
-          message: "Successfully deleted all Board related data!",
+          title: i18n.t("preferences.options.toaster.title"),
+          message: i18n.t("preferences.options.toaster.success.delete-all"),
         });
       });
     },

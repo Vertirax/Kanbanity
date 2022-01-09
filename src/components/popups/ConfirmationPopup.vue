@@ -3,7 +3,7 @@
     :id="id"
     :title="title"
     @save="confirm"
-    okTitle="Yes"
+    :okTitle="$t('general.button.yes')"
   >
     <template v-slot:default>
       {{ text }}

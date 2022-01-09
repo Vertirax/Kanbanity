@@ -8,7 +8,7 @@
   >
     <b-card-sub-title>
       <b-badge :variant="notification.active ? 'success' : 'warning'">
-        {{ notification.active ? "Active" : "Inactive" }}
+        {{ notification.active ? $t("notifications.status.active") : $t("notifications.status.inactive") }}
       </b-badge>
     </b-card-sub-title>
     <b-card-text class="my-2">
@@ -22,7 +22,7 @@
       size="sm"
       variant="outline-primary"
       @click="openEditNotificationPopup"
-      text="Edit"
+      :text="$t('general.button.edit')"
       icon="box-arrow-up"
     />
     <NotificationPopup
@@ -39,6 +39,7 @@
 import Notification from "@/classes/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import { i18n } from "@/i18n";
 
 export default {
   name: "NotificationCard",
@@ -70,8 +71,8 @@ export default {
     deleteNotification(id: string): void {
       this.$store.dispatch("deleteNotification", id).then(
         this.$store.dispatch("successToaster", {
-          title: "Notification",
-          message: "Successfully deleted Notification!",
+          title: i18n.t("notifications.title"),
+          message: i18n.t("notifications.delete-message"),
         })
       );
     },

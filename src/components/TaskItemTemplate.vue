@@ -2,7 +2,7 @@
   <div>
     <li class="task-item" v-on-clickaway="discardItem">
       <div class="task-item-header row align-items-center px-1">
-        <div class="col-6">Task name:</div>
+        <div class="col-6">{{ $t("task-board.task.template.name") }}</div>
         <PriorityDropdown
           class="ml-auto mr-3"
           :priority="task.priority"

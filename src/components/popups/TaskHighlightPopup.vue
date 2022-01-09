@@ -1,11 +1,11 @@
 <template>
   <Popup
     :id="id"
-    title="Change Highlight Color"
+    :title="$t('task-board.task.highlight.popup.title')"
     @save="save"
   >
     <template v-slot:default>
-      <Title text="Select a color or specify one to highlight the selected task" />
+      <Title :text="$t('task-board.task.highlight.popup.text')" />
       <Twitter v-model="color" triangle="hide" class="p-0 my-2" />
       <Slider v-model="color" class="pt-3" />
     </template>
@@ -14,10 +14,10 @@
         class="mr-auto"
         variant="warning"
         @click="resetColor"
-        text="Reset Highlight"
+        :text="$t('task-board.task.highlight.popup.reset')"
       />
-      <GeneralButton variant="secondary" @click="hide" text="Cancel" />
-      <GeneralButton variant="primary" @click="save" text="Save" />
+      <GeneralButton variant="secondary" @click="hide" :text="$t('general.button.cancel')" />
+      <GeneralButton variant="primary" @click="save" :text="$t('general.button.save')" />
     </template>
   </Popup>
 </template>

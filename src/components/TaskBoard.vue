@@ -5,7 +5,7 @@
         <b-nav-item>
           <GeneralButton
             variant="primary"
-            text="New List"
+            :text="$t('task-board.buttons.add')"
             @click="openNewListPopup"
           />
         </b-nav-item>

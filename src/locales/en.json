@@ -3,15 +3,159 @@
     "button": {
       "yes": "Yes",
       "edit": "Edit",
-      "delete": "Delete"
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "darkmode": "Darkmode"
+    },
+    "menu": {
+      "dashboard": "Dashboard",
+      "preferences": "Preferences",
+      "notifications": "Notifications"
+    },
+    "enums": {
+      "priority": {
+        "title": "Priority",
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      }
+    },
+    "validation": {
+      "field": {
+        "required": "Value is required"
+      }
     }
   },
   "dashboard": {
-    "add-button": "New Board",
+    "buttons": {
+      "add": "New Board"
+    },
     "card": {
       "cols": "Number of Columns",
       "tasks": "Number of Tasks",
       "created-date": "Created Date"
+    },
+    "popup": {
+      "titles": {
+        "new": "Add New Board",
+        "edit": "Edit Board"
+      },
+      "fields": {
+        "name": "Title",
+        "description": "Description"
+      },
+      "template": {
+        "no-template": "No Template Available",
+        "select": "Select Template"
+      }
+    }
+  },
+  "task-board": {
+    "buttons": {
+      "add": "New List"
+    },
+    "toaster": {
+      "delete": "The selected column has been deleted successfully!"
+    },
+    "popup": {
+      "titles": {
+        "new": "Add New List",
+        "edit": "Edit List"
+      },
+      "fields": {
+        "name": "Title",
+        "description": "Description"
+      }
+    },
+    "task": {
+      "title": "Task",
+      "add": "Add task",
+      "highlight": {
+        "title": "Highlight Task",
+        "popup": {
+          "text": "Select a color or specify one to highlight the selected task",
+          "title": "Change Highlight Color",
+          "reset": "Reset Highlight"
+        }
+      },
+      "template": {
+        "name": "Task name:"
+      },
+      "toaster": {
+        "copy": {
+          "message": "The selected task's name has been copied successfully!"
+        },
+        "delete": {
+          "message":"The selected task has been deleted successfully!"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "title": "Notifications",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "buttons": {
+      "add": "New Notification"
+    },
+    "popup": {
+      "titles": {
+        "new": "Add New Notification",
+        "edit": "Edit Notification"
+      },
+      "fields": {
+        "title": "Title",
+        "message": "Message",
+        "time": "Time",
+        "icon-url": "Icon URL",
+        "active": "Active"
+      }
+    },
+    "permission-alert": "Notifications will only be shown if you give permission to the site!",
+    "delete-message": "Successfully deleted selected Notification!"
+  },
+  "preferences": {
+    "board-template": {
+      "title": "Manage Board Templates",
+      "name": "Template Name",
+      "buttons": {
+        "add": "Add Template"
+      },
+      "badges": {
+        "initial": "Click here, in edit mode",
+        "placeholder": "Add list names separated with comma..."
+      }
+    },
+    "options": {
+      "title": "Options",
+      "buttons": {
+        "delete-all": "Delete All",
+        "export": "Export",
+        "import": "Import"
+      },
+      "titles": {
+        "delete-all": "Delete all Board related data",
+        "export": "Export or Import your Kanbanity data"
+      },
+      "confirmation-popup": {
+        "title": "Delete Data",
+        "text": "Are you sure you want to delete all board related data?"
+      },
+      "toaster": {
+        "title": "Preferences",
+        "upload-error": {
+          "title": "Invalid File Type",
+          "message": "Please upload a valid JSON file!"
+        },
+        "success": {
+          "delete-all": "Successfully deleted all Board related data!",
+          "save": "Successfully saved Board Template!",
+          "delete": "Successfully deleted Board Template!"
+        }
+      }
     }
   }
 }

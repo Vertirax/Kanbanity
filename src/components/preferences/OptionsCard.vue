@@ -1,7 +1,7 @@
 <template>
   <b-card class="col-md-6 col-xl-6 p-2 m-2">
     <b-card-title class="d-flex">
-      <span>Options</span>
+      <span>{{ $t("preferences.options.title") }}</span>
 
       <GeneralButton
         variant="outline-primary"
@@ -16,27 +16,27 @@
       variant="danger"
       :disabled="!edit"
       @click="openConfirmationPopup"
-      text="Delete All"
+      :text="$t('preferences.options.buttons.delete-all')"
       icon="trash-fill"
-      title="Delete all Board related data"
+      :title="$t('preferences.options.titles.delete-all')"
     />
     <ConfirmationPopup
       :id="popupId"
-      title="Delete Data"
-      text="Are you sure you want to delete all board related data?"
+      :title="$t('preferences.options.confirmation-popup.title')"
+      :text="$t('preferences.options.confirmation-popup.text')"
       @confirm="deleteAll"
     />
     <div class="row mt-2 pt-4">
-      <Title class="col-12" text="Export or Import your Kanbanity data" />
+      <Title class="col-12" :text="$t('preferences.options.titles.export')" />
       <b-link :download="filename" :href="downloadLink" class="ml-3">
-        <GeneralButton text="Export" @click="exportJson" variant="secondary" />
+        <GeneralButton :text="$t('preferences.options.buttons.export')" @click="exportJson" variant="secondary" />
       </b-link>
       <GeneralButton
         v-b-toggle:import
         variant="warning"
         class="ml-2"
         :disabled="!edit"
-        text="Import"
+        :text="$t('preferences.options.buttons.import')"
       />
     </div>
     <div class="row mt-2">
@@ -57,6 +57,7 @@ import { mapActions, mapGetters } from "vuex";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import Title from "@/components/form/Title.vue";
+import { i18n } from "@/i18n";
 
 export default {
   name: "OptionsCard",
@@ -100,8 +101,8 @@ export default {
         content.text().then((res) => this.importStorage(JSON.parse(res)));
       } else {
         this.$store.dispatch("errorToaster", {
-          title: "Invalid File Type",
-          message: "Please upload a valid JSON file!",
+          title: i18n.t("preferences.options.toaster.upload-error.title"),
+          message: i18n.t("preferences.options.toaster.upload-error.message"),
         });
       }
     },

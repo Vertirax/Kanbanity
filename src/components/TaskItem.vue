@@ -57,7 +57,7 @@
         class="mb-half"
         size="sm"
         icon="layout-sidebar-reverse"
-        hoverTitle="Highlight Task"
+        :hoverTitle="$t('task-board.task.highlight.title')"
         @click="openHighlightPopup"
       />
       <GeneralButton size="sm" icon="trash" @click="deleteTask" />
@@ -73,6 +73,7 @@ import { directive as onClickaway } from "vue-clickaway2";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
 import TaskHighlightPopup from "@/components/popups/TaskHighlightPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import { i18n } from "@/i18n";
 
 export default {
   name: "TaskItem",
@@ -128,8 +129,8 @@ export default {
     copyTaskName(): void {
       this.$copyText(this.item.name).then(() =>
         this.$store.dispatch("successToaster", {
-          title: "Task",
-          message: "The selected task's name has been copied successfully!",
+          title: i18n.t("task-board.task.title"),
+          message: i18n.t("task-board.task.toaster.copy.message"),
         })
       );
     },

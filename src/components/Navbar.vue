@@ -5,7 +5,7 @@
     sticky
   >
     <router-link to="/">
-      <GeneralButton icon="columns-gap" text="Dashboard" />
+      <GeneralButton icon="columns-gap" :text="$t('general.menu.dashboard')" />
     </router-link>
     <!--<input
         type="text"
@@ -16,15 +16,15 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <router-link to="/preferences">
-        <GeneralButton icon="sliders" text="Preferences" />
+        <GeneralButton icon="sliders" :text="$t('general.menu.preferences')" />
       </router-link>
       <b-navbar-nav class="ml-auto">
         <a class="nav-item my-auto">
-          <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode">Darkmode</b-form-checkbox>
+          <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode">{{ $t("general.button.darkmode") }}</b-form-checkbox>
         </a>
         <b-nav-item>
           <router-link to="/notifications">
-            <a class="nav-link"> Notifications </a>
+            <a class="nav-link">{{ $t("general.menu.notifications") }} </a>
           </router-link>
         </b-nav-item>
         <slot name="addButton" />

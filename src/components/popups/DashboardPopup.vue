@@ -1,41 +1,41 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? 'Edit Board' : 'Add New Board'"
+    :title="edit ? $t('dashboard.popup.titles.edit') : $t('dashboard.popup.titles.new')"
     @save="save"
     @cancel="clear"
   >
     <template #default>
       <InputField
         v-model="board.name"
-        title="Title"
+        :title="$t('dashboard.popup.fields.name')"
         autofocus
         required
         :state="sent ? !$v.board.name.$error : null"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.board.name.required">
-            Value is required
+            {{ $t("general.validation.field.required") }}
           </b-form-invalid-feedback>
         </template>
       </InputField>
       <InputField
         class="mt-2"
         v-model="board.description"
-        title="Description"
+        :title="$t('dashboard.popup.fields.description')"
       />
       <b-dropdown
         v-if="!edit"
+        :disabled="!templates.length"
+        variant="default"
+        class="mt-2"
         :text="
           selectedTemplate.name !== ''
             ? selectedTemplate.name
             : !templates.length
-            ? 'No Template Available'
-            : 'Select Template'
+            ? $t('dashboard.popup.template.no-template')
+            : $t('dashboard.popup.template.select')
         "
-        :disabled="!templates.length"
-        variant="default"
-        class="mt-2"
       >
         <b-dropdown-item
           v-for="template in templates"

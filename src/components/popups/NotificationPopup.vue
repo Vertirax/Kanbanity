@@ -1,39 +1,39 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? 'Edit Notification' : 'Add New Notification'"
+    :title="edit ? $t('notifications.popup.titles.edit') : $t('notifications.popup.titles.new')"
     @save="save"
     @cancel="clear"
   >
     <template v-slot:default>
       <InputField
         v-model="notification.title"
-        title="Title"
+        :title="$t('notifications.popup.fields.title')"
         autofocus
         required
         :state="sent ? !$v.notification.title.$error : null"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.notification.title.required">
-            Value is required
+            {{ $t("general.validation.field.required") }}
           </b-form-invalid-feedback>
         </template>
       </InputField>
       <InputField
         v-model="notification.message"
-        title="Message"
+        :title="$t('notifications.popup.fields.message')"
         required
         :state="sent ? !$v.notification.message.$error : null"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.notification.message.required">
-            Value is required
+            {{ $t("general.validation.field.required") }}
           </b-form-invalid-feedback>
         </template>
       </InputField>
-      <TimePicker v-model="time" title="Time" required />
-      <InputField v-model="notification.iconUrl" title="Icon URL" />
-      <Title v-if="edit" :forId="'checkbox-active-' + id" text="Active" />
+      <TimePicker v-model="time" :title="$t('notifications.popup.fields.time')" required />
+      <InputField v-model="notification.iconUrl" :title="$t('notifications.popup.fields.icon-url')" />
+      <Title v-if="edit" :forId="'checkbox-active-' + id" :text="$t('notifications.popup.fields.active')" />
       <b-form-checkbox v-if="edit" :id="'checkbox-active-' + id" size="lg" v-model="notification.active"></b-form-checkbox>
     </template>
 
@@ -42,11 +42,11 @@
         class="mr-auto"
         variant="danger"
         icon="trash-fill"
-        text="Delete"
+        :text="$t('general.button.delete')"
         @click="$emit('delete', notification.id)"
       />
-      <GeneralButton variant="secondary" text="Cancel" @click="hide" />
-      <GeneralButton variant="primary" text="Save" @click="save" />
+      <GeneralButton variant="secondary" :text="$t('general.button.cancel')" @click="hide" />
+      <GeneralButton variant="primary" :text="$t('general.button.save')" @click="save" />
     </template>
   </Popup>
 </template>

@@ -5,7 +5,7 @@
         <b-nav-item>
           <GeneralButton
             variant="primary"
-            :text="$t('dashboard.add-button')"
+            :text="$t('dashboard.buttons.add')"
             @click="openPopup"
           />
         </b-nav-item>

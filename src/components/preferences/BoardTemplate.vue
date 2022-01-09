@@ -4,7 +4,7 @@
       <InputField
         v-model="template.name"
         class="w-50"
-        title="Template Name"
+        :title="$t('preferences.board-template.name')"
         required
         :disabled="!edit"
       />
@@ -15,7 +15,7 @@
         :template-string="
           template.columns !== ''
             ? template.columns
-            : 'Click here, in edit mode'
+            : $t('preferences.board-template.badges.initial')
         "
         @click="toggleBadges"
         :disabled="!edit"
@@ -24,16 +24,16 @@
         v-else-if="!showBadges && edit"
         class="mt-2"
         v-model="template.columns"
-        placeholder="Add list names separated with comma..."
+        :placeholder="$t('preferences.board-template.badges.placeholder')"
         v-on-clickaway="toggleBadges"
         @enterHit="toggleBadges"
         :disabled="!edit"
       />
     </div>
     <div v-if="showIcons && edit" class="col-1">
-      <GeneralButton hoverTitle="Save" icon="check2" @click="saveTemplate" />
+      <GeneralButton :hoverTitle="$t('general.button.save')" icon="check2" @click="saveTemplate" />
       <GeneralButton
-        hoverTitle="Delete"
+        :hoverTitle="$t('general.button.delete')"
         icon="trash-fill"
         @click="deleteTemplate(template.id)"
       />

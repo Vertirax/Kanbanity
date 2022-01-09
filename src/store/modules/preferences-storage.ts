@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
 import BoardTemplate from "@/classes/BoardTemplate";
-import Preferences from "@/models/Preferences";
 import Template from "@/models/BoardTemplate";
+import { i18n } from "@/i18n";
 
-const preferencesTitle = "Preferences";
+const preferencesTitle = i18n.t("preferences.options.toaster.title");
 
 export default {
   store: {
@@ -23,7 +23,7 @@ export default {
       }).then(() => {
         this.dispatch("successToaster", {
           title: preferencesTitle,
-          message: "Successfully saved Board Template!",
+          message: i18n.t("preferences.options.toaster.success.save"),
         });
       });
     },
@@ -32,7 +32,7 @@ export default {
         () => {
         this.dispatch("successToaster", {
           title: preferencesTitle,
-          message: "Successfully deleted Board Template!",
+          message: i18n.t("preferences.options.toaster.success.delete"),
         });
       });
     },

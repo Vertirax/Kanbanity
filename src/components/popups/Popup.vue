@@ -17,12 +17,14 @@
 </template>
 
 <script lang="ts">
+import { i18n } from "@/i18n";
+
 export default {
   name: "Popup",
   props: {
     id: { type: String, required: true },
     title: { type: String, required: true },
-    okTitle: { type: String, default: "Save" },
+    okTitle: { type: String, default: i18n.t("general.button.save") },
   },
   methods: {
     save(bvModalEvt): void {
