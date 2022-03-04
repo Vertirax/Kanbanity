@@ -138,7 +138,8 @@
       },
       "titles": {
         "delete-all": "Delete all Board related data",
-        "export": "Export or Import your Kanbanity data"
+        "export-import": "Export or Import your Kanbanity data",
+        "import": "Importing will not overwrite existing data!"
       },
       "confirmation-popup": {
         "title": "Delete Data",

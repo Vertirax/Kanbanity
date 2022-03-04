@@ -49,15 +49,9 @@ export default {
         )
         .get();
       notifications.forEach((notification) => {
-        // eslint-disable-next-line
-        // @ts-ignore
-        new Notification(notification.title, {
-          // eslint-disable-next-line
-          // @ts-ignore
-          icon: notification.iconUrl,
-          // eslint-disable-next-line
-          // @ts-ignore
-          body: notification.message,
+        new Notification(notification["title"], {
+          icon: notification["iconUrl"],
+          body: notification["message"],
         });
       });
     },

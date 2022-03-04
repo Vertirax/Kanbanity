@@ -1,33 +1,36 @@
 import Vue from "vue";
 import VueRouter, { RouteConfig } from "vue-router";
 import KanbanDashboard from "@/components/KanbanDashboard.vue";
+import { Routes } from "@/enums/Routes";
 
 Vue.use(VueRouter);
 
+const BASE = "/";
+
 const routes: Array<RouteConfig> = [
   {
-    path: "/",
-    name: "dashboard",
+    path: BASE,
+    name: Routes.DASHBOARD,
     component: KanbanDashboard,
     props: true,
   },
   {
-    path: "/task-board",
-    name: "task-board",
+    path: BASE.concat(Routes.TASK_BOARD),
+    name: Routes.TASK_BOARD,
     component: () => {
       return import("@/components/TaskBoard.vue");
     },
   },
   {
-    path: "/notifications",
-    name: "notifications",
+    path: BASE.concat(Routes.NOTIFICATIONS),
+    name: Routes.NOTIFICATIONS,
     component: () => {
       return import("@/components/Notifications.vue");
     },
   },
   {
-    path: "/preferences",
-    name: "preferences",
+    path: BASE.concat(Routes.PREFERENCES),
+    name: Routes.PREFERENCES,
     component: () => {
       return import("@/components/preferences/Preferences.vue");
     },

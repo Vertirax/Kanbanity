@@ -4,7 +4,7 @@ require("babel-polyfill");
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 module.exports = {
-  entry: ["babel-polyfill", "./src/main.js"],
+  entry: ["babel-polyfill", "./src/main.ts"],
   optimization: {
     minimizer: [
       // we specify a custom UglifyJsPlugin here to get source maps in production

@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import BoardTemplate from "@/classes/BoardTemplate";
 import Template from "@/models/BoardTemplate";
 import { i18n } from "@/i18n";

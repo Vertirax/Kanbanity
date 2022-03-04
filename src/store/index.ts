@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import Vue from "vue";
 import Vuex from "vuex";
 import VuexORM from "@vuex-orm/core";
@@ -84,7 +82,7 @@ export default new Vuex.Store({
             template = template.trim();
             Column.insert({
               data: {
-                board_id: response.boards[0].id,
+                board_id: response.boards[0]["id"],
                 name: template,
               },
             });
@@ -214,7 +212,7 @@ export default new Vuex.Store({
           cols.forEach((colName) =>
             Column.insert({
               data: {
-                board_id: data.boards[0].id,
+                board_id: data.boards[0]["id"],
                 name: colName,
               },
             })

@@ -27,7 +27,7 @@
       @confirm="deleteAll"
     />
     <div class="row mt-2 pt-4">
-      <Title class="col-12" :text="$t('preferences.options.titles.export')" />
+      <Title class="col-12" :text="$t('preferences.options.titles.export-import')" />
       <b-link :download="filename" :href="downloadLink" class="ml-3">
         <GeneralButton :text="$t('preferences.options.buttons.export')" @click="exportJson" variant="secondary" />
       </b-link>
@@ -41,6 +41,7 @@
     </div>
     <div class="row mt-2">
       <b-collapse id="import" class="ml-3">
+        <Title :text="$t('preferences.options.titles.import')" italic />
         <b-form-file
           :disabled="!edit"
           accept=".json"
@@ -69,7 +70,7 @@ export default {
   data() {
     return {
       edit: false,
-      filename: "kanbanity-export_" + new Date().toLocaleDateString().replaceAll("/", "-") + ".json",
+      filename: `kanbanity-export_${new Date().toISOString().slice(0, 10)}.json`,
       downloadLink: "",
       importFile: null,
       jsonType: "application/json",

@@ -1,5 +1,5 @@
 <template>
-  <label :for="forId" class="text-secondary small mb-1">
+  <label :for="forId" class="text-secondary small mb-1" :class="italic ? 'font-italic': ''">
     {{ text }}
   </label>
 </template>
@@ -10,6 +10,7 @@ export default {
   props: {
     text: { type: String, required: true },
     forId: { type: String },
+    italic: { type: Boolean, default: false },
   },
 };
 </script>
