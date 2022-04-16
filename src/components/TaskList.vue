@@ -2,15 +2,41 @@
   <div>
     <div class="task-board" :data-board-name="list.name">
       <div class="board-header">
-        <p class="board-name mx-1">{{ list.name }}</p>
+        <p class="board-name mx-1 mw-50">{{ list.name }}</p>
+        <div
+          class="ml-auto total-time-spent"
+          v-if="totalTimeSpent.hours > 0 || totalTimeSpent.minutes > 0"
+        >
+          <b-icon-clock-history
+            :title="$t('task-board.titles.total-time-spent')"
+          />
+          <span v-if="totalTimeSpent.hours > 0">
+            {{ totalTimeSpent.hours }}{{ $t("task-board.titles.hours") }}</span
+          >
+          <span v-if="totalTimeSpent.minutes > 0">
+            {{ totalTimeSpent.minutes }}{{ $t("task-board.titles.minutes") }}</span
+          >
+        </div>
         <!--<b-icon-info-circle v-b-tooltip variant="info" class="h5" :title="list.description"></b-icon-info-circle>-->
         <div>
-          <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
+          <b-dropdown
+            id="dropdown"
+            size="xl"
+            variant="link"
+            toggle-class="text-decoration-none"
+            no-caret
+          >
             <template #button-content>
               <b-icon-three-dots-vertical variant="dark" />
             </template>
-            <b-dropdown-item @click="openPopup"><b-icon-pencil-fill class="mr-3"/>{{ $t("general.button.edit") }}</b-dropdown-item>
-            <b-dropdown-item @click="deleteColumn"><b-icon-trash-fill class="mr-3"/>{{ $t("general.button.delete") }}</b-dropdown-item>
+            <b-dropdown-item @click="openPopup">
+              <b-icon-pencil-fill class="mr-3" />
+              {{ $t("general.button.edit") }}
+            </b-dropdown-item>
+            <b-dropdown-item @click="deleteColumn">
+              <b-icon-trash-fill class="mr-3" />
+              {{ $t("general.button.delete") }}
+            </b-dropdown-item>
           </b-dropdown>
         </div>
       </div>
@@ -43,7 +69,12 @@
               />
             </transition-group>
           </draggable>
-          <TaskItemTemplate v-if="showTemplate" :list="list" @toggleTemplate="toggleTemplate" @discardItem="hideTemplate"/>
+          <TaskItemTemplate
+            v-if="showTemplate"
+            :list="list"
+            @toggleTemplate="toggleTemplate"
+            @discardItem="hideTemplate"
+          />
         </ul>
       </div>
       <div class="board-footer">
@@ -66,6 +97,7 @@ import KanbanColumn from "@/classes/KanbanColumn";
 import { mapActions, mapGetters } from "vuex";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import { i18n } from "@/i18n";
+import TimeMixin from "@/mixins/TimeMixin";
 
 export default {
   name: "TaskList",
@@ -76,6 +108,7 @@ export default {
     ColumnPopup,
   },
   props: ["board", "list"],
+  mixins: [TimeMixin],
   data() {
     return {
       drag: false,
@@ -89,13 +122,14 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ newIndex: "getItemNewIndex" }),
+    ...mapGetters({
+      newIndex: "getItemNewIndex",
+    }),
     dragOptions() {
       return {
         animation: "200",
         ghostClass: "ghost",
         group: "kanban-board-list-items",
-        // disabled: this.isEditing || !this.shouldAllowTaskItemsReorder
       };
     },
     items: {
@@ -153,7 +187,11 @@ export default {
     },
     onEnd(id: string): void {
       this.fromColumnId = id;
-      if (this.taskId && this.fromColumnId && this.fromColumnId !== this.toColumnId) {
+      if (
+        this.taskId &&
+        this.fromColumnId &&
+        this.fromColumnId !== this.toColumnId
+      ) {
         this.dragEvent({
           taskId: this.taskId,
           fromColumnId: this.fromColumnId,
@@ -211,5 +249,8 @@ p {
       min-width: 10rem;
     }
   }
+}
+.total-time-spent {
+  opacity: 0.6;
 }
 </style>

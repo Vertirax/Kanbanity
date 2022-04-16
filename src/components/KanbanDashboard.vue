@@ -28,12 +28,26 @@
                 <div class="d-flex justify-content-between">
                   <h5 class="card-title flex-nowrap">{{ board.name }}</h5>
                   <div>
-                    <b-dropdown id="dropdown" size="xl" variant="link" toggle-class="text-decoration-none" no-caret>
+                    <b-dropdown
+                      id="dropdown"
+                      size="xl"
+                      variant="link"
+                      toggle-class="text-decoration-none"
+                      no-caret
+                      dropleft
+                      offset="30"
+                    >
                       <template #button-content>
                         <b-icon-three-dots-vertical variant="dark" />
                       </template>
-                      <b-dropdown-item @click="openPopup(board.id)"><b-icon-pencil-fill class="mr-3"/>{{ $t("general.button.edit") }}</b-dropdown-item>
-                      <b-dropdown-item @click="deleteBoard(board.id)"><b-icon-trash-fill class="mr-3"/>{{ $t("general.button.delete") }}</b-dropdown-item>
+                      <b-dropdown-item @click="openPopup(board.id)">
+                        <b-icon-pencil-fill class="mr-3" />
+                        {{ $t("general.button.edit") }}
+                      </b-dropdown-item>
+                      <b-dropdown-item @click="deleteBoard(board.id)">
+                        <b-icon-trash-fill class="mr-3" />
+                        {{ $t("general.button.delete") }}
+                      </b-dropdown-item>
                     </b-dropdown>
                   </div>
                 </div>
@@ -43,18 +57,32 @@
                 <div class="details-wrapper">
                   <div class="board-info">
                     <p class="card-text">
-                      <b-icon-layout-sidebar-inset :title="$t('dashboard.card.cols')" /> {{ columnCount(board.id) }} |
-                      <b-icon-list-task :title="$t('dashboard.card.tasks')" /> {{ taskCount(board.id) }}
+                      <b-icon-layout-sidebar-inset
+                        :title="$t('dashboard.card.cols')"
+                      />
+                      {{ columnCount(board.id) }} |
+                      <b-icon-list-task :title="$t('dashboard.card.tasks')" />
+                      {{ taskCount(board.id) }}
                     </p>
                   </div>
                   <div class="date">
-                    <p class="text-muted" :title="$t('dashboard.card.created-date')">{{ board.createdDateString }}</p>
+                    <p
+                      class="text-muted"
+                      :title="$t('dashboard.card.created-date')"
+                    >
+                      {{ board.createdDateString }}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
           </router-link>
-          <DashboardPopup :id="popupId + board.id" :dashboard="board" edit @change="editBoard"/>
+          <DashboardPopup
+            :id="popupId + board.id"
+            :dashboard="board"
+            edit
+            @change="editBoard"
+          />
         </div>
         <HelperImage
           v-if="boards.length === 0"

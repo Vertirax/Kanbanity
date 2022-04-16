@@ -5,7 +5,8 @@
     </label>
     <b-form-timepicker
       :id="id"
-      now-button
+      :size="smallSized ? 'sm' : 'md'"
+      :now-button="nowButton"
       reset-button
       locale="hu"
       v-model="time"
@@ -13,6 +14,9 @@
       :state="state"
       :disabled="disabled"
       :autofocus="autofocus"
+      :label-no-time-selected="nowButton ? $t('general.label-no-time-selected') : ''"
+      :minutes-step="minuteStep ? minuteStep : 1"
+      :reset-value="resetValue ? '00:00:00' : ''"
       @input="emitInput"
     ></b-form-timepicker>
   </div>
@@ -26,10 +30,14 @@ export default {
   props: {
     title: { type: String },
     value: { type: String },
+    minuteStep: { type: Number },
     state: { type: Boolean, default: null },
     disabled: { type: Boolean, default: false },
     required: { type: Boolean, default: false },
     autofocus: { type: Boolean, default: false },
+    nowButton: { type: Boolean, default: true },
+    smallSized: { type: Boolean, default: false },
+    resetValue: { type: Boolean, default: false },
   },
   data() {
     return {

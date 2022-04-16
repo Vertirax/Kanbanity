@@ -234,13 +234,17 @@ ul, li {
 }
 
 .cursor-text {
-  cursor: text !important;
+    cursor: text !important;
 }
 
 .mb-half {
-  margin-bottom: 0.1rem !important;
+    margin-bottom: 0.1rem !important;
+}
+
+.mw-50 {
+    max-width: 50% !important;
 }
 
 .form-required {
-  color: $danger;
+    color: $danger;
 }

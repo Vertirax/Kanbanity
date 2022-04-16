@@ -33,7 +33,7 @@ export default {
     title: { type: String },
     placeholder: { type: String },
     type: { type: String, default: "text" },
-    value: { type: String },
+    value: { type: [String, Number] },
     state: { type: Boolean, default: null },
     disabled: { type: Boolean, default: false },
     required: { type: Boolean, default: false },

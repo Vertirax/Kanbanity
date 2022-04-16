@@ -5,37 +5,37 @@ import { Routes } from "@/enums/Routes";
 
 Vue.use(VueRouter);
 
-const BASE = "/";
+const ROOT = "/";
 
 const routes: Array<RouteConfig> = [
   {
-    path: BASE,
+    path: ROOT,
     name: Routes.DASHBOARD,
     component: KanbanDashboard,
     props: true,
   },
   {
-    path: BASE.concat(Routes.TASK_BOARD),
+    path: ROOT.concat(Routes.TASK_BOARD),
     name: Routes.TASK_BOARD,
     component: () => {
       return import("@/components/TaskBoard.vue");
     },
   },
   {
-    path: BASE.concat(Routes.NOTIFICATIONS),
+    path: ROOT.concat(Routes.NOTIFICATIONS),
     name: Routes.NOTIFICATIONS,
     component: () => {
       return import("@/components/Notifications.vue");
     },
   },
   {
-    path: BASE.concat(Routes.PREFERENCES),
+    path: ROOT.concat(Routes.PREFERENCES),
     name: Routes.PREFERENCES,
     component: () => {
       return import("@/components/preferences/Preferences.vue");
     },
   },
-  { path: "*", redirect: "/" },
+  { path: "*", redirect: ROOT },
 ];
 
 const router = new VueRouter({

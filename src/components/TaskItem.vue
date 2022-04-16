@@ -13,6 +13,15 @@
           :priority="item.priority"
           @change="changePriority"
         />
+        <TimePicker
+          class="ml-2"
+          v-model="time"
+          :nowButton="false"
+          :minuteStep="5"
+          :disabled="!editMode"
+          smallSized
+          resetValue
+        />
       </div>
       <div class="task-item-body">
         <b-textarea
@@ -36,8 +45,6 @@
           max-rows="5"
           @update="saveTaskNameTemp"
         ></TextArea>-->
-        <!--<p class="task-title" @click="openTaskDetailPopoup(item)">{{ this.item.name }}</p>
-        <-- <textarea type="text" class="form-control task-title" :value="task.title" rows="2"></textarea> -->
       </div>
     </div>
     <div v-if="showIcons || editMode" class="col-1 pl-3">
@@ -51,7 +58,7 @@
         class="mb-half"
         size="sm"
         :icon="editMode ? 'pencil-fill' : 'pencil'"
-        @click="toggleEdit"
+        @click="toggleEditAndSave"
       />
       <GeneralButton
         class="mb-half"
@@ -62,7 +69,10 @@
       />
       <GeneralButton size="sm" icon="trash" @click="deleteTask" />
     </div>
-    <TaskHighlightPopup :id="colorPopupId + item.id" @save="changeHighlightColor"/>
+    <TaskHighlightPopup
+      :id="colorPopupId + item.id"
+      @save="changeHighlightColor"
+    />
   </li>
 </template>
 
@@ -74,6 +84,8 @@ import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
 import TaskHighlightPopup from "@/components/popups/TaskHighlightPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import { i18n } from "@/i18n";
+import TimePicker from "@/components/form/TimePicker.vue";
+import TimeMixin from "@/mixins/TimeMixin";
 
 export default {
   name: "TaskItem",
@@ -81,7 +93,9 @@ export default {
     TaskHighlightPopup,
     PriorityDropdown,
     GeneralButton,
+    TimePicker,
   },
+  mixins: [TimeMixin],
   props: {
     item: { type: Task, required: true },
   },
@@ -94,6 +108,7 @@ export default {
       showIcons: false,
       editMode: false,
       colorPopupId: "highlight-color-popup",
+      time: "",
     };
   },
   computed: {
@@ -116,9 +131,10 @@ export default {
     toggleShowIcons(): void {
       this.showIcons = !this.showIcons;
     },
-    toggleEdit(): void {
+    toggleEditAndSave(): void {
       if (this.editMode) {
-        this.saveTaskName();
+        this.item.name = this.item.name.trim();
+        this.saveTask();
       }
       this.editMode = !this.editMode;
     },
@@ -134,10 +150,11 @@ export default {
         })
       );
     },
-    saveTaskName(): void {
-      this.$store.dispatch("changeTaskName", {
+    saveTask(): void {
+      this.$store.dispatch("changeTaskItem", {
         id: this.item.id,
         name: this.item.name,
+        timeMinutes: this.getTotalMinutes(this.time),
       });
     },
     deleteTask(): void {
@@ -158,6 +175,14 @@ export default {
         highlightColor: color,
       });
     },
+    setTimeMinutes(value: string) {
+      this.item.timeMinutes = value ? this.getTotalMinutes(value) : 0;
+    },
+  },
+  created() {
+    this.time = `${this.getHours(
+      this.item.timeMinutes
+    )}:${this.getRemainingMinutes(this.item.timeMinutes)}`;
   },
 };
 </script>
@@ -174,5 +199,12 @@ export default {
 .add-icon {
   margin-left: 20px;
   cursor: pointer;
+}
+/deep/ .b-form-btn-label-control.form-control[aria-disabled="true"] {
+  background-color: unset;
+  opacity: 0.7;
+}
+/deep/ .b-form-timepicker > button {
+  padding-left: 0.5rem;
 }
 </style>

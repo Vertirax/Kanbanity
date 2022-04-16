@@ -14,6 +14,7 @@ export default class Task extends Model {
       description: this.string(""),
       priority: this.string(Priority.MEDIUM),
       highlightColor: this.string(null).nullable(),
+      timeMinutes: this.number(0),
     };
   }
 }

@@ -25,7 +25,8 @@
       "field": {
         "required": "Value is required"
       }
-    }
+    },
+    "label-no-time-selected": "No time selected"
   },
   "dashboard": {
     "buttons": {
@@ -54,6 +55,11 @@
   "task-board": {
     "buttons": {
       "add": "New List"
+    },
+    "titles": {
+      "total-time-spent": "Total time spent",
+      "hours": "h",
+      "minutes": "m"
     },
     "toaster": {
       "delete": "The selected column has been deleted successfully!"

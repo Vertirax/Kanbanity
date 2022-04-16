@@ -63,10 +63,13 @@ export default new Vuex.Store({
         "${Preferences.entity}": ${JSON.stringify(Preferences.all())}
       }`;
     },
-    renameTask(state, payload) {
+    updateTask(state, payload) {
       Task.update({
         where: (task) => { return task.id === payload.id; },
-        data: { name: payload.name },
+        data: {
+          name: payload.name,
+          timeMinutes: payload.timeMinutes
+        },
       });
     },
     saveBoard(state, payload) {
@@ -250,8 +253,8 @@ export default new Vuex.Store({
     saveTaskItem({ commit }, payload) {
       commit("saveTask", payload);
     },
-    changeTaskName({ commit }, payload) {
-      commit("renameTask", payload);
+    changeTaskItem({ commit }, payload) {
+      commit("updateTask", payload);
     },
     changePriority({ commit }, payload) {
       commit("changePriority", payload);
@@ -274,6 +277,7 @@ export default new Vuex.Store({
     getCurrentBoard: (state) => state.currentBoard,
     getStorageToExport: (state) => state.storageToExport,
     getAllBoards: () => Board.all(),
+    getTotalTimeSpent: () => (columnId: string) => Task.query().where("column_id", columnId).sum("timeMinutes"),
   },
   modules: {
     ToastStorage,
