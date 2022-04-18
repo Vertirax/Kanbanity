@@ -54,5 +54,12 @@ export default {
       this.$emit("input", this.time);
     },
   },
+  watch: {
+    value: {
+      handler() {
+        this.time = this.value;
+      }
+    }
+  }
 };
 </script>

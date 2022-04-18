@@ -61,7 +61,7 @@
             >
               <TaskItem
                 v-for="item in items"
-                :item="item"
+                :task="item"
                 :list="list"
                 :board="board"
                 :key="item.id"

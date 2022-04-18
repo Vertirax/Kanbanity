@@ -67,7 +67,7 @@ export default new Vuex.Store({
       Task.update({
         where: (task) => { return task.id === payload.id; },
         data: {
-          name: payload.name,
+          name: payload.name.trim(),
           timeMinutes: payload.timeMinutes
         },
       });

@@ -13,8 +13,16 @@
     </Navbar>
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
-        <b-icon v-b-toggle.collapse :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"/>
-        <b-collapse class="board-details pl-1" id="collapse" v-model="isCollapsed">
+        <b-icon
+          role="button"
+          v-b-toggle.collapse
+          :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"
+        />
+        <b-collapse
+          class="board-details pl-1"
+          id="collapse"
+          v-model="isCollapsed"
+        >
           <div class="project-name mb-2 row">
             <b-input
               type="text"
@@ -54,7 +62,10 @@
           ></TaskList>
         </draggable>
       </div>
-      <HelperImage v-if="lists.length === 0" text="Add a list to track your work!" />
+      <HelperImage
+        v-if="lists.length === 0"
+        text="Add a list to track your work!"
+      />
     </div>
     <ColumnPopup :id="newColumnPopupId" @save="addNewList" />
   </div>

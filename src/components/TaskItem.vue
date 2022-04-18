@@ -97,7 +97,7 @@ export default {
   },
   mixins: [TimeMixin],
   props: {
-    item: { type: Task, required: true },
+    task: { type: Task, required: true },
   },
   directives: {
     onClickaway: onClickaway,
@@ -109,20 +109,18 @@ export default {
       editMode: false,
       colorPopupId: "highlight-color-popup",
       time: "",
+      item: { ...this.task },
     };
   },
   computed: {
     shadows(): string {
       return "box-shadow: ".concat(
         this.editMode && this.item.highlightColor
-          ? this.item.highlightColor +
-              " 10px 0px 0px 0px, ".concat(
-                "#ffc107 10px 0px 0px 0.15rem, #ffc107 0px 0px 0px 0.15rem;"
-              )
+          ? `${this.item.highlightColor} 10px 0px, #ffc107 10.25px 0px 0px 2.5px, #ffc107 0px 0px 0px 2.5px;`
           : this.editMode
-          ? "#ffc107 0px 0px 0px 0.15rem;"
+          ? "#ffc107 0px 0px 0px 2.5px;"
           : this.item.highlightColor
-          ? this.item.highlightColor + " 10px 0px 0px 0px;"
+          ? `${this.item.highlightColor} 10px 0px;`
           : "none"
       );
     },
@@ -133,7 +131,6 @@ export default {
     },
     toggleEditAndSave(): void {
       if (this.editMode) {
-        this.item.name = this.item.name.trim();
         this.saveTask();
       }
       this.editMode = !this.editMode;
@@ -141,6 +138,8 @@ export default {
     clickAway(): void {
       this.editMode = false;
       this.showIcons = false;
+      this.setTime();
+      this.item = { ...this.task };
     },
     copyTaskName(): void {
       this.$copyText(this.item.name).then(() =>
@@ -178,11 +177,22 @@ export default {
     setTimeMinutes(value: string) {
       this.item.timeMinutes = value ? this.getTotalMinutes(value) : 0;
     },
+    setTime(): void {
+      this.time = `${this.getHours(
+        this.item.timeMinutes
+      )}:${this.getRemainingMinutes(this.item.timeMinutes)}`;
+    },
   },
   created() {
-    this.time = `${this.getHours(
-      this.item.timeMinutes
-    )}:${this.getRemainingMinutes(this.item.timeMinutes)}`;
+    this.setTime();
+  },
+  watch: {
+    task: {
+      deep: true,
+      handler(): void {
+        this.item = { ...this.task };
+      },
+    },
   },
 };
 </script>

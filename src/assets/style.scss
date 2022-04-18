@@ -103,6 +103,7 @@ ul, li {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 12px;
+    cursor: grab;
 }
 
 .board-header .board-name {
@@ -165,6 +166,7 @@ ul, li {
     overflow: hidden;
     text-align: justify;
     text-justify: inter-word;
+    outline: none;
 }
 
 .task-item-footer, .assigned-users, .comments-attachments {
