@@ -7,13 +7,7 @@
     <router-link to="/">
       <GeneralButton icon="columns-gap" :text="$t('general.menu.dashboard')" />
     </router-link>
-    <!--<input
-        type="text"
-        class="form-control search-task"
-        placeholder="Search for tasks.."
-      />-->
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
     <b-collapse id="nav-collapse" is-nav>
       <router-link to="/preferences">
         <GeneralButton icon="sliders" :text="$t('general.menu.preferences')" />
@@ -27,7 +21,9 @@
             <a class="nav-link">{{ $t("general.menu.notifications") }} </a>
           </router-link>
         </b-nav-item>
-        <slot name="addButton" />
+        <b-nav-item>
+          <slot name="addButton" />
+        </b-nav-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -51,17 +47,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.add-board-link {
-  display: flex;
-  align-items: center;
-}
-.navbar {
-  width: 100%;
-  min-height: 70px;
-  height: auto;
-}
-.search-task::placeholder {
-  color: #e8e8e8;
-}
-</style>

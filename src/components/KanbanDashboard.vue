@@ -2,13 +2,11 @@
   <div class="main-wrapper">
     <Navbar>
       <template #addButton>
-        <b-nav-item>
-          <GeneralButton
-            variant="primary"
-            :text="$t('dashboard.buttons.add')"
-            @click="openPopup"
-          />
-        </b-nav-item>
+        <GeneralButton
+          variant="primary"
+          :text="$t('dashboard.buttons.add')"
+          @click="openPopup"
+        />
       </template>
     </Navbar>
     <div class="container-fluid main-container">
@@ -84,12 +82,6 @@
             @change="editBoard"
           />
         </div>
-        <HelperImage
-          v-if="boards.length === 0"
-          text="Add a board to start organising your work!"
-          width="350px"
-          height="350px"
-        />
       </div>
     </div>
     <DashboardPopup :id="popupId" @save="saveBoard" />
@@ -101,7 +93,6 @@ import { mapGetters } from "vuex";
 import Navbar from "@/components/Navbar.vue";
 import Task from "@/models/Task";
 import Column from "@/models/KanbanColumn";
-import HelperImage from "@/components/HelperImage.vue";
 import KanbanDashboard from "@/classes/Board";
 import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 import BoardTemplate from "@/classes/BoardTemplate";
@@ -111,7 +102,6 @@ export default {
   name: "Dashboard",
   components: {
     Navbar,
-    HelperImage,
     DashboardPopup,
     GeneralButton,
   },

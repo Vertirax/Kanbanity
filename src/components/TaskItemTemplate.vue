@@ -20,20 +20,6 @@
       </div>
       <div class="task-item-footer">
         <GeneralButton size="sm" icon="check2" @click="saveItem" />
-        <!-- <div class="comments-attachments">
-          <div class="comments">
-            <i class="far fa-comment-alt"></i> 1
-          </div>
-          <div class="attachment">
-            <i class="fa fa-paperclip"></i> 2
-          </div>
-        </div>-->
-        <!-- <div class="assigned-users">
-          <div class="user-avatar" v-for="(user, id) in item.assignedUsers" :key="id">
-            <img :src="user.imgURL" alt />
-          </div>
-          <div class="add-icon">+</div>
-        </div>-->
       </div>
     </li>
   </div>

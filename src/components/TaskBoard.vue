@@ -2,13 +2,11 @@
   <div class="h-100">
     <Navbar>
       <template #addButton>
-        <b-nav-item>
           <GeneralButton
             variant="primary"
             :text="$t('task-board.buttons.add')"
             @click="openNewListPopup"
           />
-        </b-nav-item>
       </template>
     </Navbar>
     <div class="container-fluid main-container scrollable-div">
@@ -62,10 +60,6 @@
           ></TaskList>
         </draggable>
       </div>
-      <HelperImage
-        v-if="lists.length === 0"
-        text="Add a list to track your work!"
-      />
     </div>
     <ColumnPopup :id="newColumnPopupId" @save="addNewList" />
   </div>
@@ -76,7 +70,6 @@ import Navbar from "@/components/Navbar.vue";
 import TaskList from "@/components/TaskList.vue";
 import draggable from "vuedraggable";
 import { mapActions, mapGetters } from "vuex";
-import HelperImage from "@/components/HelperImage.vue";
 import Column from "@/models/KanbanColumn";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
@@ -87,7 +80,6 @@ export default {
     TaskList,
     draggable,
     Navbar,
-    HelperImage,
     ColumnPopup,
     GeneralButton,
   },

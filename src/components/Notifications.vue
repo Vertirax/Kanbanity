@@ -2,13 +2,11 @@
   <div class="h-100">
     <Navbar>
       <template #addButton>
-        <b-nav-item>
-          <GeneralButton
-            variant="primary"
-            :text="$t('notifications.buttons.add')"
-            @click="$bvModal.show(popupId)"
-          />
-        </b-nav-item>
+        <GeneralButton
+          variant="primary"
+          :text="$t('notifications.buttons.add')"
+          @click="$bvModal.show(popupId)"
+        />
       </template>
     </Navbar>
     <div class="container-fluid main-container">
@@ -28,7 +26,6 @@
           :notification="notification"
         ></NotificationCard>
       </div>
-      <HelperImage v-if="notifications.length === 0" text="Add notifications to remember everything!" />
     </div>
     <NotificationPopup :id="popupId" @save="addNotification" />
   </div>
@@ -38,7 +35,6 @@
 import Navbar from "@/components/Navbar.vue";
 import NotificationCard from "@/components/NotificationCard.vue";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
-import HelperImage from "@/components/HelperImage.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import { mapGetters } from "vuex";
 
@@ -48,7 +44,6 @@ export default {
     Navbar,
     NotificationCard,
     NotificationPopup,
-    HelperImage,
     GeneralButton,
   },
   data() {

@@ -34,6 +34,7 @@
           max-rows="6"
           :plaintext="!editMode"
           v-model="item.name"
+          @keyup.enter="saveTaskOnEnter"
         />
         <!--<InputField class="task-title" :data="this.item.name" :disabled="!editMode"></InputField>-->
         <!--<TextArea
@@ -149,6 +150,10 @@ export default {
         })
       );
     },
+    saveTaskOnEnter(): void {
+      this.toggleEditAndSave();
+      this.showIcons = false;
+    },
     saveTask(): void {
       this.$store.dispatch("changeTaskItem", {
         id: this.item.id,
@@ -214,7 +219,10 @@ export default {
   background-color: unset;
   opacity: 0.7;
 }
-/deep/ .b-form-timepicker > button {
-  padding-left: 0.5rem;
+/deep/ .b-form-timepicker {
+  border: none;
+  > button {
+    padding-left: 0.5rem;
+  }
 }
 </style>
