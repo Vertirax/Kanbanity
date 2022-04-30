@@ -9,13 +9,15 @@ import ToastStorage from "@/store/modules/toast-storage";
 import DragAndDropStorage from "@/store/modules/drag-and-drop-storage";
 import NotificationStorage from "@/store/modules/notification-storage";
 import PreferenceStorage from "@/store/modules/preferences-storage";
+import BoardStorage from "@/store/modules/board-storage";
+import ColumnStorage from "@/store/modules/column-storage";
+import TaskStorage from "@/store/modules/task-storage";
 import Board from "@/models/Board";
-import KanbanDashboard from "@/classes/Board";
 import Preferences from "@/models/Preferences";
 import KanbanColumn from "@/models/KanbanColumn";
 import Notification from "@/models/Notification";
 import BoardTemplate from "@/models/BoardTemplate";
-import { i18n } from "@/i18n";
+import Toast from "@/classes/Toast";
 
 Vue.use(Vuex);
 
@@ -27,7 +29,6 @@ export default new Vuex.Store({
     }),
   ],
   state: {
-    currentBoard: KanbanDashboard,
     darkMode: true,
     storageToExport: "",
   },
@@ -45,14 +46,6 @@ export default new Vuex.Store({
     toggleDarkMode(state) {
       state.darkMode = !state.darkMode;
     },
-    setCurrentBoard(state, board) {
-      state.currentBoard = new KanbanDashboard(
-        board.id,
-        board.name,
-        board.description,
-        board.createdDateString
-      );
-    },
     setStorageToExport(state) {
       state.storageToExport = `{
         "${Board.entity}": ${JSON.stringify(Board.all())},
@@ -63,118 +56,16 @@ export default new Vuex.Store({
         "${Preferences.entity}": ${JSON.stringify(Preferences.all())}
       }`;
     },
-    updateTask(state, payload) {
-      Task.update({
-        where: (task) => { return task.id === payload.id; },
-        data: {
-          name: payload.name.trim(),
-          timeMinutes: payload.timeMinutes
-        },
-      });
-    },
-    saveBoard(state, payload) {
-      Board.insert({
-        data: {
-          name: payload.board.name,
-          description: payload.board.description,
-          createdDateString: new Date().toLocaleDateString(),
-        },
-      }).then((response) => {
-        if (payload.template.name !== "") {
-          payload.template.columns.split(",").map((template) => {
-            template = template.trim();
-            Column.insert({
-              data: {
-                board_id: response.boards[0]["id"],
-                name: template,
-              },
-            });
-          });
-        }
-      });
-    },
-    changePriority(state, payload) {
-      Task.update({
-        where: (task) => { return task.id === payload.id; },
-        data: { priority: payload.priority },
-      });
-    },
-    editBoard(state, payload) {
-      Board.update({
-        where: (board) => { return board.id === payload.id; },
-        data: {
-          name: payload.name,
-          description: payload.description,
-        },
-      });
-    },
-    deleteBoard(state, payload) {
-      Task.query()
-        .where("board_id", payload.boardId)
-        .get()
-        .forEach((val) => val.$delete());
-      Column.query()
-        .where("board_id", payload.boardId)
-        .get()
-        .forEach((val) => val.$delete());
-      Board.delete(payload.boardId);
-    },
-    saveColumn(state, payload) {
-      Column.insert({
-        data: {
-          board_id: state.currentBoard.id,
-          name: payload.name,
-          description: payload.description,
-        },
-      });
-    },
-    editColumn(state, payload) {
-      Column.update({
-        where: (col) => { return col.id === payload.id; },
-        data: {
-          name: payload.name,
-          description: payload.description,
-        },
-      });
-    },
-    deleteColumn(state, payload) {
-      Task.query()
-        .where("column_id", payload.colId)
-        .get()
-        .forEach((val) => val.$delete());
-      Column.delete(payload.colId);
-    },
-    saveTask(state, payload) {
-      Task.insert({
-        data: {
-          column_id: payload.column_id,
-          board_id: payload.board_id,
-          name: payload.name,
-          priority: payload.priority,
-        },
-      });
-    },
-    changeTaskHighlightColor(state, payload) {
-      Task.update({
-        where: (task) => { return task.id === payload.id; },
-        data: {
-          highlightColor: payload.highlightColor,
-        },
-      });
-    },
-    deleteTask(state, payload) {
-      Task.delete(payload.taskId);
-    },
-    deleteAll({ dispatch }) {
+    deleteAll() {
       Promise.all([
         Task.deleteAll(),
         Column.deleteAll(),
         Board.deleteAll(),
       ]).then(() => {
-        this.dispatch("successToaster", {
-          title: i18n.t("preferences.options.toaster.title"),
-          message: i18n.t("preferences.options.toaster.success.delete-all"),
-        });
+        this.dispatch("successToaster", new Toast(
+          "preferences.options.toaster.title",
+          "preferences.options.toaster.success.delete-all"
+        ));
       });
     },
     importStorage(state, payload) {
@@ -232,57 +123,24 @@ export default new Vuex.Store({
     toggleDarkMode({ commit }) {
       commit("toggleDarkMode");
     },
-    editBoard({ commit }, payload) {
-      commit("editBoard", payload);
-    },
-    saveBoard({ commit }, payload) {
-      commit("saveBoard", payload);
-    },
-    deleteBoard({ commit }, payload) {
-      commit("deleteBoard", payload);
-    },
-    saveColumn({ commit }, payload) {
-      commit("saveColumn", payload);
-    },
-    editColumn({ commit }, payload) {
-      commit("editColumn", payload);
-    },
-    deleteColumn({ commit }, payload) {
-      commit("deleteColumn", payload);
-    },
-    saveTaskItem({ commit }, payload) {
-      commit("saveTask", payload);
-    },
-    changeTaskItem({ commit }, payload) {
-      commit("updateTask", payload);
-    },
-    changePriority({ commit }, payload) {
-      commit("changePriority", payload);
-    },
-    changeTaskHighlightColor({ commit }, payload) {
-      commit("changeTaskHighlightColor", payload);
-    },
-    deleteTask({ commit }, payload) {
-      commit("deleteTask", payload);
-    },
     importStorage({ commit, dispatch }, payload) {
       commit("importStorage", payload);
-      dispatch("successToaster", {
-        title: "File Import",
-        message: "Successfully imported data!",
-      });
+      dispatch("successToaster", new Toast(
+        "preferences.options.toaster.import.title",
+        "preferences.options.toaster.import.message"
+      ));
     },
   },
   getters: {
-    getCurrentBoard: (state) => state.currentBoard,
     getStorageToExport: (state) => state.storageToExport,
-    getAllBoards: () => Board.all(),
-    getTotalTimeSpent: () => (columnId: string) => Task.query().where("column_id", columnId).sum("timeMinutes"),
   },
   modules: {
-    ToastStorage,
-    DragAndDropStorage,
-    NotificationStorage,
-    PreferenceStorage,
+    toast: ToastStorage,
+    dnd: DragAndDropStorage,
+    notification: NotificationStorage,
+    preference: PreferenceStorage,
+    board: BoardStorage,
+    column: ColumnStorage,
+    task: TaskStorage,
   },
 });

@@ -8,7 +8,11 @@
   >
     <b-card-sub-title>
       <b-badge :variant="notification.active ? 'success' : 'warning'">
-        {{ notification.active ? $t("notifications.status.active") : $t("notifications.status.inactive") }}
+        {{
+          notification.active
+            ? $t("notifications.status.active")
+            : $t("notifications.status.inactive")
+        }}
       </b-badge>
     </b-card-sub-title>
     <b-card-text class="my-2">
@@ -39,7 +43,7 @@
 import Notification from "@/classes/Notification";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
-import { i18n } from "@/i18n";
+import Toast from "@/classes/Toast";
 
 export default {
   name: "NotificationCard",
@@ -69,12 +73,14 @@ export default {
       this.$store.dispatch("editNotification", payload);
     },
     deleteNotification(id: string): void {
-      this.$store.dispatch("deleteNotification", id).then(
-        this.$store.dispatch("successToaster", {
-          title: i18n.t("notifications.title"),
-          message: i18n.t("notifications.delete-message"),
-        })
-      );
+      this.$store
+        .dispatch("deleteNotification", id)
+        .then(
+          this.$store.dispatch(
+            "successToaster",
+            new Toast("notifications.title", "notifications.delete-message")
+          )
+        );
     },
   },
 };

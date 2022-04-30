@@ -1,7 +1,11 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? $t('notifications.popup.titles.edit') : $t('notifications.popup.titles.new')"
+    :title="
+      edit
+        ? $t('notifications.popup.titles.edit')
+        : $t('notifications.popup.titles.new')
+    "
     @save="save"
     @cancel="clear"
   >
@@ -31,10 +35,26 @@
           </b-form-invalid-feedback>
         </template>
       </InputField>
-      <TimePicker v-model="time" :title="$t('notifications.popup.fields.time')" required />
-      <InputField v-model="notification.iconUrl" :title="$t('notifications.popup.fields.icon-url')" />
-      <Title v-if="edit" :forId="'checkbox-active-' + id" :text="$t('notifications.popup.fields.active')" />
-      <b-form-checkbox v-if="edit" :id="'checkbox-active-' + id" size="lg" v-model="notification.active"></b-form-checkbox>
+      <TimePicker
+        v-model="time"
+        :title="$t('notifications.popup.fields.time')"
+        required
+      />
+      <InputField
+        v-model="notification.iconUrl"
+        :title="$t('notifications.popup.fields.icon-url')"
+      />
+      <Title
+        v-if="edit"
+        :forId="'checkbox-active-' + id"
+        :text="$t('notifications.popup.fields.active')"
+      />
+      <b-form-checkbox
+        v-if="edit"
+        :id="'checkbox-active-' + id"
+        size="lg"
+        v-model="notification.active"
+      ></b-form-checkbox>
     </template>
 
     <template v-slot:footer v-if="edit">
@@ -45,8 +65,16 @@
         :text="$t('general.button.delete')"
         @click="$emit('delete', notification.id)"
       />
-      <GeneralButton variant="secondary" :text="$t('general.button.cancel')" @click="hide" />
-      <GeneralButton variant="primary" :text="$t('general.button.save')" @click="save" />
+      <GeneralButton
+        variant="secondary"
+        :text="$t('general.button.cancel')"
+        @click="hide"
+      />
+      <GeneralButton
+        variant="primary"
+        :text="$t('general.button.save')"
+        @click="save"
+      />
     </template>
   </Popup>
 </template>

@@ -2,11 +2,11 @@
   <div class="h-100">
     <Navbar>
       <template #addButton>
-          <GeneralButton
-            variant="primary"
-            :text="$t('task-board.buttons.add')"
-            @click="openNewListPopup"
-          />
+        <GeneralButton
+          variant="primary"
+          :text="$t('task-board.buttons.add')"
+          @click="openNewListPopup"
+        />
       </template>
     </Navbar>
     <div class="container-fluid main-container scrollable-div">
@@ -117,6 +117,11 @@ export default {
     addNewList(payload: Column): void {
       this.saveColumn(payload);
     },
+  },
+  created() {
+    if (this.currentBoard === undefined || Object.keys(this.currentBoard).length === 0) {
+      this.$router.push("/");
+    }
   },
 };
 </script>

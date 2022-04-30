@@ -14,7 +14,9 @@
       </router-link>
       <b-navbar-nav class="ml-auto">
         <a class="nav-item my-auto">
-          <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode">{{ $t("general.button.darkmode") }}</b-form-checkbox>
+          <b-form-checkbox class="nav-link pl-5" switch v-model="toggleDarkMode"
+            >{{ $t("general.button.darkmode") }}
+          </b-form-checkbox>
         </a>
         <b-nav-item>
           <router-link to="/notifications">
@@ -34,7 +36,6 @@ import GeneralButton from "@/components/form/GeneralButton.vue";
 export default {
   name: "Navbar",
   components: { GeneralButton },
-  props: ["currentBoard"],
   computed: {
     toggleDarkMode: {
       get() {

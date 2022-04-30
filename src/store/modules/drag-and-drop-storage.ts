@@ -1,5 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import Column from "@/models/KanbanColumn";
 import Task from "@/models/Task";
 
@@ -27,39 +25,26 @@ export default {
       Task.insert({ data: tasks });
     },
     dragBetweenColumns(state, payload): void {
-      /*Task.update({
-        where: payload.taskId,
-        data: { column_id: payload.toColumnId },
-      });
-      Task.update({
-        where: (task) => { return task.id === payload.taskId; },
-        data: { column_id: payload.toColumnId },
-      });*/
       const draggedTask = Task.find(payload.taskId);
-      draggedTask.column_id = payload.toColumnId;
+      draggedTask["column_id"] = payload.toColumnId;
+
       const targetColTasks = Task.query().where("column_id", payload.toColumnId).get();
       targetColTasks.splice(payload.itemNewIndex, 0, draggedTask);
       targetColTasks.forEach((val) => val.$delete());
-      Task.insert({ data: targetColTasks });
 
-      // TODO: replace logic with update.
-      /*const task = Task.find(payload.taskId);
-      Task.insert({
-        data: {
-          column_id: payload.toColumnId,
-          board_id: task.board_id,
-          name: task.name,
-          description: task.description,
-          priority: task.priority,
-        },
-      });
-      Task.delete(payload.taskId);*/
+      Task.insert({ data: targetColTasks });
     },
   },
   actions: {
     dragTask({ commit }, payload): void {
       commit("dragBetweenColumns", payload);
     },
+    dragInColumn({ commit }, payload): void {
+      commit("dragInColumn", payload);
+    },
+    setItemNewIndex({ commit }, payload: number): void {
+      commit("setItemNewIndex", payload);
+    }
   },
   getters: {
     getItemNewIndex: (state) => state.itemNewIndex,

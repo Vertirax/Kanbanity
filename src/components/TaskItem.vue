@@ -84,9 +84,9 @@ import { directive as onClickaway } from "vue-clickaway2";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
 import TaskHighlightPopup from "@/components/popups/TaskHighlightPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
-import { i18n } from "@/i18n";
 import TimePicker from "@/components/form/TimePicker.vue";
 import TimeMixin from "@/mixins/TimeMixin";
+import Toast from "@/classes/Toast";
 
 export default {
   name: "TaskItem",
@@ -144,10 +144,13 @@ export default {
     },
     copyTaskName(): void {
       this.$copyText(this.item.name).then(() =>
-        this.$store.dispatch("successToaster", {
-          title: i18n.t("task-board.task.title"),
-          message: i18n.t("task-board.task.toaster.copy.message"),
-        })
+        this.$store.dispatch(
+          "successToaster",
+          new Toast(
+            "task-board.task.title",
+            "task-board.task.toaster.copy.message"
+          )
+        )
       );
     },
     saveTaskOnEnter(): void {

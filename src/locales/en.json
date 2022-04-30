@@ -29,6 +29,7 @@
     "label-no-time-selected": "No time selected"
   },
   "dashboard": {
+    "title": "Dashboard",
     "buttons": {
       "add": "New Board"
     },
@@ -50,9 +51,13 @@
         "no-template": "No Template Available",
         "select": "Select Template"
       }
+    },
+    "toaster": {
+      "delete-message": "Successfully deleted the selected board!"
     }
   },
   "task-board": {
+    "title": "Board",
     "buttons": {
       "add": "New List"
     },
@@ -121,7 +126,7 @@
       }
     },
     "permission-alert": "Notifications will only be shown if you give permission to the site!",
-    "delete-message": "Successfully deleted selected Notification!"
+    "delete-message": "Successfully deleted the selected Notification!"
   },
   "preferences": {
     "board-template": {
@@ -161,6 +166,10 @@
           "delete-all": "Successfully deleted all Board related data!",
           "save": "Successfully saved Board Template!",
           "delete": "Successfully deleted Board Template!"
+        },
+        "import": {
+          "title": "File Import",
+          "message":"Successfully imported data!"
         }
       }
     }

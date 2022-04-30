@@ -2,7 +2,7 @@
   <div class="row mw-100 py-3 my-3 mx-1 border align-items-center" v-b-hover="toggleShowIcons">
     <div class="col-10">
       <InputField
-        v-model="template.name"
+        v-model="boardTemplate.name"
         class="w-50"
         :title="$t('preferences.board-template.name')"
         required
@@ -13,8 +13,8 @@
         v-if="showBadges"
         v-b-hover="showIconsTrue"
         :template-string="
-          template.columns !== ''
-            ? template.columns
+          boardTemplate.columns !== ''
+            ? boardTemplate.columns
             : $t('preferences.board-template.badges.initial')
         "
         @click="toggleBadges"
@@ -23,7 +23,7 @@
       <InputField
         v-else-if="!showBadges && edit"
         class="mt-2"
-        v-model="template.columns"
+        v-model="boardTemplate.columns"
         :placeholder="$t('preferences.board-template.badges.placeholder')"
         v-on-clickaway="toggleBadges"
         @enterHit="toggleBadges"
@@ -35,7 +35,7 @@
       <GeneralButton
         :hoverTitle="$t('general.button.delete')"
         icon="trash-fill"
-        @click="deleteTemplate(template.id)"
+        @click="deleteTemplate(boardTemplate.id)"
       />
     </div>
   </div>
@@ -43,7 +43,7 @@
 
 <script lang="ts">
 import { directive as onClickaway } from "vue-clickaway2";
-import BadgeSequence from "../form/BadgeSequence.vue";
+import BadgeSequence from "@/components/form/BadgeSequence.vue";
 import InputField from "@/components/form/InputField.vue";
 import Template from "@/models/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
@@ -62,6 +62,7 @@ export default {
     return {
       showBadges: true,
       showIcons: false,
+      boardTemplate: {...this.template},
     };
   },
   props: {
@@ -84,7 +85,7 @@ export default {
       this.showIcons = true;
     },
     saveTemplate(): void {
-      this.$store.dispatch("saveBoardTemplate", this.template);
+      this.$store.dispatch("saveBoardTemplate", this.boardTemplate);
     },
     deleteTemplate(id: string): void {
       this.$store.dispatch("deleteBoardTemplate", id);

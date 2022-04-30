@@ -96,8 +96,8 @@ import Column from "@/models/KanbanColumn";
 import KanbanColumn from "@/classes/KanbanColumn";
 import { mapActions, mapGetters } from "vuex";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
-import { i18n } from "@/i18n";
 import TimeMixin from "@/mixins/TimeMixin";
+import Toast from "@/classes/Toast";
 
 export default {
   name: "TaskList",
@@ -139,9 +139,9 @@ export default {
       set(value: any): void {
         // 'added' and 'removed' are present on dnd to other columns, 'moved' within column
         if (value.moved) {
-          this.$store.commit("dragInColumn", value.moved);
+          this.dragInColumn(value.moved);
         } else if (value.added) {
-          this.$store.commit("setItemNewIndex", value.added.newIndex);
+          this.setItemNewIndex(value.added.newIndex);
         }
       },
     },
@@ -154,18 +154,16 @@ export default {
     },
   },
   methods: {
-    ...mapActions({
-      dragEvent: "dragTask",
-    }),
+    ...mapActions(["dragTask", "dragInColumn", "setItemNewIndex"]),
     deleteColumn(): void {
       this.$store.dispatch("deleteColumn", { colId: this.list.id }).then(() => {
-        this.message = i18n.t("task-board.toaster.delete");
+        this.message = "task-board.toaster.delete";
         this.showToast();
       });
     },
     deleteTask(taskId: string): void {
       this.$store.dispatch("deleteTask", { taskId: taskId }).then(() => {
-        this.message = i18n.t("task-board.task.toaster.delete.message");
+        this.message = "task-board.task.toaster.delete.message";
         this.showToast();
       });
     },
@@ -173,10 +171,10 @@ export default {
       this.$bvModal.show(this.editColumnPopupId);
     },
     showToast(): void {
-      this.$store.dispatch("successToaster", {
-        title: this.list.name,
-        message: this.message,
-      });
+      this.$store.dispatch(
+        "successToaster",
+        new Toast("task-board.title", this.message)
+      );
     },
     editColumn(e: Column): void {
       this.$store.dispatch("editColumn", e);
@@ -192,7 +190,7 @@ export default {
         this.fromColumnId &&
         this.fromColumnId !== this.toColumnId
       ) {
-        this.dragEvent({
+        this.dragTask({
           taskId: this.taskId,
           fromColumnId: this.fromColumnId,
           toColumnId: this.toColumnId,

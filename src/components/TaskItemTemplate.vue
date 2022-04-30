@@ -25,7 +25,7 @@
   </div>
 </template>
 <script lang="ts">
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { directive as onClickaway } from "vue-clickaway2";
 import InputField from "@/components/form/InputField.vue";
 import PriorityDropdown from "@/components/form/PriorityDropdown.vue";
@@ -49,6 +49,9 @@ export default {
       task: new Task(),
     };
   },
+  computed: {
+    ...mapGetters(["getCurrentBoard"]),
+  },
   methods: {
     ...mapActions({
       saveTaskItem: "saveTaskItem",
@@ -57,7 +60,7 @@ export default {
       if (this.task.name != "") {
         this.saveTaskItem({
           column_id: this.list.id,
-          board_id: this.$store.state.currentBoard.id,
+          board_id: this.getCurrentBoard.id,
           name: this.task.name,
           priority: this.task.priority,
         });
@@ -73,4 +76,3 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped></style>

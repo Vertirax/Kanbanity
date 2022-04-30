@@ -2,7 +2,6 @@
   <b-card class="col-md-6 col-xl-6 p-2 m-2">
     <b-card-title class="d-flex">
       <span>{{ $t("preferences.options.title") }}</span>
-
       <GeneralButton
         variant="outline-primary"
         class="ml-auto"
@@ -11,7 +10,6 @@
         icon="pencil-fill"
       />
     </b-card-title>
-
     <GeneralButton
       variant="danger"
       :disabled="!edit"
@@ -58,7 +56,7 @@ import { mapActions, mapGetters } from "vuex";
 import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import Title from "@/components/form/Title.vue";
-import { i18n } from "@/i18n";
+import Toast from "@/classes/Toast";
 
 export default {
   name: "OptionsCard",
@@ -101,10 +99,10 @@ export default {
       if (content.type === this.jsonType) {
         content.text().then((res) => this.importStorage(JSON.parse(res)));
       } else {
-        this.$store.dispatch("errorToaster", {
-          title: i18n.t("preferences.options.toaster.upload-error.title"),
-          message: i18n.t("preferences.options.toaster.upload-error.message"),
-        });
+        this.$store.dispatch("errorToaster", new Toast(
+          "preferences.options.toaster.upload-error.title",
+          "preferences.options.toaster.upload-error.message",
+        ));
       }
     },
     openConfirmationPopup(): void {
@@ -113,6 +111,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

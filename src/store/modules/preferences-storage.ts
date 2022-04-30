@@ -1,17 +1,17 @@
 import BoardTemplate from "@/classes/BoardTemplate";
 import Template from "@/models/BoardTemplate";
-import { i18n } from "@/i18n";
+import Toast from "@/classes/Toast";
 
-const preferencesTitle = i18n.t("preferences.options.toaster.title");
+const preferencesTitle = "preferences.options.toaster.title";
 
 export default {
   store: {
     boardTemplates: [BoardTemplate],
   },
   mutations: {
-    editPreferences(state, payload: BoardTemplate): void {
+    /*editPreferences(state, payload: BoardTemplate): void {
       // TODO
-    },
+    },*/
     addNewTemplate(): void {
       Template.insert({ data: new BoardTemplate() });
     },
@@ -19,20 +19,20 @@ export default {
       Template.update({
         data: payload,
       }).then(() => {
-        this.dispatch("successToaster", {
-          title: preferencesTitle,
-          message: i18n.t("preferences.options.toaster.success.save"),
-        });
+        this.dispatch("successToaster", new Toast(
+          preferencesTitle,
+          "preferences.options.toaster.success.save"
+        ));
       });
     },
-    deleteTemplate({ dispatch }, payload: string): void {
+    deleteTemplate(state, payload: string): void {
       Template.delete(payload).then(
         () => {
-        this.dispatch("successToaster", {
-          title: preferencesTitle,
-          message: i18n.t("preferences.options.toaster.success.delete"),
+          this.dispatch("successToaster", new Toast(
+            preferencesTitle,
+            "preferences.options.toaster.success.delete"
+          ));
         });
-      });
     },
   },
   actions: {
@@ -45,8 +45,5 @@ export default {
     deleteBoardTemplate({ commit }, id: string): void {
       commit("deleteTemplate", id);
     },
-  },
-  getters: {
-    getBoardTemplates: (state) => state.boardTemplates,
   },
 };
