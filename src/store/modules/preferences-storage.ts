@@ -1,6 +1,7 @@
 import BoardTemplate from "@/classes/BoardTemplate";
 import Template from "@/models/BoardTemplate";
 import Toast from "@/classes/Toast";
+import Preferences from "@/models/Preferences";
 
 const preferencesTitle = "preferences.options.toaster.title";
 
@@ -34,6 +35,12 @@ export default {
           ));
         });
     },
+    changeShowHelperAlert(state, payload: boolean): void {
+      this.getters.getPreferences.$update({ showHelperAlert: payload })
+    },
+    changeShowConfirmationPopup(state, payload: boolean): void {
+      this.getters.getPreferences.$update({ showConfirmationPopup: payload })
+    }
   },
   actions: {
     addBoardTemplate({ commit }): void {
@@ -45,5 +52,16 @@ export default {
     deleteBoardTemplate({ commit }, id: string): void {
       commit("deleteTemplate", id);
     },
+    changeShowHelperAlert({ commit }, payload: boolean): void {
+      commit("changeShowHelperAlert", payload);
+    },
+    changeShowConfirmationPopup({ commit }, payload: boolean): void {
+      commit("changeShowConfirmationPopup", payload);
+    }
+  },
+  getters: {
+    getPreferences: () => Preferences.query().first(),
+    getShowHelperAlertPreference: (state, getters) => getters.getPreferences.showHelperAlert,
+    getShowConfirmationPopup: (state, getters) => getters.getPreferences.showConfirmationPopup,
   },
 };

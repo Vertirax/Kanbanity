@@ -20,6 +20,11 @@
       </b-alert>
 
       <div class="row equal my-3 mx-2">
+        <HelperAlert
+          v-if="showAlert"
+          :text="$t('notifications.alert')"
+          :show="notifications.length === 0"
+        />
         <NotificationCard
           v-for="notification in notifications"
           :key="notification.id"
@@ -37,6 +42,7 @@ import NotificationCard from "@/components/NotificationCard.vue";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import { mapGetters } from "vuex";
+import HelperAlert from "@/components/HelperAlert.vue";
 
 export default {
   name: "Notifications",
@@ -45,6 +51,7 @@ export default {
     NotificationCard,
     NotificationPopup,
     GeneralButton,
+    HelperAlert,
   },
   data() {
     return {
@@ -53,7 +60,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ notifications: "getAllNotifications" }),
+    ...mapGetters({
+      notifications: "getAllNotifications",
+      showAlert: "getShowHelperAlertPreference",
+    }),
   },
   created() {
     Notification.requestPermission().then((value) =>

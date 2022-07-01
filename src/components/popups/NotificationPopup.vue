@@ -44,17 +44,12 @@
         v-model="notification.iconUrl"
         :title="$t('notifications.popup.fields.icon-url')"
       />
-      <Title
+      <CheckBox
         v-if="edit"
-        :forId="'checkbox-active-' + id"
-        :text="$t('notifications.popup.fields.active')"
+        :title="$t('notifications.popup.fields.active')"
+        :value="notification.active"
+        @change="(value) => (notification.active = value)"
       />
-      <b-form-checkbox
-        v-if="edit"
-        :id="'checkbox-active-' + id"
-        size="lg"
-        v-model="notification.active"
-      ></b-form-checkbox>
     </template>
 
     <template v-slot:footer v-if="edit">
@@ -86,7 +81,7 @@ import InputField from "@/components/form/InputField.vue";
 import TimePicker from "@/components/form/TimePicker.vue";
 import { required } from "vuelidate/lib/validators";
 import GeneralButton from "@/components/form/GeneralButton.vue";
-import Title from "@/components/form/Title.vue";
+import CheckBox from "@/components/form/CheckBox.vue";
 
 export default {
   name: "NotificationPopup",
@@ -95,7 +90,7 @@ export default {
     InputField,
     TimePicker,
     GeneralButton,
-    Title,
+    CheckBox,
   },
   props: {
     id: { type: String, required: true },

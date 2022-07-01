@@ -1,5 +1,8 @@
 <template>
-  <div class="row mw-100 py-3 my-3 mx-1 border align-items-center" v-b-hover="toggleShowIcons">
+  <div
+    class="row mw-100 py-3 my-3 mx-1 border align-items-center"
+    v-b-hover="toggleShowIcons"
+  >
     <div class="col-10">
       <InputField
         v-model="boardTemplate.name"
@@ -7,6 +10,7 @@
         :title="$t('preferences.board-template.name')"
         required
         :disabled="!edit"
+        @enterHit="saveTemplate"
       />
       <BadgeSequence
         class="mt-1"
@@ -31,7 +35,11 @@
       />
     </div>
     <div v-if="showIcons && edit" class="col-1">
-      <GeneralButton :hoverTitle="$t('general.button.save')" icon="check2" @click="saveTemplate" />
+      <GeneralButton
+        :hoverTitle="$t('general.button.save')"
+        icon="check2"
+        @click="saveTemplate"
+      />
       <GeneralButton
         :hoverTitle="$t('general.button.delete')"
         icon="trash-fill"
@@ -62,7 +70,7 @@ export default {
     return {
       showBadges: true,
       showIcons: false,
-      boardTemplate: {...this.template},
+      boardTemplate: { ...this.template },
     };
   },
   props: {

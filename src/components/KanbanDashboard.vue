@@ -10,6 +10,21 @@
       </template>
     </Navbar>
     <div class="container-fluid main-container">
+      <div
+        v-if="boards.length === 0"
+        class="d-flex justify-content-center align-items-center min-vh-90"
+      >
+        <LottieVue
+          class="add-animation"
+          :animationData="require('@/assets/animations/add-pulsate.json')"
+          ref="animation"
+          :autoplay="true"
+          :loop="false"
+          :width="120"
+          :height="120"
+          @click.native="playAndOpenPopup"
+        />
+      </div>
       <div class="equal my-3 mx-2" :class="boards.length > 0 ? 'row' : ''">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
@@ -97,6 +112,7 @@ import KanbanDashboard from "@/classes/Board";
 import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 import BoardTemplate from "@/classes/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import LottieVue from "lottie-vue/src/components/LottieVue.vue";
 
 export default {
   name: "Dashboard",
@@ -104,6 +120,7 @@ export default {
     Navbar,
     DashboardPopup,
     GeneralButton,
+    LottieVue,
   },
   data() {
     return {
@@ -114,7 +131,10 @@ export default {
     this.setCurrentBoard(new KanbanDashboard());
   },
   computed: {
-    ...mapGetters({ boards: "getAllBoards" }),
+    ...mapGetters({
+      boards: "getAllBoards",
+      showAlert: "getShowHelperAlertPreference",
+    }),
   },
   methods: {
     setCurrentBoard(board): void {
@@ -137,6 +157,10 @@ export default {
     },
     saveBoard(board: KanbanDashboard, template: BoardTemplate): void {
       this.$store.dispatch("saveBoard", { board, template });
+    },
+    playAndOpenPopup() {
+      this.$refs.animation.goToAndPlay(50, true);
+      setTimeout(() => this.openPopup(), 500);
     },
   },
 };
@@ -172,5 +196,12 @@ a:hover {
   .date p {
     font-size: 13px;
   }
+}
+
+.add-animation {
+  cursor: pointer;
+}
+.min-vh-90 {
+  min-height: 90vh;
 }
 </style>

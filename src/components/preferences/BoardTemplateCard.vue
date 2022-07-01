@@ -15,9 +15,14 @@
         :pressed="edit"
         @click="toggleEdit"
         icon="pencil-fill"
+        :disabled="isEmptyTemplates"
       />
     </b-card-title>
-
+    <HelperAlert
+      v-if="showAlert"
+      :text="$t('preferences.board-template.alert')"
+      :show="isEmptyTemplates"
+    />
     <BoardTemplate
       class="my-2"
       :edit="edit"
@@ -30,15 +35,17 @@
 
 <script lang="ts">
 import BoardTemplate from "@/components/preferences/BoardTemplate.vue";
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import TemplateModel from "@/models/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import HelperAlert from "@/components/HelperAlert.vue";
 
 export default {
   name: "BoardTemplateCard",
   components: {
     BoardTemplate,
     GeneralButton,
+    HelperAlert,
   },
   data() {
     return {
@@ -46,8 +53,12 @@ export default {
     };
   },
   computed: {
+    ...mapGetters({ showAlert: "getShowHelperAlertPreference" }),
     templates() {
       return TemplateModel.all();
+    },
+    isEmptyTemplates() {
+      return this.templates.length === 0;
     },
   },
   methods: {
@@ -65,5 +76,3 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>

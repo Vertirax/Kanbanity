@@ -10,6 +10,27 @@
         icon="pencil-fill"
       />
     </b-card-title>
+    <div class="py-2">
+      <CheckBox
+        :title="$t('preferences.options.titles.helper-alert')"
+        :disabled="!edit"
+        oneRow
+        noPadding
+        :value="preferences.showHelperAlert"
+        @change="changeShowHelperAlert"
+      />
+      <!--
+      <CheckBox
+        class="mt-1"
+        :title="$t('preferences.options.titles.confirmation-popup')"
+        :disabled="!edit"
+        oneRow
+        noPadding
+        :value="preferences.showConfirmationPopup"
+        @change="changeShowConfirmationPopup"
+      />
+      -->
+    </div>
     <GeneralButton
       variant="danger"
       :disabled="!edit"
@@ -25,9 +46,16 @@
       @confirm="deleteAll"
     />
     <div class="row mt-2 pt-4">
-      <Title class="col-12" :text="$t('preferences.options.titles.export-import')" />
+      <Title
+        class="col-12"
+        :text="$t('preferences.options.titles.export-import')"
+      />
       <b-link :download="filename" :href="downloadLink" class="ml-3">
-        <GeneralButton :text="$t('preferences.options.buttons.export')" @click="exportJson" variant="secondary" />
+        <GeneralButton
+          :text="$t('preferences.options.buttons.export')"
+          @click="exportJson"
+          variant="secondary"
+        />
       </b-link>
       <GeneralButton
         v-b-toggle:import
@@ -57,6 +85,7 @@ import ConfirmationPopup from "@/components/popups/ConfirmationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import Title from "@/components/form/Title.vue";
 import Toast from "@/classes/Toast";
+import CheckBox from "@/components/form/CheckBox.vue";
 
 export default {
   name: "OptionsCard",
@@ -64,6 +93,7 @@ export default {
     ConfirmationPopup,
     GeneralButton,
     Title,
+    CheckBox,
   },
   data() {
     return {
@@ -76,11 +106,16 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ exportJsonString: "getStorageToExport" }),
+    ...mapGetters({
+      exportJsonString: "getStorageToExport",
+      preferences: "getPreferences",
+    }),
   },
   methods: {
     ...mapActions({
       importStorage: "importStorage",
+      changeShowHelperAlert: "changeShowHelperAlert",
+      changeShowConfirmationPopup: "changeShowConfirmationPopup",
     }),
     deleteAll(): void {
       this.$store.commit("deleteAll");
@@ -99,10 +134,13 @@ export default {
       if (content.type === this.jsonType) {
         content.text().then((res) => this.importStorage(JSON.parse(res)));
       } else {
-        this.$store.dispatch("errorToaster", new Toast(
-          "preferences.options.toaster.upload-error.title",
-          "preferences.options.toaster.upload-error.message",
-        ));
+        this.$store.dispatch(
+          "errorToaster",
+          new Toast(
+            "preferences.options.toaster.upload-error.title",
+            "preferences.options.toaster.upload-error.message"
+          )
+        );
       }
     },
     openConfirmationPopup(): void {

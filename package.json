@@ -16,6 +16,7 @@
     "css-loader": "^6.2.0",
     "darkreader": "4.9.40",
     "express": "^4.17.1",
+    "lottie-vue": "^1.0.3",
     "nanoid": "^3.3.3",
     "node-sass": "^6.0.1",
     "sass-loader": "^10.2.0",

@@ -46,6 +46,11 @@
             />
           </div>
         </b-collapse>
+        <HelperAlert
+          v-if="showAlert"
+          :text="$t('task-board.alert')"
+          :show="lists.length === 0"
+        />
         <draggable
           v-if="lists"
           v-model="lists"
@@ -73,6 +78,7 @@ import { mapActions, mapGetters } from "vuex";
 import Column from "@/models/KanbanColumn";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import HelperAlert from "@/components/HelperAlert.vue";
 
 export default {
   name: "TaskBoard",
@@ -82,6 +88,7 @@ export default {
     Navbar,
     ColumnPopup,
     GeneralButton,
+    HelperAlert,
   },
   data() {
     return {
@@ -90,7 +97,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ currentBoard: "getCurrentBoard" }),
+    ...mapGetters({
+      currentBoard: "getCurrentBoard",
+      showAlert: "getShowHelperAlertPreference",
+    }),
     lists: {
       get(): Column[] {
         return Column.query().where("board_id", this.currentBoard.id).get();
@@ -119,7 +129,10 @@ export default {
     },
   },
   created() {
-    if (this.currentBoard === undefined || Object.keys(this.currentBoard).length === 0) {
+    if (
+      this.currentBoard === undefined ||
+      Object.keys(this.currentBoard).length === 0
+    ) {
       this.$router.push("/");
     }
   },

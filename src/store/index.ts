@@ -87,6 +87,7 @@ export default new Vuex.Store({
       // TODO: Preferences
     },
     initData() {
+      /*
       if (Board.query().count() === 0) {
         Board.insert({
           data: [
@@ -113,6 +114,7 @@ export default new Vuex.Store({
           );
         });
       }
+      */
 
       if (Preferences.query().count() === 0) {
         Preferences.new();

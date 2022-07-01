@@ -7,9 +7,9 @@ export default class Preferences extends Model {
   static fields() {
     return {
       id: this.uid(() => nanoid(10)),
+      showHelperAlert: this.boolean(true),
+      showConfirmationPopup: this.boolean(true),
       ignoreNewBoardPopup: this.boolean(false),
-
-      // templates: this.attr(() => Array<BoardTemplate>()),
     };
   }
 }

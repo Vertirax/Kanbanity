@@ -30,6 +30,7 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "alert": "Add a board to begin your work.",
     "buttons": {
       "add": "New Board"
     },
@@ -58,6 +59,7 @@
   },
   "task-board": {
     "title": "Board",
+    "alert": "Add a list to track your tasks.",
     "buttons": {
       "add": "New List"
     },
@@ -105,6 +107,7 @@
   },
   "notifications": {
     "title": "Notifications",
+    "alert": "Add notifications to remember everything.",
     "status": {
       "active": "Active",
       "inactive": "Inactive"
@@ -132,6 +135,7 @@
     "board-template": {
       "title": "Manage Board Templates",
       "name": "Template Name",
+      "alert": "Add templates to ease board creation.",
       "buttons": {
         "add": "Add Template"
       },
@@ -148,9 +152,11 @@
         "import": "Import"
       },
       "titles": {
+        "helper-alert": "Show helper alerts when there is no data available",
+        "confirmation-popup": "Show confirmation popups when deleting board or list",
         "delete-all": "Delete all Board related data",
         "export-import": "Export or Import your Kanbanity data",
-        "import": "Importing will not overwrite existing data!"
+        "import": "Importing will not overwrite your existing data"
       },
       "confirmation-popup": {
         "title": "Delete Data",
