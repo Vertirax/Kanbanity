@@ -44,6 +44,7 @@ export default {
     },
   },
   getters: {
-    getTotalTimeSpent: () => (columnId: string) => Task.query().where("column_id", columnId).sum("timeMinutes"),
+    getTotalTimeSpentByCol: () => (columnId: string) => Task.query().where("column_id", columnId).sum("timeMinutes"),
+    getTotalTimeSpentByBoard: () => (boardId: string) => Task.query().where("board_id", boardId).sum("timeMinutes"),
   },
 }

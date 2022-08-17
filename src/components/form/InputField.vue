@@ -54,7 +54,7 @@ export default {
       this.$emit("input", this.inputValue);
     },
     emitEnter(): void {
-      this.$emit("enterHit");
+      this.$emit("enter");
     },
   },
 };

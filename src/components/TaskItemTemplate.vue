@@ -15,7 +15,7 @@
           v-model="task.name"
           ref="taskTitle"
           autofocus
-          @enterHit="saveItem"
+          @enter="saveItem"
         />
       </div>
       <div class="task-item-footer">

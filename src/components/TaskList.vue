@@ -5,19 +5,19 @@
         <p class="board-name mx-1 mw-50">{{ list.name }}</p>
         <div
           class="ml-auto total-time-spent"
-          v-if="totalTimeSpent.hours > 0 || totalTimeSpent.minutes > 0"
+          v-if="totalColTime.hours > 0 || totalColTime.minutes > 0"
         >
           <b-icon-clock-history
             :title="$t('task-board.titles.total-time-spent')"
           />
-          <span v-if="totalTimeSpent.hours > 0">
-            {{ totalTimeSpent.hours }}{{ $t("task-board.titles.hours") }}</span
+          <span v-if="totalColTime.hours > 0">
+            {{ totalColTime.hours }}{{ $t("task-board.titles.hours") }}</span
           >
-          <span v-if="totalTimeSpent.minutes > 0">
-            {{ totalTimeSpent.minutes }}{{ $t("task-board.titles.minutes") }}</span
+          <span v-if="totalColTime.minutes > 0">
+            {{ totalColTime.minutes
+            }}{{ $t("task-board.titles.minutes") }}</span
           >
         </div>
-        <!--<b-icon-info-circle v-b-tooltip variant="info" class="h5" :title="list.description"></b-icon-info-circle>-->
         <div>
           <b-dropdown
             id="dropdown"
@@ -247,8 +247,5 @@ p {
       min-width: 10rem;
     }
   }
-}
-.total-time-spent {
-  opacity: 0.6;
 }
 </style>

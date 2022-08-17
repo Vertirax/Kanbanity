@@ -1,7 +1,11 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? $t('task-board.popup.titles.edit') : $t('task-board.popup.titles.new')"
+    :title="
+      edit
+        ? $t('task-board.popup.titles.edit')
+        : $t('task-board.popup.titles.new')
+    "
     @save="save"
     @cancel="clear"
   >
@@ -12,6 +16,7 @@
         autofocus
         required
         :state="sent ? !$v.column.name.$error : null"
+        @enter="save"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.column.name.required">
@@ -23,6 +28,7 @@
         class="mt-2"
         v-model="column.description"
         :title="$t('task-board.popup.fields.description')"
+        @enter="save"
       />
     </template>
   </Popup>
@@ -59,8 +65,9 @@ export default {
       if (!this.$v.$error) {
         this.$emit("save", this.column);
         this.clear();
+        this.$bvModal.hide(this.id);
       } else {
-        event.preventDefault();
+        event?.preventDefault();
       }
     },
     clear(): void {

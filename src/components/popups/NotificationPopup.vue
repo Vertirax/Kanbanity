@@ -16,6 +16,7 @@
         autofocus
         required
         :state="sent ? !$v.notification.title.$error : null"
+        @enter="save"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.notification.title.required">
@@ -28,6 +29,7 @@
         :title="$t('notifications.popup.fields.message')"
         required
         :state="sent ? !$v.notification.message.$error : null"
+        @enter="save"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.notification.message.required">
@@ -43,6 +45,7 @@
       <InputField
         v-model="notification.iconUrl"
         :title="$t('notifications.popup.fields.icon-url')"
+        @enter="save"
       />
       <CheckBox
         v-if="edit"
@@ -125,7 +128,7 @@ export default {
         this.hide();
         this.$emit(this.edit ? "change" : "save", this.notification);
       } else {
-        event.preventDefault();
+        event?.preventDefault();
       }
     },
     clear(): void {

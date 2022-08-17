@@ -3,10 +3,17 @@ import { mapGetters } from "vuex";
 export default {
     computed: {
         ...mapGetters({
-            getTotalTimeSpentByCol: "getTotalTimeSpent",
+            getTotalColTime: "getTotalTimeSpentByCol",
+            getTotalBoardTime: "getTotalTimeSpentByBoard",
         }),
-        totalTimeSpent(): Record<string, number> {
-            const totalMinutes = this.getTotalTimeSpentByCol(this.list.id ?? this.item.column_id);
+        totalColTime(): Record<string, number> {
+            const totalMinutes = this.getTotalColTime(this.list?.id ?? this.item?.column_id ?? "");
+            const roundedHours = this.getHours(totalMinutes);
+            const roundedMinutes = this.getRemainingMinutes(totalMinutes);
+            return { hours: roundedHours, minutes: roundedMinutes };
+        },
+        totalBoardTime(): Record<string, number> {
+            const totalMinutes = this.getTotalBoardTime(this.currentBoard?.id ?? "");
             const roundedHours = this.getHours(totalMinutes);
             const roundedMinutes = this.getRemainingMinutes(totalMinutes);
             return { hours: roundedHours, minutes: roundedMinutes };

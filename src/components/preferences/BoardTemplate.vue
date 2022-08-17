@@ -10,7 +10,7 @@
         :title="$t('preferences.board-template.name')"
         required
         :disabled="!edit"
-        @enterHit="saveTemplate"
+        @enter="saveTemplate"
       />
       <BadgeSequence
         class="mt-1"
@@ -30,7 +30,7 @@
         v-model="boardTemplate.columns"
         :placeholder="$t('preferences.board-template.badges.placeholder')"
         v-on-clickaway="toggleBadges"
-        @enterHit="toggleBadges"
+        @enter="toggleBadges"
         :disabled="!edit"
       />
     </div>

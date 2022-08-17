@@ -11,41 +11,59 @@
     </Navbar>
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
-        <b-icon
-          role="button"
-          v-b-toggle.collapse
-          :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"
-        />
-        <b-collapse
-          class="board-details pl-1"
-          id="collapse"
-          v-model="isCollapsed"
-        >
-          <div class="project-name mb-2 row">
-            <b-input
-              type="text"
-              :value="currentBoard.name"
-              class="project-name-input col-6"
-              disabled
+        <div class="row">
+          <div class="col-10">
+            <b-icon
+              role="button"
+              v-b-toggle.collapse
+              :icon="isCollapsed ? 'chevron-down' : 'chevron-right'"
             />
+            <b-collapse
+              class="board-details pl-1"
+              id="collapse"
+              v-model="isCollapsed"
+            >
+              <div class="project-name mb-2 row">
+                <b-input
+                  type="text"
+                  :value="currentBoard.name"
+                  class="project-name-input col-6"
+                  disabled
+                />
+              </div>
+              <div class="row" v-if="currentBoard.description !== ''">
+                <b-input
+                  type="text"
+                  :value="currentBoard.description"
+                  class="project-desc-input col-6"
+                  disabled
+                />
+              </div>
+              <div class="row">
+                <b-input
+                  type="text"
+                  :value="currentBoard.createdDateString"
+                  class="project-desc-input col-6"
+                  disabled
+                />
+              </div>
+            </b-collapse>
           </div>
-          <div class="row" v-if="currentBoard.description !== ''">
-            <b-input
-              type="text"
-              :value="currentBoard.description"
-              class="project-desc-input col-6"
-              disabled
-            />
+          <div
+            class="col-2 total-time-spent"
+            v-if="totalBoardTime.hours > 0 || totalBoardTime.minutes > 0"
+          >
+            {{ $t("task-board.titles.total-time-spent") }}:
+            <span v-if="totalBoardTime.hours > 0">
+              {{ totalBoardTime.hours
+              }}{{ $t("task-board.titles.hours") }}</span
+            >
+            <span v-if="totalBoardTime.minutes > 0">
+              {{ totalBoardTime.minutes
+              }}{{ $t("task-board.titles.minutes") }}</span
+            >
           </div>
-          <div class="row">
-            <b-input
-              type="text"
-              :value="currentBoard.createdDateString"
-              class="project-desc-input col-6"
-              disabled
-            />
-          </div>
-        </b-collapse>
+        </div>
         <HelperAlert
           v-if="showAlert"
           :text="$t('task-board.alert')"
@@ -79,6 +97,7 @@ import Column from "@/models/KanbanColumn";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import HelperAlert from "@/components/HelperAlert.vue";
+import TimeMixin from "@/mixins/TimeMixin";
 
 export default {
   name: "TaskBoard",
@@ -90,6 +109,7 @@ export default {
     GeneralButton,
     HelperAlert,
   },
+  mixins: [TimeMixin],
   data() {
     return {
       newColumnPopupId: "new-column-popup",

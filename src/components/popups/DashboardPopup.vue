@@ -1,7 +1,11 @@
 <template>
   <Popup
     :id="id"
-    :title="edit ? $t('dashboard.popup.titles.edit') : $t('dashboard.popup.titles.new')"
+    :title="
+      edit
+        ? $t('dashboard.popup.titles.edit')
+        : $t('dashboard.popup.titles.new')
+    "
     @save="save"
     @cancel="clear"
   >
@@ -12,6 +16,7 @@
         autofocus
         required
         :state="sent ? !$v.board.name.$error : null"
+        @enter="save"
       >
         <template #error>
           <b-form-invalid-feedback v-if="!$v.board.name.required">
@@ -23,6 +28,7 @@
         class="mt-2"
         v-model="board.description"
         :title="$t('dashboard.popup.fields.description')"
+        @enter="save"
       />
       <b-dropdown
         v-if="!edit"
@@ -81,10 +87,15 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$error) {
-        this.$emit(this.edit ? "change" : "save", this.board, this.selectedTemplate);
+        this.$emit(
+          this.edit ? "change" : "save",
+          this.board,
+          this.selectedTemplate
+        );
         this.clear();
+        this.$bvModal.hide(this.id);
       } else {
-        event.preventDefault();
+        event?.preventDefault();
       }
     },
     clear(): void {
