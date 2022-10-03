@@ -14,11 +14,13 @@
       :state="state"
       :disabled="disabled"
       :autofocus="autofocus"
-      :label-no-time-selected="nowButton ? $t('general.label-no-time-selected') : ''"
+      :label-no-time-selected="
+        nowButton ? $t('general.label-no-time-selected') : ''
+      "
       :minutes-step="minuteStep ? minuteStep : 1"
       :reset-value="resetValue ? '00:00:00' : ''"
       @input="emitInput"
-    ></b-form-timepicker>
+    />
   </div>
 </template>
 
@@ -58,8 +60,8 @@ export default {
     value: {
       handler() {
         this.time = this.value;
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>

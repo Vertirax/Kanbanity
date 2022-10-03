@@ -10,7 +10,7 @@
       <div class="task-item-header row ml-0">
         <PriorityDropdown
           :disabled="!editMode"
-          :priority="item.priority"
+          :currentPriority="item.priority"
           @change="changePriority"
         />
         <TimePicker

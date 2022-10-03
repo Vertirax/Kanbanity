@@ -5,7 +5,7 @@
         <div class="col-6">{{ $t("task-board.task.template.name") }}</div>
         <PriorityDropdown
           class="ml-auto mr-3"
-          :priority="task.priority"
+          :currentPriority="task.priority"
           @change="setPriority"
         />
       </div>

@@ -8,37 +8,25 @@
       :disabled="disabled"
     >
       <template #button-content>
-        <div class="task-priority" :class="priority">
-          {{ priority }} {{ $t("general.enums.priority.title") }}
+        <div class="task-priority" :class="currentPriority">
+          {{ currentPriority }} {{ $t("general.enums.priority.title") }}
         </div>
       </template>
-      <b-dropdown-item-button
-        v-if="priority !== lowPriority"
-        button-class="task-priority Low mb-half"
-        @click="changePriority(lowPriority)"
-      >
-        Low Priority
-      </b-dropdown-item-button>
-      <b-dropdown-item-button
-        v-if="priority !== mediumPriority"
-        button-class="task-priority Medium mb-half"
-        @click="changePriority(mediumPriority)"
-      >
-        Medium Priority
-      </b-dropdown-item-button>
-      <b-dropdown-item-button
-        v-if="priority !== highPriority"
-        button-class="task-priority High"
-        @click="changePriority(highPriority)"
-      >
-        High Priority
-      </b-dropdown-item-button>
+      <div v-for="(priority, index) in priorities" :key="index">
+        <b-dropdown-item-button
+          v-if="currentPriority !== priority"
+          :button-class="`task-priority ${priority}`"
+          @click="changePriority(priority)"
+        >
+          {{ priority }} {{ $t("general.enums.priority.title") }}
+        </b-dropdown-item-button>
+      </div>
     </b-dropdown>
   </div>
 </template>
 
 <script lang="ts">
-import { Priority } from "@/enums/Priorities";
+import getPriorities, { Priority } from "@/enums/Priorities";
 
 export default {
   name: "PriorityDropdown",
@@ -50,8 +38,13 @@ export default {
     };
   },
   props: {
-    priority: { type: String, required: true },
+    currentPriority: { type: String, required: true },
     disabled: { type: Boolean, default: false },
+  },
+  computed: {
+    priorities(): Priority[] {
+      return getPriorities();
+    },
   },
   methods: {
     changePriority(priority: Priority): void {
