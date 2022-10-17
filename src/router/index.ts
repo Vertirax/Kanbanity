@@ -25,7 +25,7 @@ const routes: Array<RouteConfig> = [
     path: ROOT.concat(Routes.NOTIFICATIONS),
     name: Routes.NOTIFICATIONS,
     component: () => {
-      return import("@/components/Notifications.vue");
+      return import("@/components/notifications/Notifications.vue");
     },
   },
   {

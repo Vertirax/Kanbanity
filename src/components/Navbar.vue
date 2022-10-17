@@ -32,19 +32,24 @@
 </template>
 <script lang="ts">
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "Navbar",
   components: { GeneralButton },
   computed: {
+    ...mapGetters({ darkMode: "getDarkMode" }),
     toggleDarkMode: {
       get() {
-        return this.$store.state.darkMode;
+        return this.darkMode;
       },
       set() {
-        this.$store.dispatch("toggleDarkMode");
+        this.setDarkMode();
       },
     },
+  },
+  methods: {
+    ...mapActions({ setDarkMode: "toggleDarkMode" }),
   },
 };
 </script>

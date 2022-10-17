@@ -1,6 +1,6 @@
 <template>
   <interpolator
-    :dark="this.$store.state.darkMode"
+    :dark="darkMode"
     :brightness="brightness"
     :contrast="contrast"
     :sepia="sepia"
@@ -14,6 +14,7 @@
 <script lang="ts">
 import interpolator from "vue-apply-darkmode/src/vue-apply-darkmode.vue";
 import NotificationModel from "@/models/Notification";
+import { mapGetters } from "vuex";
 
 export default {
   name: "App",
@@ -22,9 +23,9 @@ export default {
   },
   created() {
     this.$store.commit("initData");
-    // this.checkNotifications();
+    this.checkNotifications();
+    this.scheduleNotificationChecks();
     if (Notification.permission === "granted") {
-      // setTimeOut til next full minute???
       window.setInterval(() => {
         this.checkNotifications();
       }, 60000);
@@ -37,13 +38,25 @@ export default {
       brightness: 100,
     };
   },
+  computed: {
+    ...mapGetters({ darkMode: "getDarkMode" }),
+  },
   methods: {
+    scheduleNotificationChecks() {
+      const now = new Date();
+      const timeToNextTick =
+        (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+      setTimeout(() => {
+        this.checkNotifications();
+        this.scheduleNotificationChecks();
+      }, timeToNextTick);
+    },
     checkNotifications(): void {
       const date = new Date();
-      let notifications = NotificationModel.query()
+      const notifications = NotificationModel.query()
         .where(
           (notification) =>
-            notification.active === true &&
+            notification.active &&
             notification.hour === date.getHours() &&
             notification.minute === date.getMinutes()
         )

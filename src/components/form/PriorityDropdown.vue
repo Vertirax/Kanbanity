@@ -26,24 +26,17 @@
 </template>
 
 <script lang="ts">
-import getPriorities, { Priority } from "@/enums/Priorities";
+import { Priority } from "@/enums/Priorities";
 
 export default {
   name: "PriorityDropdown",
-  data() {
-    return {
-      lowPriority: Priority.LOW,
-      mediumPriority: Priority.MEDIUM,
-      highPriority: Priority.HIGH,
-    };
-  },
   props: {
     currentPriority: { type: String, required: true },
     disabled: { type: Boolean, default: false },
   },
   computed: {
     priorities(): Priority[] {
-      return getPriorities();
+      return Object.values(Priority);
     },
   },
   methods: {

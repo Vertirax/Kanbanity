@@ -28,6 +28,15 @@ export default new Vuex.Store({
       key: "storage",
     }),
   ],
+  modules: {
+    toast: ToastStorage,
+    dnd: DragAndDropStorage,
+    notification: NotificationStorage,
+    preference: PreferenceStorage,
+    board: BoardStorage,
+    column: ColumnStorage,
+    task: TaskStorage,
+  },
   state: {
     darkMode: true,
     storageToExport: "",
@@ -87,35 +96,6 @@ export default new Vuex.Store({
       // TODO: Preferences
     },
     initData() {
-      /*
-      if (Board.query().count() === 0) {
-        Board.insert({
-          data: [
-            {
-              name: "Board #1",
-              description: "desc #1",
-              createdDateString: new Date().toLocaleDateString(),
-            },
-            {
-              name: "Board #2",
-              description: "desc #2",
-              createdDateString: new Date().toLocaleDateString(),
-            },
-          ],
-        }).then((data) => {
-          const cols = ["To Do", "In Progress", "Done", "Review"];
-          cols.forEach((colName) =>
-            Column.insert({
-              data: {
-                board_id: data.boards[0]["id"],
-                name: colName,
-              },
-            })
-          );
-        });
-      }
-      */
-
       if (Preferences.query().count() === 0) {
         Preferences.new();
       }
@@ -135,14 +115,6 @@ export default new Vuex.Store({
   },
   getters: {
     getStorageToExport: (state) => state.storageToExport,
-  },
-  modules: {
-    toast: ToastStorage,
-    dnd: DragAndDropStorage,
-    notification: NotificationStorage,
-    preference: PreferenceStorage,
-    board: BoardStorage,
-    column: ColumnStorage,
-    task: TaskStorage,
+    getDarkMode: (state) => state.darkMode,
   },
 });

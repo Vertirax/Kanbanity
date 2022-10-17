@@ -38,11 +38,11 @@
 
 <script lang="ts">
 import Navbar from "@/components/Navbar.vue";
-import NotificationCard from "@/components/NotificationCard.vue";
+import NotificationCard from "@/components/notifications/NotificationCard.vue";
 import NotificationPopup from "@/components/popups/NotificationPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import { mapGetters } from "vuex";
-import HelperAlert from "@/components/HelperAlert.vue";
+import HelperAlert from "@/components/utility/HelperAlert.vue";
 
 export default {
   name: "Notifications",

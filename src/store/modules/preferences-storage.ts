@@ -10,9 +10,6 @@ export default {
     boardTemplates: [BoardTemplate],
   },
   mutations: {
-    /*editPreferences(state, payload: BoardTemplate): void {
-      // TODO
-    },*/
     addNewTemplate(): void {
       Template.insert({ data: new BoardTemplate() });
     },

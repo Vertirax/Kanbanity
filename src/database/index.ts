@@ -11,7 +11,6 @@ const database = new Database();
 database.register(Board);
 database.register(KanbanColumn);
 database.register(Task);
-// TODO: implement Subtask
 database.register(Notification);
 database.register(Preferences);
 database.register(BoardTemplate);

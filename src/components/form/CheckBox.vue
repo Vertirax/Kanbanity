@@ -1,11 +1,9 @@
 
 <template>
   <div
-    :class="
-      oneRow
-        ? 'd-flex align-items-center flex-row-reverse justify-content-end'
-        : ''
-    "
+    :class="{
+      'd-flex align-items-center flex-row-reverse justify-content-end': oneRow,
+    }"
   >
     <Title :forId="id" :text="title" :noPadding="noPadding" />
     <b-form-checkbox

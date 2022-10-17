@@ -16,8 +16,16 @@
         @click="resetColor"
         :text="$t('task-board.task.highlight.popup.reset')"
       />
-      <GeneralButton variant="secondary" @click="hide" :text="$t('general.button.cancel')" />
-      <GeneralButton variant="primary" @click="save" :text="$t('general.button.save')" />
+      <GeneralButton
+        variant="secondary"
+        @click="hide"
+        :text="$t('general.button.cancel')"
+      />
+      <GeneralButton
+        variant="primary"
+        @click="save"
+        :text="$t('general.button.save')"
+      />
     </template>
   </Popup>
 </template>
@@ -64,6 +72,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-</style>

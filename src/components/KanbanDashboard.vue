@@ -33,7 +33,7 @@
         >
           <router-link
             class="project-card"
-            to="task-board"
+            :to="routeTo"
             @click.native="setCurrentBoard(board)"
           >
             <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
@@ -113,6 +113,7 @@ import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 import BoardTemplate from "@/classes/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import LottieVue from "lottie-vue/src/components/LottieVue.vue";
+import { Routes } from "@/enums/Routes";
 
 export default {
   name: "Dashboard",
@@ -125,6 +126,7 @@ export default {
   data() {
     return {
       popupId: "dashboard-popup",
+      routeTo: Routes.TASK_BOARD,
     };
   },
   mounted() {

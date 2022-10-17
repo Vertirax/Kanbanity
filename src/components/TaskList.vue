@@ -136,6 +136,7 @@ export default {
       get(): Task[] {
         return Task.query().where("column_id", this.list.id).get();
       },
+      // eslint-disable-next-line
       set(value: any): void {
         // 'added' and 'removed' are present on dnd to other columns, 'moved' within column
         if (value.moved) {

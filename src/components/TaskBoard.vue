@@ -96,7 +96,7 @@ import { mapActions, mapGetters } from "vuex";
 import Column from "@/models/KanbanColumn";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
-import HelperAlert from "@/components/HelperAlert.vue";
+import HelperAlert from "@/components/utility/HelperAlert.vue";
 import TimeMixin from "@/mixins/TimeMixin";
 
 export default {
