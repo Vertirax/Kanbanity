@@ -3,7 +3,7 @@
     class="task-item row mx-1 align-items-center"
     v-b-hover="toggleShowIcons"
     v-on-clickaway="clickAway"
-    :class="editMode ? 'highlighted' : ''"
+    :class="{ highlighted: editMode }"
     :style="shadows"
   >
     <div class="col-10">
@@ -11,7 +11,7 @@
         <PriorityDropdown
           :disabled="!editMode"
           :currentPriority="item.priority"
-          @change="changePriority"
+          @change="changeTaskPriority"
         />
         <TimePicker
           class="ml-2"
@@ -36,16 +36,6 @@
           v-model="item.name"
           @keyup.enter="saveTaskOnEnter"
         />
-        <!--<InputField class="task-title" :data="this.item.name" :disabled="!editMode"></InputField>-->
-        <!--<TextArea
-          class="task-title"
-          :data="this.item.name"
-          :plainText="!editMode"
-          :editMode="editMode"
-          rows="1"
-          max-rows="5"
-          @update="saveTaskNameTemp"
-        ></TextArea>-->
       </div>
     </div>
     <div v-if="showIcons || editMode" class="col-1 pl-3">
@@ -87,6 +77,7 @@ import GeneralButton from "@/components/form/GeneralButton.vue";
 import TimePicker from "@/components/form/TimePicker.vue";
 import TimeMixin from "@/mixins/TimeMixin";
 import Toast from "@/classes/Toast";
+import { mapActions } from "vuex";
 
 export default {
   name: "TaskItem",
@@ -127,6 +118,11 @@ export default {
     },
   },
   methods: {
+    ...mapActions([
+      "changeTaskItem",
+      "changePriority",
+      "changeTaskHighlightColor",
+    ]),
     toggleShowIcons(): void {
       this.showIcons = !this.showIcons;
     },
@@ -158,7 +154,7 @@ export default {
       this.showIcons = false;
     },
     saveTask(): void {
-      this.$store.dispatch("changeTaskItem", {
+      this.changeTaskItem({
         id: this.item.id,
         name: this.item.name,
         timeMinutes: this.getTotalMinutes(this.time),
@@ -167,8 +163,8 @@ export default {
     deleteTask(): void {
       this.$emit("deleteTask", this.item.id);
     },
-    changePriority(priority: Priority): void {
-      this.$store.dispatch("changePriority", {
+    changeTaskPriority(priority: Priority): void {
+      this.changePriority({
         id: this.item.id,
         priority: priority,
       });
@@ -177,7 +173,7 @@ export default {
       this.$bvModal.show(this.colorPopupId + this.item.id);
     },
     changeHighlightColor(color: string): void {
-      this.$store.dispatch("changeTaskHighlightColor", {
+      this.changeTaskHighlightColor({
         id: this.item.id,
         highlightColor: color,
       });

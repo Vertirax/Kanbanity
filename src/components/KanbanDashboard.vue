@@ -25,7 +25,7 @@
           @click.native="playAndOpenPopup"
         />
       </div>
-      <div class="equal my-3 mx-2" :class="boards.length > 0 ? 'row' : ''">
+      <div class="equal my-3 mx-2" :class="{ row: boards.length > 0 }">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
           v-for="board in boards"
@@ -40,29 +40,12 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <h5 class="card-title flex-nowrap">{{ board.name }}</h5>
-                  <div>
-                    <b-dropdown
-                      id="dropdown"
-                      size="xl"
-                      variant="link"
-                      toggle-class="text-decoration-none"
-                      no-caret
-                      dropleft
-                      offset="30"
-                    >
-                      <template #button-content>
-                        <b-icon-three-dots-vertical variant="dark" />
-                      </template>
-                      <b-dropdown-item @click="openPopup(board.id)">
-                        <b-icon-pencil-fill class="mr-3" />
-                        {{ $t("general.button.edit") }}
-                      </b-dropdown-item>
-                      <b-dropdown-item @click="deleteBoard(board.id)">
-                        <b-icon-trash-fill class="mr-3" />
-                        {{ $t("general.button.delete") }}
-                      </b-dropdown-item>
-                    </b-dropdown>
-                  </div>
+                  <ActionDropdown
+                    dropLeft
+                    :offset="30"
+                    @edit="openPopup(board.id)"
+                    @delete="deleteBoard(board.id)"
+                  />
                 </div>
                 <p class="card-text text-truncate">{{ board.description }}</p>
               </div>
@@ -114,6 +97,7 @@ import BoardTemplate from "@/classes/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import LottieVue from "lottie-vue/src/components/LottieVue.vue";
 import { Routes } from "@/enums/Routes";
+import ActionDropdown from "@/components/form/ActionDropdown.vue";
 
 export default {
   name: "Dashboard",
@@ -122,6 +106,7 @@ export default {
     DashboardPopup,
     GeneralButton,
     LottieVue,
+    ActionDropdown,
   },
   data() {
     return {

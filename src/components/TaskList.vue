@@ -3,42 +3,12 @@
     <div class="task-board" :data-board-name="list.name">
       <div class="board-header">
         <p class="board-name mx-1 mw-50">{{ list.name }}</p>
-        <div
-          class="ml-auto total-time-spent"
+        <TotalTime
+          class="ml-auto"
           v-if="totalColTime.hours > 0 || totalColTime.minutes > 0"
-        >
-          <b-icon-clock-history
-            :title="$t('task-board.titles.total-time-spent')"
-          />
-          <span v-if="totalColTime.hours > 0">
-            {{ totalColTime.hours }}{{ $t("task-board.titles.hours") }}</span
-          >
-          <span v-if="totalColTime.minutes > 0">
-            {{ totalColTime.minutes
-            }}{{ $t("task-board.titles.minutes") }}</span
-          >
-        </div>
-        <div>
-          <b-dropdown
-            id="dropdown"
-            size="xl"
-            variant="link"
-            toggle-class="text-decoration-none"
-            no-caret
-          >
-            <template #button-content>
-              <b-icon-three-dots-vertical variant="dark" />
-            </template>
-            <b-dropdown-item @click="openPopup">
-              <b-icon-pencil-fill class="mr-3" />
-              {{ $t("general.button.edit") }}
-            </b-dropdown-item>
-            <b-dropdown-item @click="deleteColumn">
-              <b-icon-trash-fill class="mr-3" />
-              {{ $t("general.button.delete") }}
-            </b-dropdown-item>
-          </b-dropdown>
-        </div>
+          :total="totalColTime"
+        />
+        <ActionDropdown @edit="openPopup" @delete="deleteColumn" />
       </div>
       <div class="board-content">
         <ul class="task-list">
@@ -98,6 +68,8 @@ import { mapActions, mapGetters } from "vuex";
 import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import TimeMixin from "@/mixins/TimeMixin";
 import Toast from "@/classes/Toast";
+import ActionDropdown from "@/components/form/ActionDropdown.vue";
+import TotalTime from "@/components/form/TotalTime.vue";
 
 export default {
   name: "TaskList",
@@ -106,6 +78,8 @@ export default {
     draggable,
     TaskItemTemplate,
     ColumnPopup,
+    ActionDropdown,
+    TotalTime,
   },
   props: ["board", "list"],
   mixins: [TimeMixin],
@@ -114,7 +88,6 @@ export default {
       drag: false,
       showTemplate: false,
       hideDraggableList: false,
-      message: "",
       taskId: "",
       fromColumnId: "",
       toColumnId: "",
@@ -158,23 +131,21 @@ export default {
     ...mapActions(["dragTask", "dragInColumn", "setItemNewIndex"]),
     deleteColumn(): void {
       this.$store.dispatch("deleteColumn", { colId: this.list.id }).then(() => {
-        this.message = "task-board.toaster.delete";
-        this.showToast();
+        this.showToast("task-board.toaster.delete");
       });
     },
     deleteTask(taskId: string): void {
       this.$store.dispatch("deleteTask", { taskId: taskId }).then(() => {
-        this.message = "task-board.task.toaster.delete.message";
-        this.showToast();
+        this.showToast("task-board.task.toaster.delete.message");
       });
     },
     openPopup(): void {
       this.$bvModal.show(this.editColumnPopupId);
     },
-    showToast(): void {
+    showToast(message: string): void {
       this.$store.dispatch(
         "successToaster",
-        new Toast("task-board.title", this.message)
+        new Toast("task-board.title", message)
       );
     },
     editColumn(e: Column): void {

@@ -49,20 +49,12 @@
               </div>
             </b-collapse>
           </div>
-          <div
-            class="col-2 total-time-spent"
+          <TotalTime
+            class="col-2"
             v-if="totalBoardTime.hours > 0 || totalBoardTime.minutes > 0"
-          >
-            {{ $t("task-board.titles.total-time-spent") }}:
-            <span v-if="totalBoardTime.hours > 0">
-              {{ totalBoardTime.hours
-              }}{{ $t("task-board.titles.hours") }}</span
-            >
-            <span v-if="totalBoardTime.minutes > 0">
-              {{ totalBoardTime.minutes
-              }}{{ $t("task-board.titles.minutes") }}</span
-            >
-          </div>
+            :total="totalBoardTime"
+            showTitle
+          />
         </div>
         <HelperAlert
           v-if="showAlert"
@@ -98,6 +90,7 @@ import ColumnPopup from "@/components/popups/ColumnPopup.vue";
 import GeneralButton from "@/components/form/GeneralButton.vue";
 import HelperAlert from "@/components/utility/HelperAlert.vue";
 import TimeMixin from "@/mixins/TimeMixin";
+import TotalTime from "@/components/form/TotalTime.vue";
 
 export default {
   name: "TaskBoard",
@@ -108,6 +101,7 @@ export default {
     ColumnPopup,
     GeneralButton,
     HelperAlert,
+    TotalTime,
   },
   mixins: [TimeMixin],
   data() {
@@ -166,7 +160,6 @@ export default {
 .board-details {
   .project-name {
     display: flex;
-    // justify-content: center;
     align-items: center;
 
     &:hover {

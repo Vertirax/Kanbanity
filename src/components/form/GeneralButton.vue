@@ -3,7 +3,7 @@
     <Title
       v-if="title"
       :forId="id"
-      :class="[!oneLineTitle ? 'col-12 p-0' : '']"
+      :class="{ 'col-12 p-0': !oneLineTitle }"
       :text="title"
     />
     <b-button

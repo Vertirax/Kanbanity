@@ -2,7 +2,7 @@
   <label
     :for="forId"
     class="text-secondary small"
-    :class="`${italic ? 'font-italic' : ''} ${noPadding ? 'mb-0' : 'mb-1'}`"
+    :class="[{ 'font-italic': italic }, noPadding ? 'mb-0' : 'mb-1']"
   >
     {{ text }}
   </label>

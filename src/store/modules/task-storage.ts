@@ -19,7 +19,7 @@ export default {
           return task.id === payload.id;
         },
         data: {
-          name: payload.name.trim(),
+          name: payload.name.trim().replace(/[\n\r]+/g, ''),
           timeMinutes: payload.timeMinutes
         },
       });

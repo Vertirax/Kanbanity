@@ -4,7 +4,7 @@
       {{ title }}<span v-if="required" class="form-required">*</span>
     </label>
     <b-form-input
-      :class="disabled ? 'pl-2' : ''"
+      :class="{ 'pl-2': disabled }"
       v-model="inputValue"
       :id="id"
       :type="type"
