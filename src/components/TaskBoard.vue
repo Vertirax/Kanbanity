@@ -12,7 +12,7 @@
     <div class="container-fluid main-container scrollable-div">
       <div class="board-wrapper">
         <div class="row">
-          <div class="col-10">
+          <div :class="isTotalTimeAvailable ? 'col-9' : 'col-11'">
             <b-icon
               role="button"
               v-b-toggle.collapse
@@ -50,11 +50,12 @@
             </b-collapse>
           </div>
           <TotalTime
-            class="col-2"
-            v-if="totalBoardTime.hours > 0 || totalBoardTime.minutes > 0"
+            class="col-2 text-right"
+            v-if="isTotalTimeAvailable"
             :total="totalBoardTime"
             showTitle
           />
+          <BoardNavigation :currentBoardId="currentBoard.id" />
         </div>
         <HelperAlert
           v-if="showAlert"
@@ -91,6 +92,7 @@ import GeneralButton from "@/components/form/GeneralButton.vue";
 import HelperAlert from "@/components/utility/HelperAlert.vue";
 import TimeMixin from "@/mixins/TimeMixin";
 import TotalTime from "@/components/form/TotalTime.vue";
+import BoardNavigation from "@/components/BoardNavigation.vue";
 
 export default {
   name: "TaskBoard",
@@ -102,6 +104,7 @@ export default {
     GeneralButton,
     HelperAlert,
     TotalTime,
+    BoardNavigation,
   },
   mixins: [TimeMixin],
   data() {
@@ -131,6 +134,9 @@ export default {
         handle: ".board-header",
         group: "kanban-board-lists",
       };
+    },
+    isTotalTimeAvailable(): boolean {
+      return this.totalBoardTime.hours > 0 || this.totalBoardTime.minutes > 0;
     },
   },
   methods: {
