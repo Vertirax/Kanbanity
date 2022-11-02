@@ -15,6 +15,7 @@ export default {
 
       dispatch("showToaster", payload);
     },
+    // eslint-disable-next-line
     showToaster({ dispatch }, payload: Toast): void {
       new BToast().$bvToast.toast(i18n.t(payload.message).toString(), {
         title: i18n.t(payload.title).toString(),
