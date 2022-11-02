@@ -11,10 +11,6 @@ import "@/assets/app.scss";
 
 Vue.config.productionTip = false;
 Vue.use(BootstrapVue);
-Vue.use(IconsPlugin);
-Vue.use(VueClipboard);
-Vue.extend(VueColor);
-Vue.use(Vuelidate);
 
 new Vue({
   router,
@@ -22,6 +18,12 @@ new Vue({
   i18n,
   beforeCreate() {
     this.$store.commit("initialiseStore");
+  },
+  created() {
+    Vue.use(IconsPlugin);
+    Vue.use(VueClipboard);
+    Vue.extend(VueColor);
+    Vue.use(Vuelidate);
   },
   render: (h) => h(App),
 }).$mount("#app");
