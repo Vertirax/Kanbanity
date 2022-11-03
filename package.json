@@ -12,8 +12,7 @@
     "@vuex-orm/core": "^0.36.4",
     "bootstrap": "^4.6.2",
     "bootstrap-vue": "^2.23.1",
-    "express": "^4.17.1",
-    "lottie-vue": "^1.0.3",
+    "express": "^4.18.2",
     "vue": "^2.7.13",
     "vue-apply-darkmode": "^1.0.2",
     "vue-clickaway2": "^2.3.2",
@@ -23,8 +22,7 @@
     "vue-router": "^3.2.0",
     "vuedraggable": "^2.24.3",
     "vuelidate": "^0.7.7",
-    "vuex": "^3.6.2",
-    "vuex-persistedstate": "^3.2.1"
+    "vuex": "^3.6.2"
   },
   "devDependencies": {
     "@types/vue-color": "^2.4.4",
@@ -39,6 +37,7 @@
     "@vue/cli-service": "^5.0.8",
     "@vue/eslint-config-prettier": "^7.0.0",
     "@vue/eslint-config-typescript": "^10.0.0",
+    "@vuex-orm/core": "^0.36.4",
     "compression-webpack-plugin": "^10.0.0",
     "css-loader": "^6.7.1",
     "eslint": "^8.14.0",
@@ -50,6 +49,7 @@
     "sass-loader": "^13.1.0",
     "typescript": "4.6.4",
     "vue-template-compiler": "^2.7.13",
+    "vuex-persistedstate": "^4.1.0",
     "webpack": "^5.72.0"
   }
 }
