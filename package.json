@@ -20,8 +20,7 @@
     "vue-i18n": "^8.26.8",
     "vue-router": "^3.2.0",
     "vuedraggable": "^2.24.3",
-    "vuelidate": "^0.7.7",
-    "vuex": "^3.6.2"
+    "vuelidate": "^0.7.7"
   },
   "devDependencies": {
     "@types/vue-color": "^2.4.4",
@@ -48,6 +47,7 @@
     "sass-loader": "^13.1.0",
     "typescript": "4.6.4",
     "vue-template-compiler": "^2.7.13",
+    "vuex": "^3.6.2",
     "vuex-persistedstate": "^4.1.0",
     "webpack": "^5.72.0"
   }
