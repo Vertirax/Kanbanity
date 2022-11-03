@@ -1,8 +1,11 @@
 import { resolve as _resolve } from 'path';
-import "babel-polyfill";
+import 'babel-polyfill';
 import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import CompressionWebpackPlugin from 'compression-webpack-plugin'
 
-export const entry = ["babel-polyfill", "./src/main.ts"];
+const productionGzipExtensions = ['js', 'css']
+
+export const entry = ['babel-polyfill', './src/main.ts'];
 export const optimization = {
   minimizer: [
     // we specify a custom UglifyJsPlugin here to get source maps in production
@@ -85,7 +88,18 @@ export const module = {
       name: '[name].[ext]?[hash]'
     }
   }
-  ]
+  ],
+  configureWebpack: {
+    plugins: [
+      new CompressionWebpackPlugin({
+        filename: '[file].gz[query]',
+        algorithm: 'gzip',
+        test: new RegExp('\\.(' + productionGzipExtensions.join('|') + ')$'),
+        threshold: 10240,
+        minRatio: 0.8
+      }),
+    ],
+  },
 };
 export const resolve = {
   alias: {
