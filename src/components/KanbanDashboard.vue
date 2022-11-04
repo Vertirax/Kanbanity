@@ -10,6 +10,21 @@
       </template>
     </Navbar>
     <div class="container-fluid main-container">
+      <div
+        v-if="boards.length === 0"
+        class="d-flex justify-content-center align-items-center min-vh-90"
+      >
+        <LottieVue
+          class="add-animation"
+          :animationData="require('@/assets/animations/add-pulsate.json')"
+          ref="animation"
+          :autoplay="true"
+          :loop="false"
+          :width="120"
+          :height="120"
+          @click.native="playAndOpenPopup"
+        />
+      </div>
       <div class="equal my-3 mx-2" :class="{ row: boards.length > 0 }">
         <div
           class="col-xs-12 col-sm-6 col-md-4 col-xl-3 d-flex pb-3"
@@ -80,6 +95,7 @@ import KanbanDashboard from "@/classes/Board";
 import DashboardPopup from "@/components/popups/DashboardPopup.vue";
 import BoardTemplate from "@/classes/BoardTemplate";
 import GeneralButton from "@/components/form/GeneralButton.vue";
+import LottieVue from "lottie-vue/src/components/LottieVue.vue";
 import { Routes } from "@/enums/Routes";
 import ActionDropdown from "@/components/form/ActionDropdown.vue";
 
@@ -89,6 +105,7 @@ export default {
     Navbar,
     DashboardPopup,
     GeneralButton,
+    LottieVue,
     ActionDropdown,
   },
   data() {
@@ -128,6 +145,10 @@ export default {
     saveBoard(board: KanbanDashboard, template: BoardTemplate): void {
       this.$store.dispatch("saveBoard", { board, template });
     },
+    playAndOpenPopup() {
+      this.$refs.animation.goToAndPlay(50, true);
+      setTimeout(() => this.openPopup(), 500);
+    },
   },
 };
 </script>
@@ -162,6 +183,10 @@ a:hover {
   .date p {
     font-size: 13px;
   }
+}
+
+.add-animation {
+  cursor: pointer;
 }
 .min-vh-90 {
   min-height: 90vh;
