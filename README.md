@@ -8,7 +8,7 @@
 * Create items / tasks in list
 * Set task priority
 * Drag a task to another list, or drag a whole list to change its order
-* Add notifications
+* Add notifications (only browser-based using Notification API)
 * Manage preferences including board templates
 * You can do all this in dark mode! 🌙
 
@@ -22,19 +22,6 @@
 ![Board Preview](Board-UI-darkmode.png)
 
 > As this is a frontend only application, all data is stored in LocalStorage in the user's browser
-
-## Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-```
 
 ## Project setup
 ```
