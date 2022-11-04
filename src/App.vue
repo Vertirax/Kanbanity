@@ -23,12 +23,9 @@ export default {
   },
   created() {
     this.$store.commit("initData");
-    this.checkNotifications();
-    this.scheduleNotificationChecks();
     if (Notification.permission === "granted") {
-      window.setInterval(() => {
-        this.checkNotifications();
-      }, 60000);
+      this.checkNotifications();
+      this.scheduleNotificationChecks();
     }
   },
   data() {
