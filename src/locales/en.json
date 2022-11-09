@@ -129,6 +129,7 @@
       }
     },
     "permission-alert": "Notifications will only be shown if you give permission to the site!",
+    "reload-alert": "You have to reload the page after giving permission in order to show notifications!",
     "delete-message": "Successfully deleted the selected Notification!"
   },
   "preferences": {

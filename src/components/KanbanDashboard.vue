@@ -34,9 +34,8 @@
           <router-link
             class="project-card"
             :to="routeTo"
-            @click.native="setCurrentBoard(board)"
           >
-            <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm">
+            <div class="card w-100 h-100 board-item shadow-sm--hover shadow-sm" @click="setCurrentBoard(board)">
               <div class="card-body">
                 <div class="d-flex justify-content-between">
                   <h5 class="card-title flex-nowrap">{{ board.name }}</h5>

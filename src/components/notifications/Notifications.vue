@@ -18,6 +18,14 @@
       >
         {{ $t("notifications.permission-alert") }}
       </b-alert>
+      <b-alert
+        class="mt-3"
+        variant="info"
+        dismissible
+        :show="showReloadAlert && !isNotificationAccessGranted"
+      >
+        {{ $t("notifications.reload-alert") }}
+      </b-alert>
 
       <div class="row equal my-3 mx-2">
         <HelperAlert
@@ -57,6 +65,8 @@ export default {
     return {
       popupId: "add-notification-popup",
       showDismissibleAlert: false,
+      showReloadAlert: false,
+      isNotificationAccessGranted: Notification.permission === "granted",
     };
   },
   computed: {
@@ -81,6 +91,7 @@ export default {
     },
     onPermissionFulFilled(): void {
       this.showDismissibleAlert = false;
+      this.showReloadAlert = true;
     },
   },
 };
